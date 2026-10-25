@@ -20,6 +20,7 @@ html.booting main *,html.booting main *::before,html.booting main *::after{anima
 
 <link rel="preconnect" href="https://docs.google.com">
 <script>
+try{history.scrollRestoration="manual"}catch(e){}
 var __D={},__PH="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
 function __LI(k){this.k=k}__LI.prototype.toString=__LI.prototype.valueOf=__LI.prototype.toJSON=function(){return __D[this.k]||__PH+"#"+this.k};__LI.prototype[Symbol.toPrimitive]=__LI.prototype.toString;
 function __L(k){return new __LI(k)}
@@ -569,6 +570,10 @@ html.hm-open #top{z-index:50}
 #hmenu{max-height:calc(100dvh - 58px - 76px - env(safe-area-inset-top,0px));overflow-y:auto;overscroll-behavior:contain}
 html.hm-open #top .hbg::after{content:"";position:absolute;left:-6px;right:-6px;top:100%;height:12px}
 @media(max-width:699px){#hmenu{padding:2px var(--hpad) 4px}#hmenu a{min-height:46px;padding:0 2px;font-size:21px}}
+/* scrolling: keep dock/focus targets clear, stop horizontal scrollers chaining into the page */
+html{scroll-padding-bottom:84px}
+.scs,.sc,.atn{overscroll-behavior-x:contain}
+footer{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}
 /* menu + more overlays */
 #ov:has(.gm){background:rgba(4,14,9,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 #ov>.gm{position:relative;width:calc(100% - 28px);max-width:330px;max-height:calc(100dvh - 28px);overflow:auto;margin:0 auto calc(14px + env(safe-area-inset-bottom,0px));padding:4px 16px 14px;background:rgba(10,27,19,.94);color:#f3ecd9;border:1px solid rgba(243,236,217,.22);border-radius:14px;box-shadow:inset 0 2px 0 #58e2a6,0 18px 40px -14px rgba(0,0,0,.7);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);animation:sheet .3s cubic-bezier(.2,.9,.3,1)}
@@ -763,7 +768,7 @@ const medal=r=>r&&r<=3?" m"+r:"";
 const rowH=(p,v,rk,sub,top)=>`<a class="ar${top&&rk&&rk<=3?" t"+rk:""}" href="#/alltime/${encodeURIComponent(p.name)}" onclick="AT.y=scrollY" aria-label="Open ${p.name}"><span class="rk${top?medal(rk):""}">${rk??"—"}</span><span class="nm"><b>${p.name}</b><small>${sub}</small></span><span class="pts${na(v.pts)}">${nv(v.pts)}</span><span class="st"><span class="c${na(v.mp)}" data-l="MP">${nv(v.mp)}</span><span class="c ${gc(v.gd)}${na(v.gd)}" data-l="GD">${gf(v.gd)}</span>${v.sp!==undefined?`<span class="c${na(v.sp)}" data-l="Seasons">${nv(v.sp)}</span>`:""}<span class="c${na(v.ppm)}" data-l="P/M">${f2(v.ppm)}</span></span></a>`;
 const headH=(keys,cur,dir,fn)=>`<div class="ar ah" role="row"><span class="rk">#</span><span class="nm">Player</span>${keys.map(([k,l,t])=>`<button class="hc${cur==k?" on":""}" title="${t}" onclick="${fn}('${k}')">${l}${cur==k?`<i class="ar-${dir}"></i>`:""}</button>`).join("").replace(/(<button[^>]*>Pts.*?<\/button>)/,'$1<span class="st">')}</span></div>`;
 /* ===== hub ===== */
-const atGo=k=>{const e=G("at-"+k);e&&e.scrollIntoView({behavior:"smooth",block:"start"})};
+const atGo=k=>{const e=G("at-"+k);e&&e.scrollIntoView({behavior:RM.matches?"auto":"smooth",block:"start"})};
 const atDef=()=>!AT.q&&AT.key=="pts"&&AT.dir=="desc"&&AT.sea=="all";
 function atReset(){AT.q="";AT.key="pts";AT.dir="desc";AT.sea="all";G("atq").value="";atLB()}
 function atS(k){if(AT.key==k)AT.dir=AT.dir=="desc"?"asc":"desc";else{AT.key=k;AT.dir="desc"}atLB()}
@@ -847,7 +852,7 @@ const EDT={players:"Players",player:"Player",rivals:"Rivalries",compete:"Competi
 const ep=(k,alt,cls)=>`<figure class="pz ${cls||""}"><img src="${ART2[k].u}" width="${ART2[k].w}" height="${ART2[k].h}" alt="${alt}" decoding="async"></figure>`;
 const eBack=(h,t)=>`<a class="e-back" href="${h}">‹ ${t}</a>`;
 const pad2=n=>String(n).padStart(2,"0");
-const eGo=id=>{const e=document.getElementById(id);e&&e.scrollIntoView({behavior:"smooth",block:"start"})};
+const eGo=id=>{const e=document.getElementById(id);e&&e.scrollIntoView({behavior:RM.matches?"auto":"smooth",block:"start"})};
 const plink=n=>PM[n]?`<a href="#/player/${n}">${n}</a>`:n;
 /* --- players directory --- */
 const playersPage=()=>{const l=pFilter();return `<header class="e-mast e-pl"><div class="e-wr e-mg"><div class="e-mt">${eBack("#/home","Home")}<p class="e-eye">The archive</p><h1 class="e-dsp e-h1">The<br>players</h1><p class="e-sub" id="pc">${PL.length} players</p></div><div class="e-ma">${ep("haa","Monochrome side-profile portrait of a footballer with a tied-up hairstyle on a red ground","tilt")}</div></div></header>
@@ -1041,6 +1046,17 @@ root.setAttribute("aria-busy",CL.st=="load");root.innerHTML=`<div class="cl-bar"
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&$("#cl")&&!CL.busy)clFetch(CL.seq,CL.st=="ok")});
 const CLPOSTER=__L("i43");
 const calendarPage=()=>`<header class="cl-hero"><div class="e-wr"><div class="cl-hw"><div class="cl-ht">${eBack("#/home","Home")}<h1 class="cl-h1"><span>Match</span><span class="y">Calendar</span></h1><p class="cl-sub">Every scheduled GPL, GS and GCC date, straight from the league sheet.</p></div><figure class="cl-ps" style="margin-block:4px 0"><img src="${CLPOSTER}" width="736" height="863" alt="Neymar football poster in black and white on a green and yellow background" decoding="async"></figure></div></div></header><section class="cl-sec"><div class="e-wr"><div id="cl" class="cl" aria-busy="true"></div></div></section>`;
+/* ===== scroll position per history entry (new page = top, back/forward = where you left) ===== */
+let SK=0,CURSK=-1;const SPOS=(()=>{try{return JSON.parse(sessionStorage.getItem("gdffScroll")||"{}")}catch(e){return{}}})(),RM=matchMedia("(prefers-reduced-motion: reduce)");
+try{history.scrollRestoration="manual"}catch(e){}
+function savePos(){if(CURSK>=0){SPOS[CURSK]=Math.round(scrollY);try{sessionStorage.setItem("gdffScroll",JSON.stringify(SPOS))}catch(e){}}}
+addEventListener("hashchange",savePos);addEventListener("pagehide",savePos);
+function scrollRestore(def){const st=history.state;let y=def;
+if(st&&typeof st.sk=="number"){CURSK=st.sk;SK=Math.max(SK,st.sk);if(SPOS[st.sk]!=null)y=SPOS[st.sk]}
+else{let m=0;try{m=+sessionStorage.getItem("gdffSK")||0}catch(e){}SK=Math.max(SK,m)+1;CURSK=SK;try{sessionStorage.setItem("gdffSK",SK);history.replaceState({sk:SK},"")}catch(e){}}
+scrollTo({top:y,behavior:"instant"});
+if(y>0){let u=0;const f=()=>{u=1},o={once:true,passive:true};addEventListener("wheel",f,o);addEventListener("touchstart",f,o);addEventListener("keydown",f,{once:true});
+setTimeout(()=>{removeEventListener("wheel",f);removeEventListener("touchstart",f);removeEventListener("keydown",f);if(!u&&Math.abs(scrollY-y)>4&&document.documentElement.scrollHeight-innerHeight>=y)scrollTo({top:y,behavior:"instant"})},400)}}
 function page(h){const [a,b]=h.replace(/^#\/?/,"").split("/");const p=a||"home",d=b?decodeURIComponent(b):"";
 document.title=p=="alltime"?(d?d+" · GPL All Time · GDFF":"GPL All Time · GDFF"):EDP[p]&&(p!="player"||PM[d])?(p=="player"?d:EDT[p])+" · GDFF":p=="alltime"?(d?d+" · GPL All Time · GDFF":"GPL All Time · GDFF"):"GDFF";
 const DK=[["home","home","Home"],["players","users","Players"],["ranking","chart","Ranking"],["voting","trophy","Honours"],["calendar","calendar","Calendar"]],MORE=["calendar","rivals","history","compete","rulebook","alltime"];
@@ -1060,7 +1076,7 @@ else if(p=="calendar"){o=calendarPage()}
 else if(p=="voting"){o=awardsPage()}
 else o=`<h1>Not found</h1><a href="#/home">Go home</a>`;
 }catch(e){console.error("GDFF render error on "+p,e);o=`<div class="empty"><b>This page could not be displayed</b><span class="mu">Something went wrong while building it. The rest of the site still works.</span><div class="hh-c" style="justify-content:center;margin-top:14px"><button class="btn" onclick="location.reload()">Reload</button><a class="btn" href="#/players">Players</a><a class="btn" href="#/alltime">GPL All Time</a><a class="btn" href="#/ranking">Ranking</a></div></div>`}
-const edOn=EDP[p]&&(p!="player"||PM[d]);$("#v").className=p=="home"?"wide":edOn?"wide "+EDP[p]:"";$("#v").innerHTML=back+o;if(p=="alltime")atInit(d);if(p=="calendar")clInit();if(p=="home")mdInit();if(p=="compete")cpStand();if(p=="voting")awTots();if(p=="player"&&PM[d])mhRender();if(p=="rivals")h2Render();window.scrollTo({top:p=="alltime"&&!d?AT.y:0,behavior:"instant"});if(p=="alltime"&&!d)AT.y=0;revealEls(document.querySelectorAll("main>*,main .g>*,main .g3>*,main .tl>.c,main .chs>*"))}
+const edOn=EDP[p]&&(p!="player"||PM[d]);$("#v").className=p=="home"?"wide":edOn?"wide "+EDP[p]:"";$("#v").innerHTML=back+o;if(p=="alltime")atInit(d);if(p=="calendar")clInit();if(p=="home")mdInit();if(p=="compete")cpStand();if(p=="voting")awTots();if(p=="player"&&PM[d])mhRender();if(p=="rivals")h2Render();scrollRestore(p=="alltime"&&!d?AT.y:0);if(p=="alltime"&&!d)AT.y=0;revealEls(document.querySelectorAll("main>*,main .g>*,main .g3>*,main .tl>.c,main .chs>*"))}
 
 function more(){ov(`<div class="gm-l">`+[["calendar","calendar","Calendar"],["rivals","vs","Rivals"],["history","clock","History"],["alltime","chart","GPL All Time"],["compete","trophy","Competitions"],["rulebook","book","Rulebook"]].map(([k,i,l])=>gmI("a",i,l,`href="#/${k}" onclick="${gmX}"`)).join("")+`</div>`,"gm")}
 $("#top").innerHTML=`<a href="#/home" class="brand" aria-label="GDFF home"><img src="${IM.logo}" alt=""><span>GDFF</span></a><button class="hbg" id="hbg" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="hmenu"><span></span><span></span><span></span></button><nav id="hmenu" aria-label="More pages">${HM.map(([k,l])=>`<a href="#/${k}" data-k="${k}">${l}</a>`).join("")}</nav>`;
