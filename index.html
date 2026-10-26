@@ -30,7 +30,7 @@ function __IMG(o){for(var k in o)__D[k]=o[k];__hyd()}
 (function(){var g=function(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.text()})};
 window.__pf=Promise.all([g("https://docs.google.com/spreadsheets/d/e/2PACX-1vQjBq2JMfN5PG4zMIbJSBtiP-ThYNyyZCOUJTHyBJwVgPxAheLE7XgVBEZ8gpMKQk4n0nb4AcC9TlUo/pub?output=csv"),g("https://docs.google.com/spreadsheets/d/e/2PACX-1vSn4YynfaH5Xhe0Cl6_HHqt8IOL0lnLzM1_4gWAyQHtXg9dyA0Mcmol9oqDcy3eBVzSXTUGGSDGg8Rz/pub?output=csv"),g("https://docs.google.com/spreadsheets/d/e/2PACX-1vSn4YynfaH5Xhe0Cl6_HHqt8IOL0lnLzM1_4gWAyQHtXg9dyA0Mcmol9oqDcy3eBVzSXTUGGSDGg8Rz/pub?gid=1512031831&single=true&output=csv").catch(function(){return null}),g("https://docs.google.com/spreadsheets/d/e/2PACX-1vSn4YynfaH5Xhe0Cl6_HHqt8IOL0lnLzM1_4gWAyQHtXg9dyA0Mcmol9oqDcy3eBVzSXTUGGSDGg8Rz/pub?gid=804105527&single=true&output=csv").catch(function(){return null}),g("https://docs.google.com/spreadsheets/d/e/2PACX-1vSqYe_pwy_2aXlaoXHVRJdh1FncDOk70HddjNa_ypO8nRCL_1zd3diQH8TSgWGtVK0Y8-fLjvGgE6hF/pub?gid=0&single=true&output=csv").catch(function(){return null}),g("https://docs.google.com/spreadsheets/d/e/2PACX-1vSgTVIjlJrWOgevDpkfP7BZ7teOi7PHhB2DzAeFGrbGy9hl7__hkkBBcMyb9OC3jmTuFJGGZdd_QdFy/pub?output=csv").catch(function(){return null})]);window.__pf.catch(function(){})})();
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Great+Vibes&family=Anton&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet" media="print" onload="this.media='all';__fcr()" onerror="__fcr()"><noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Great+Vibes&family=Anton&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet"></noscript><style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Great+Vibes&family=Anton&display=swap" rel="stylesheet" media="print" onload="this.media='all';__fcr()" onerror="__fcr()"><noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Great+Vibes&family=Anton&display=swap" rel="stylesheet"></noscript><style>
 :root{--bg:#f5f7f4;--card:#fff;--tx:#0d1511;--mu:#48584e;--ac:#0a7a43;--onac:#fff;--ac2:#e2f2e8;--gold:#8a5f00;--bd:#d2dbd4;--sh:0 1px 2px #0001,0 10px 28px -14px #0003;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root{--bg:#0a100d;--card:#131c17;--tx:#f1f7f3;--mu:#a6b8ac;--ac:#3fdc8a;--onac:#052212;--ac2:#173424;--gold:#f5c542;--bd:#26352c;--sh:none}}
 html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth;-webkit-text-size-adjust:100%}*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -557,19 +557,18 @@ html.hm-open #top .hbg span:nth-child(1){transform:rotate(45deg)}html.hm-open #t
 #top .hbg:hover{background:rgba(243,236,217,.08)}#top .hbg:focus-visible{outline:2px solid #58e2a6;outline-offset:2px}
 #hmenu{position:absolute;top:100%;left:0;right:0;z-index:2;margin:0;padding:6px var(--hpad) 12px;background:linear-gradient(180deg,#0d1f17,#09150f);border-bottom:1px solid rgba(243,236,217,.16);box-shadow:0 22px 40px -18px rgba(0,0,0,.7);visibility:hidden;opacity:0;transform:translateY(-6px);transition:opacity .16s,transform .16s,visibility 0s .16s}
 html.hm-open #hmenu{visibility:visible;opacity:1;transform:none;transition:opacity .16s,transform .16s}
-#hmenu a{display:flex;align-items:center;justify-content:space-between;min-height:56px;padding:0 4px;border-bottom:1px solid rgba(243,236,217,.12);color:#f3ecd9;text-decoration:none;font:400 22px/1 Anton,Impact,"Arial Narrow",sans-serif;letter-spacing:.06em;text-transform:uppercase}
+#hmenu a{display:flex;align-items:center;justify-content:space-between;min-height:40px;padding:0 2px;border-bottom:1px solid rgba(243,236,217,.1);color:#f3ecd9;text-decoration:none;font:600 15px/1.2 var(--ui);letter-spacing:.01em;white-space:nowrap}
 #hmenu a:last-child{border-bottom:0}
-#hmenu a::after{content:"\2192";font:700 16px var(--ui);color:#58e2a6;opacity:.5;transition:transform .15s,opacity .15s}
+#hmenu a::after{content:"\2192";font:700 14px var(--ui);color:#58e2a6;opacity:.5;transition:transform .15s,opacity .15s}
 #hmenu a:hover,#hmenu a:focus-visible{background:rgba(88,226,166,.08);outline:0}#hmenu a:hover::after,#hmenu a:focus-visible::after{opacity:1;transform:translateX(3px)}#hmenu a.on{color:#58e2a6}
-@media(min-width:700px){#hmenu{left:auto;right:var(--hpad);width:340px;padding:6px 18px 10px;border:1px solid rgba(243,236,217,.16);border-top:0;border-radius:0 0 16px 16px}}
+@media(min-width:700px){#hmenu{left:auto;right:var(--hpad);width:236px;padding:4px 14px 6px;border:1px solid rgba(243,236,217,.16);border-top:0;border-radius:0 0 14px 14px}}
 #hscrim{position:fixed;inset:0;z-index:49;background:rgba(4,12,8,.32);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s,visibility 0s .18s}
 html.hm-open #hscrim{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .18s}
 html.hm-open #top{z-index:50}
 /* hamburger menu refinements: compact rows, distinct condensed typeface, hover bridge */
-#hmenu a{font:700 22px/1 "Barlow Condensed","Arial Narrow",Impact,sans-serif;letter-spacing:.06em;min-height:50px}
 #hmenu{max-height:calc(100dvh - 58px - 76px - env(safe-area-inset-top,0px));overflow-y:auto;overscroll-behavior:contain}
 html.hm-open #top .hbg::after{content:"";position:absolute;left:-6px;right:-6px;top:100%;height:12px}
-@media(max-width:699px){#hmenu{padding:2px var(--hpad) 4px}#hmenu a{min-height:46px;padding:0 2px;font-size:21px}}
+@media(max-width:699px){#hmenu{padding:2px var(--hpad) 4px}}
 /* scrolling: keep dock/focus targets clear, stop horizontal scrollers chaining into the page */
 html{scroll-padding-bottom:84px}
 .scs,.sc,.atn{overscroll-behavior-x:contain}
@@ -579,9 +578,6 @@ html{scroll-padding-bottom:84px}
 main,main.wide{padding-bottom:0!important}
 main>:last-child{border-bottom:calc(92px + env(safe-area-inset-bottom,0px)) solid transparent}
 main.pgCl>:last-child{border-bottom:0}
-#hmenu a.hm-ig{justify-content:flex-start;gap:14px}
-#hmenu a.hm-ig svg{flex:none;color:#58e2a6}
-#hmenu a.hm-ig::after{content:"\2197";margin-left:auto}
 /* menu + more overlays */
 #ov:has(.gm){background:rgba(4,14,9,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 #ov>.gm{position:relative;width:calc(100% - 28px);max-width:330px;max-height:calc(100dvh - 28px);overflow:auto;margin:0 auto calc(14px + env(safe-area-inset-bottom,0px));padding:4px 16px 14px;background:rgba(10,27,19,.94);color:#f3ecd9;border:1px solid rgba(243,236,217,.22);border-radius:14px;box-shadow:inset 0 2px 0 #58e2a6,0 18px 40px -14px rgba(0,0,0,.7);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);animation:sheet .3s cubic-bezier(.2,.9,.3,1)}
@@ -1091,7 +1087,7 @@ else o=`<h1>Not found</h1><a href="#/home">Go home</a>`;
 const edOn=EDP[p]&&(p!="player"||PM[d]);$("#v").className=p=="home"?"wide":edOn?"wide "+EDP[p]:"";$("#v").innerHTML=back+o;if(p=="alltime")atInit(d);if(p=="calendar")clInit();if(p=="home")mdInit();if(p=="compete")cpStand();if(p=="voting")awTots();if(p=="player"&&PM[d])mhRender();if(p=="rivals")h2Render();scrollRestore(p=="alltime"&&!d?AT.y:0);if(p=="alltime"&&!d)AT.y=0;revealEls(document.querySelectorAll("main>*,main .g>*,main .g3>*,main .tl>.c,main .chs>*"))}
 
 function more(){ov(`<div class="gm-l">`+[["calendar","calendar","Calendar"],["rivals","vs","Rivals"],["history","clock","History"],["alltime","chart","GPL All Time"],["compete","trophy","Competitions"],["rulebook","book","Rulebook"]].map(([k,i,l])=>gmI("a",i,l,`href="#/${k}" onclick="${gmX}"`)).join("")+`</div>`,"gm")}
-$("#top").innerHTML=`<a href="#/home" class="brand" aria-label="GDFF home"><img src="${IM.logo}" alt=""><span>GDFF</span></a><button class="hbg" id="hbg" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="hmenu"><span></span><span></span><span></span></button><nav id="hmenu" aria-label="More pages">${HM.map(([k,l])=>`<a href="#/${k}" data-k="${k}">${l}</a>`).join("")}<a class="hm-ig" href="https://www.instagram.com/gdff.fcm" target="_blank" rel="noopener noreferrer">${ic("insta",22)}<span>Follow us on Instagram</span></a></nav>`;
+$("#top").innerHTML=`<a href="#/home" class="brand" aria-label="GDFF home"><img src="${IM.logo}" alt=""><span>GDFF</span></a><button class="hbg" id="hbg" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="hmenu"><span></span><span></span><span></span></button><nav id="hmenu" aria-label="More pages">${HM.map(([k,l])=>`<a href="#/${k}" data-k="${k}">${l}</a>`).join("")}<a class="hm-ig" href="https://www.instagram.com/gdff.fcm" target="_blank" rel="noopener noreferrer"><span>Follow us</span></a></nav>`;
 document.head.insertAdjacentHTML("beforeend","<style>"+Array.from({length:24},(_,i)=>`.cols div:nth-child(${i+1}) i{animation-delay:${i*40}ms}`).join("")+"</style>");
 addEventListener("hashchange",()=>page(location.hash));page(location.hash);window.bootReady&&bootReady();
 </script>
