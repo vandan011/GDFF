@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>GDFF League Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Anton&display=swap" rel="stylesheet">
+<style>
+/* Same GDFF tokens as league/index.html (copied from the root index.html). */
+:root{
+  --bg:linear-gradient(180deg,#071a11,#0b2418);
+  --tx:#eaf8f0; --mu:#a9c9b7; --ac:#6fe3a2; --onac:#06281a; --ac2:#1b4631; --gb:rgba(255,255,255,.14);
+  --iv:#f3ecd9; --cc:#0e1412; --mint:#58e2a6; --mut:#4d5247; --em:#0b4f31; --pos:#0b6a3b; --neg:#b3261e;
+  --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.4 -.2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  --disp:Anton,Impact,"Arial Narrow",sans-serif;
+  --ui:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);background-attachment:fixed;color:var(--tx);font:16px/1.55 var(--ui);min-height:100vh}
+body::before{content:"";position:fixed;inset:0;background-image:var(--grain);background-size:180px;opacity:.2;mix-blend-mode:overlay;pointer-events:none;z-index:0}
+a{color:inherit}
+.wr{max-width:1080px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.paper :focus-visible{outline-color:var(--cc)}
+
+.testbar{position:relative;z-index:10;background:var(--neg);color:#fff;font:800 11px/1.35 var(--ui);letter-spacing:.08em;text-transform:uppercase;text-align:center;padding:8px 12px}
+#top{position:sticky;top:0;z-index:9;background:rgba(10,36,24,.72);-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);border-bottom:1px solid var(--gb)}
+#top .wr{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:10px;padding-bottom:10px;min-height:56px}
+.brand{display:flex;align-items:baseline;gap:10px;text-decoration:none}
+.brand b{font:400 28px/1 var(--disp);letter-spacing:.02em;color:var(--iv)}
+.brand span{font:800 11px var(--ui);letter-spacing:.14em;text-transform:uppercase;color:var(--mu)}
+#sessionbar{display:flex;align-items:center;gap:10px;font:700 13px var(--ui);color:var(--mu)}
+h1{font:400 clamp(44px,12vw,88px)/.9 var(--disp);letter-spacing:.01em;text-transform:uppercase;color:var(--iv);margin:26px 0 6px}
+.sub{margin:0 0 18px;color:var(--mu);font-weight:600;font-size:14px}
+main{padding-bottom:90px;animation:in .4s both}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.paper{position:relative;background:var(--iv);color:var(--cc);padding:18px 20px 16px;margin:0 0 22px;box-shadow:0 26px 50px -20px rgba(0,0,0,.6)}
+.paper::after{content:"";position:absolute;inset:7px;background-image:var(--grain);background-size:180px;mix-blend-mode:multiply;opacity:.22;pointer-events:none}
+.paper>*{position:relative;z-index:1}
+.paper h2,.paper h3{margin:0 0 4px;font:400 26px/1.05 var(--disp);letter-spacing:.02em;text-transform:uppercase}
+.paper h3{font-size:22px}
+.note{color:var(--mut);font-size:13.5px;font-weight:600;margin:6px 0 0}
+.steps{margin:0 0 16px;padding:0;list-style:none;display:flex;gap:6px;flex-wrap:wrap}
+.steps li{font:800 11px var(--ui);letter-spacing:.08em;text-transform:uppercase;border:2px solid var(--tx);padding:6px 10px;color:var(--tx)}
+.steps li.on{background:var(--ac);border-color:var(--ac);color:var(--onac)}
+
+label{display:block;font:800 11px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:12px 0 4px}
+input[type=text],input[type=password],textarea{width:100%;max-width:100%;font:600 15px var(--ui);padding:10px 12px;border-radius:0;border:2px solid var(--cc);background:transparent;color:var(--cc);min-height:44px}
+textarea{min-height:200px;resize:vertical;line-height:1.5}
+.fmt{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 4px}
+.fmt label{margin:0;display:flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;border:2px solid var(--cc);cursor:pointer;font:800 13px var(--ui);letter-spacing:.04em;text-transform:none;color:var(--cc)}
+.fmt input{accent-color:var(--cc);width:18px;height:18px}
+.fmt label:has(input:checked){background:var(--cc);color:var(--iv)}
+.btn{display:inline-block;min-height:44px;padding:11px 18px;margin:12px 8px 0 0;border:2px solid var(--cc);background:var(--cc);color:var(--iv);font:800 13px var(--ui);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;cursor:pointer;border-radius:0}
+.btn:hover{background:var(--em);border-color:var(--em)}
+.btn.alt{background:transparent;color:var(--cc)}
+.btn.alt:hover{background:rgba(14,20,18,.1)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.btn.light{background:transparent;color:var(--tx);border-color:var(--tx);margin:0;min-height:36px;padding:6px 12px}
+.btn.light:hover{background:var(--ac2)}
+.linkbtn{background:none;border:0;padding:6px 0;font:800 13px var(--ui);text-decoration:underline;color:var(--cc);cursor:pointer;min-height:44px}
+
+.box{border:2px solid var(--cc);padding:12px 14px;margin:14px 0 0}
+.box.err{border-color:var(--neg);background:rgba(179,38,30,.08)}
+.box.warn{border-color:#8a5f00;background:rgba(138,95,0,.1)}
+.box.ok{border-color:var(--pos);background:rgba(11,106,59,.1)}
+.box h3{font-size:18px}
+.box ul{margin:6px 0 0;padding-left:20px}
+.msg{margin:0 0 18px;padding:12px 14px;border:2px solid var(--tx);font-weight:700}
+.msg.err{border-color:#ff9a93;color:#ffd4d0;background:rgba(179,38,30,.25)}
+.msg.ok{border-color:var(--ac);color:var(--ac)}
+
+table.t{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;margin-top:10px}
+.t th{font:800 11px var(--ui);letter-spacing:.06em;text-transform:uppercase;text-align:left;padding:8px 8px;border-top:2px solid var(--cc);border-bottom:2px solid var(--cc)}
+.t td{padding:9px 8px;border-bottom:1px solid rgba(14,20,18,.18);font-weight:600}
+.tag{display:inline-block;padding:2px 8px;font:800 11px var(--ui);letter-spacing:.08em;text-transform:uppercase;border:2px solid var(--cc)}
+.tag.fill{background:var(--cc);color:var(--iv)}
+.list{list-style:none;margin:10px 0 0;padding:0;border-top:2px solid var(--cc)}
+.list li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(14,20,18,.18)}
+.list .nm{font-weight:700;overflow-wrap:anywhere}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chip{padding:4px 10px;border:2px solid var(--cc);font:700 12.5px var(--ui)}
+.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:12px 0 0}
+.sum div{border:2px solid var(--cc);padding:8px 10px}
+.sum b{display:block;font:400 30px/1 var(--disp)}
+.sum span{font:800 10.5px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.rounds{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:10px;margin-top:12px}
+.rd{border:2px solid var(--cc);padding:8px 10px}
+.rd h4{margin:0 0 4px;font:400 18px/1 var(--disp);letter-spacing:.03em;text-transform:uppercase}
+.rd ol{margin:0;padding:0;list-style:none}
+.rd li{padding:3px 0;border-bottom:1px solid rgba(14,20,18,.14);font-weight:600;font-size:14px;overflow-wrap:anywhere}
+.rd li.bye{color:var(--mut);border-bottom:0}
+.hint{font-size:12.5px;color:var(--mut);font-weight:600;margin:4px 0 0}
+footer{position:relative;z-index:1;padding:0 0 40px;color:var(--mu);font-size:12.5px;font-weight:600;text-align:center}
+@media (max-width:560px){.wr{padding:0 14px}.paper{padding:16px 12px 12px}.brand span{display:none}.sum b{font-size:26px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="testbar">TESTING ONLY &mdash; NOT PRODUCTION READY &mdash; this test password login is not the production security solution</div>
+<header id="top">
+  <div class="wr">
+    <a class="brand" href="index.html" aria-label="Back to the public league page"><b>GDFF</b><span>League admin</span></a>
+    <div id="sessionbar"></div>
+  </div>
+</header>
+<div class="wr">
+  <h1>Admin</h1>
+  <p class="sub">Seasons, players and fixtures. Result entry comes in a later stage.</p>
+  <div id="msg" role="status" aria-live="polite"></div>
+  <main id="app" tabindex="-1"></main>
+</div>
+<footer><div class="wr">GDFF League admin &middot; test environment</div></footer>
+
+<script>
+/* ======================= SETTINGS ======================= */
+// Same deployed web app URL as league/index.html (ends in /exec):
+const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbwbuxoBPYk5PDezVZV9olj0gagGxccrNvSyMHhqb39ZaGoPntmPghE9GIhDo33ZDTxb/exec';
+const PUBLIC_PAGE = 'index.html';
+
+/* ======================= HELPERS ======================= */
+const $ = (s, r) => (r || document).querySelector(s);
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const newOpId = () => 'op' + Array.from(crypto.getRandomValues(new Uint8Array(16)), (b) => b.toString(16).padStart(2, '0')).join('');
+const plural = (n, one, many) => n + ' ' + (n === 1 ? one : (many || one + 's'));
+
+const S = {
+  token: '', loggedIn: false, loading: false, busy: false, lu: '',
+  view: 'seasons', seasonId: '', overview: null,
+  msg: '', msgKind: '',
+  create: { name: '', text: '', review: null, opId: '' },
+  add: { text: '', review: null, opId: '' },
+  gen: { format: 'double', preview: null, opId: '', confirming: false, saved: null },
+  focus: ''
+};
+
+function say(text, kind) { S.msg = text || ''; S.msgKind = kind || ''; }
+function resetCreate() { S.create = { name: '', text: '', review: null, opId: '' }; }
+function resetSeasonPanels() {
+  S.add = { text: '', review: null, opId: '' };
+  S.gen = { format: 'double', preview: null, opId: '', confirming: false, saved: null };
+}
+
+/* Typed names: one per line (commas also separate). Blank lines are ignored. */
+function parseNames(text) {
+  return String(text).split(/[\n,]/).map((s) => s.trim()).filter((s) => s.length > 0);
+}
+
+/* ======================= API ======================= */
+async function api(action, body) {
+  if (BACKEND_URL.indexOf('PASTE_') === 0) { say('Setup needed: put your deployed web app URL in BACKEND_URL at the top of the script in this file.', 'err'); return null; }
+  let text;
+  try {
+    // text/plain keeps this a "simple" browser request (no CORS preflight), which Apps Script web apps cannot answer.
+    const res = await fetch(BACKEND_URL, { method: 'POST', redirect: 'follow', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(Object.assign({ action: action, token: S.token }, body || {})) });
+    text = await res.text();
+  } catch (e) { return { ok: false, code: 'NETWORK' }; }
+  let j; try { j = JSON.parse(text); } catch (e) { return { ok: false, code: 'NOT_JSON' }; }
+  if (j && j.code === 'NOT_LOGGED_IN' && action !== 'login') {
+    S.loggedIn = false; S.token = ''; S.overview = null;
+    say('Your session ended or expired. Please log in again.', 'err');
+    return null;                       // callers stop here, so this message is not overwritten
+  }
+  return j;
+}
+
+const CODE_TEXT = {
+  NETWORK: 'Could not reach the backend. Check the web app URL and your connection.',
+  NOT_JSON: 'The backend answered, but not with data. Check the web app URL and that access is set to "Anyone".',
+  BUSY: 'The backend is busy with another request. Try again in a moment.',
+  SERVER_ERROR: 'The backend hit an error. Open Executions in the Apps Script editor for details, then check the sheet.',
+  BAD_REQUEST: 'The request was not valid.',
+  UNKNOWN_ACTION: 'The backend does not know this action. Has the newest Code.gs been deployed as a NEW VERSION?'
+};
+const explain = (r) => (r && r.message) || CODE_TEXT[r && r.code] || ('Backend said: ' + JSON.stringify(r));
+
+/* ======================= VIEWS ======================= */
+function loginHtml() {
+  return '<div class="paper"><h2>Log in</h2><p class="note">Testing only. The test password lives in the Apps Script project\'s Script Properties, never in this page.</p>' +
+    '<form id="loginForm" autocomplete="off"><label for="lu">Username</label><input id="lu" type="text" autocomplete="username" value="' + esc(S.lu) + '">' +
+    '<label for="lp">Password</label><input id="lp" type="password" autocomplete="current-password">' +
+    '<button class="btn" type="submit"' + (S.busy ? ' disabled' : '') + '>Log in</button></form></div>';
+}
+
+function stepsHtml(active) {
+  const s = ['1 Season and players', '2 Generate fixtures', '3 Enter results (next stage)'];
+  return '<ol class="steps" aria-label="Workflow">' + s.map((t, i) => '<li class="' + (i === active ? 'on' : '') + '"' + (i === active ? ' aria-current="step"' : '') + '>' + esc(t) + '</li>').join('') + '</ol>';
+}
+
+function problemsHtml() {
+  const p = S.overview && S.overview.problems || [];
+  if (!p.length) return '';
+  return '<div class="paper"><div class="box warn" role="alert"><h3>Needs manual review (' + p.length + ')</h3>' +
+    '<p class="note">An earlier write did not finish cleanly. Nothing was repaired or guessed. Check the sheet\'s Audit and data tabs, then decide.</p><ul>' +
+    p.map((x) => '<li>' + esc(x) + '</li>').join('') + '</ul></div></div>';
+}
+
+function seasonsHtml() {
+  const ov = S.overview;
+  if (!ov) return '<p class="msg">Loading…</p>';
+  let h = problemsHtml() + '<div class="paper"><h2>Seasons</h2>';
+  if (!ov.seasons.length) h += '<p class="note">No seasons yet. Create one, add the players, and the public table shows everyone at zero straight away.</p>';
+  else h += '<ul class="list">' + ov.seasons.slice().reverse().map((s) =>
+    '<li><span><span class="nm">' + esc(s.name) + '</span><br><span class="hint">' + plural(s.players.length, 'player') + ' · ' + plural(s.fixtures, 'fixture') + ' · ' + esc(s.status) + '</span></span>' +
+    '<button class="btn alt" style="margin:0" data-act="open" data-id="' + esc(s.season_id) + '">Open</button></li>').join('') + '</ul>';
+  return h + '<button class="btn" data-act="newseason">New season</button></div>';
+}
+
+function reviewTable(items, errors) {
+  if (errors && errors.length) {
+    return '<div class="box err" role="alert" id="reviewBox" tabindex="-1"><h3>Please fix this</h3><ul>' + errors.map((e) => '<li>' + esc(e) + '</li>').join('') + '</ul></div>';
+  }
+  return '<div class="box" id="reviewBox" tabindex="-1"><h3>Review: ' + plural(items.length, 'player') + '</h3>' +
+    '<table class="t"><thead><tr><th>#</th><th>Name</th><th>Status</th></tr></thead><tbody>' +
+    items.map((it, i) => '<tr><td>' + (i + 1) + '</td><td>' + esc(it.status === 'existing' ? it.existing_name : it.name) + '</td><td>' +
+      (it.status === 'existing' ? '<span class="tag fill">Returning</span> <span class="hint">already known; same person, history kept' + (it.existing_name !== it.name ? ' (you typed "' + esc(it.name) + '")' : '') + '</span>' : '<span class="tag">New</span>') +
+      '</td></tr>').join('') + '</tbody></table></div>';
+}
+
+function newSeasonHtml() {
+  const c = S.create, r = c.review;
+  let h = stepsHtml(0) + '<div class="paper"><h2>New season</h2>' +
+    '<label for="sname">Season name</label><input id="sname" type="text" data-bind="create.name" value="' + esc(c.name) + '" maxlength="60" autocomplete="off">' +
+    '<label for="splayers">Players</label><textarea id="splayers" data-bind="create.text" placeholder="One name per line">' + esc(c.text) + '</textarea>' +
+    '<p class="hint">One name per line (commas also work). Usually 7–13 players; 2–40 are allowed. Spellings must match the usernames in the match data; capital letters are ignored when comparing.</p>' +
+    '<button class="btn" data-act="reviewseason"' + (S.busy ? ' disabled' : '') + '>Review players</button><button class="btn alt" data-act="cancel">Cancel</button>';
+  if (r) {
+    h += reviewTable(r.items, r.errors);
+    if (!r.errors.length) h += '<p class="note">Creating the season makes it <b>active</b> and visible on the public table (everyone on zero) straight away. Fixtures come next.</p>' +
+      '<button class="btn" data-act="createseason"' + (S.busy ? ' disabled' : '') + '>Create season with ' + plural(r.items.length, 'player') + '</button>';
+  }
+  return h + '</div>';
+}
+
+function currentSeason() { return S.overview && S.overview.seasons.filter((s) => s.season_id === S.seasonId)[0]; }
+
+function previewHtml(p) {
+  const n = p.summary.players;
+  const per = {};
+  p.rounds.forEach((r) => { r.matches.forEach((m) => { [m.a, m.b].forEach((x) => { (per[x] = per[x] || { m: 0, b: 0 }).m++; }); }); if (r.bye) (per[r.bye] = per[r.bye] || { m: 0, b: 0 }).b++; });
+  const fmt = p.format === 'double' ? 'Double round-robin' : 'Single round-robin';
+  let h = '<div class="box" id="previewBox" tabindex="-1"><h3>Schedule preview: ' + esc(fmt) + '</h3>' +
+    '<div class="sum"><div><b>' + n + '</b><span>Players</span></div><div><b>' + p.summary.matches + '</b><span>Matches</span></div><div><b>' + p.summary.rounds + '</b><span>Rounds</span></div>' +
+    '<div><b>' + p.summary.matches_per_player + '</b><span>Matches per player</span></div><div><b>' + p.summary.matches_per_round + '</b><span>Matches per round</span></div><div><b>' + p.summary.byes + '</b><span>Byes</span></div></div>' +
+    (p.summary.byes ? '<p class="note">With ' + n + ' players one person rests each round (a bye). Everyone gets the same number of byes.</p>' : '') +
+    '<p class="hint">Check: every player\'s matches' + (p.summary.byes ? ' and byes' : '') + '</p><div class="chips">' +
+    Object.keys(per).map((k) => '<span class="chip">' + esc(k) + ' · ' + per[k].m + (per[k].b ? ' + ' + plural(per[k].b, 'bye') : '') + '</span>').join('') + '</div>' +
+    '<div class="rounds">' + p.rounds.map((r) => '<div class="rd"><h4>Round ' + r.round + '</h4><ol>' +
+      r.matches.map((m) => '<li>' + esc(m.a) + ' vs ' + esc(m.b) + '</li>').join('') + (r.bye ? '<li class="bye">Bye: ' + esc(r.bye) + '</li>' : '') + '</ol></div>').join('') + '</div>';
+  if (!S.gen.confirming) h += '<button class="btn" data-act="gen-ask"' + (S.busy ? ' disabled' : '') + '>Save this schedule (' + plural(p.summary.matches, 'match', 'matches') + ')</button><button class="btn alt" data-act="gen-cancel">Discard preview</button>';
+  else h += '<div class="box err" role="alertdialog" aria-label="Confirm saving the schedule"><h3>Save the schedule?</h3><p class="note">The fixtures become public straight away and cannot be changed from this page. You are saving ' + plural(p.summary.matches, 'match', 'matches') + ' over ' + plural(p.summary.rounds, 'round') + '.</p>' +
+    '<button class="btn" data-act="gen-save"' + (S.busy ? ' disabled' : '') + '>Yes, save the schedule</button><button class="btn alt" data-act="gen-back">Go back</button></div>';
+  return h + '</div>';
+}
+
+function seasonHtml() {
+  const s = currentSeason();
+  if (!s) return '<div class="paper"><p>That season was not found.</p><button class="btn" data-act="home">Back to seasons</button></div>';
+  const has = s.fixtures > 0;
+  let h = stepsHtml(has ? 2 : 1) + '<div class="paper"><h2>' + esc(s.name) + '</h2><p class="note">' + esc(s.status) + ' · ' + plural(s.players.length, 'player') + ' · ' + plural(s.fixtures, 'fixture') +
+    ' · <a href="' + PUBLIC_PAGE + '" target="_blank" rel="noopener">view public page</a></p>' +
+    '<div class="chips">' + s.players.map((p, i) => '<span class="chip">' + (i + 1) + '. ' + esc(p.display_name) + '</span>').join('') + '</div>' +
+    '<button class="btn alt" data-act="home">All seasons</button></div>';
+  if (S.gen.saved) {
+    h += '<div class="paper"><div class="box ok" role="status"><h3>Schedule saved</h3><p class="note">' + plural(S.gen.saved.matches, 'match', 'matches') + ' in ' + plural(S.gen.saved.rounds, 'round') +
+      ' are now public. The league table still shows everyone on zero until results are entered (next stage).</p>' +
+      '<a class="btn" href="' + PUBLIC_PAGE + '" target="_blank" rel="noopener">View the public fixtures</a></div></div>';
+  }
+  if (has) {
+    return h + '<div class="paper"><h2>Fixtures</h2><p class="note">' + plural(s.fixtures, 'fixture row') + ' saved' + (s.with_results ? ', ' + s.with_results + ' with results' : ', none played yet') +
+      '. Fixtures are locked in this stage; they are never overwritten.</p></div>';
+  }
+  const a = S.add;
+  h += '<div class="paper"><h2>Add more players</h2><p class="note">Possible only until fixtures are generated.</p>' +
+    '<label for="aplayers">New players</label><textarea id="aplayers" data-bind="add.text" style="min-height:110px" placeholder="One name per line">' + esc(a.text) + '</textarea>' +
+    '<button class="btn alt" data-act="reviewadd"' + (S.busy ? ' disabled' : '') + '>Review new players</button>';
+  if (a.review) {
+    h += reviewTable(a.review.items, a.review.errors);
+    if (!a.review.errors.length) h += '<button class="btn" data-act="addplayers"' + (S.busy ? ' disabled' : '') + '>Add ' + plural(a.review.items.length, 'player') + '</button>';
+  }
+  h += '</div>';
+  h += '<div class="paper"><h2>Generate fixtures</h2><p class="note">Choose a format, then preview the whole schedule before saving anything.</p>' +
+    '<div class="fmt" role="radiogroup" aria-label="Format"><label><input type="radio" name="fmt" value="double" data-bind="gen.format"' + (S.gen.format === 'double' ? ' checked' : '') + '> Double round-robin</label>' +
+    '<label><input type="radio" name="fmt" value="single" data-bind="gen.format"' + (S.gen.format === 'single' ? ' checked' : '') + '> Single round-robin</label></div>' +
+    '<button class="btn" data-act="gen-preview"' + (S.busy || s.players.length < 2 ? ' disabled' : '') + '>Preview schedule</button>' +
+    (s.players.length < 2 ? '<p class="hint">Add at least 2 players first.</p>' : '');
+  if (S.gen.preview) h += previewHtml(S.gen.preview);
+  return h + '</div>';
+}
+
+function render() {
+  const m = $('#msg');
+  m.innerHTML = S.msg ? '<div class="msg ' + esc(S.msgKind) + '">' + esc(S.msg) + '</div>' : '';
+  $('#sessionbar').innerHTML = S.loggedIn ? '<span>Logged in</span><button class="btn light" data-act="logout">Log out</button>' : '';
+  const app = $('#app');
+  const ae = document.activeElement;
+  const keep = ae && ae.id && app.contains(ae) ? { id: ae.id, s: ae.selectionStart, e: ae.selectionEnd } : null;
+  if (!S.loggedIn) app.innerHTML = loginHtml();
+  else if (S.view === 'new') app.innerHTML = newSeasonHtml();
+  else if (S.view === 'season') app.innerHTML = seasonHtml();
+  else app.innerHTML = seasonsHtml();
+  if (S.focus) { const el = $(S.focus); if (el) { el.focus({ preventScroll: false }); } S.focus = ''; }
+  else if (keep) { const el = document.getElementById(keep.id); if (el) { el.focus({ preventScroll: true }); try { el.setSelectionRange(keep.s, keep.e); } catch (x) {} } }
+}
+
+/* ======================= ACTIONS ======================= */
+async function loadOverview() {
+  const r = await api('admin_overview');
+  if (!r) return;
+  if (r.ok) S.overview = r; else if (S.loggedIn) say(explain(r), 'err');
+}
+
+async function run(fn) {
+  if (S.busy) return;
+  S.busy = true; render();
+  try { await fn(); } finally { S.busy = false; render(); }
+}
+
+async function doLogin(u, p) {
+  S.lu = u;
+  await run(async () => {
+    say('');
+    const r = await api('login', { username: u, password: p });
+    if (!r) return;
+    if (r.ok) { S.token = r.token; S.loggedIn = true; S.view = 'seasons'; await loadOverview(); }
+    else if (r.code === 'INVALID_CREDENTIALS') say('Wrong username or password.', 'err');
+    else if (r.code === 'RATE_LIMITED') say('Too many attempts. Try again later.', 'err');
+    else say(explain(r), 'err');
+  });
+}
+
+async function doReviewSeason() {
+  const c = S.create;
+  await run(async () => {
+    say(''); c.opId = '';
+    const r = await api('season_preview', { name: c.name, players: parseNames(c.text) });
+    if (!r) return;
+    if (!r.ok) { say(explain(r), 'err'); return; }
+    c.review = { items: r.items || [], errors: r.valid ? [] : (r.errors || ['Something is not valid.']) };
+    c.opId = r.valid ? newOpId() : '';
+    S.focus = '#reviewBox';
+  });
+}
+
+async function doCreateSeason() {
+  const c = S.create;
+  if (!c.review || c.review.errors.length || !c.opId) return;
+  await run(async () => {
+    say('');
+    const r = await api('season_create', { op_id: c.opId, name: c.name, players: parseNames(c.text) });
+    if (!r) return;
+    if (r.ok) {
+      say('Season created and active. ' + plural(r.players || c.review.items.length, 'player') + ' on the public table, all on zero.', 'ok');
+      S.seasonId = r.season_id; S.view = 'season'; resetCreate(); resetSeasonPanels(); await loadOverview();
+    } else if (r.code === 'INVALID') { c.review = { items: [], errors: r.errors || [explain(r)] }; c.opId = ''; S.focus = '#reviewBox'; }
+    else if (r.code === 'NETWORK' || r.code === 'NOT_JSON') say(explain(r) + ' It is safe to press the button again: nothing will be created twice.', 'err');
+    else say(explain(r), 'err');
+  });
+}
+
+async function doReviewAdd() {
+  const a = S.add;
+  await run(async () => {
+    say(''); a.opId = '';
+    const r = await api('players_preview', { season_id: S.seasonId, players: parseNames(a.text) });
+    if (!r) return;
+    if (!r.ok) { say(explain(r), 'err'); return; }
+    a.review = { items: r.items || [], errors: r.valid ? [] : (r.errors || ['Something is not valid.']) };
+    a.opId = r.valid ? newOpId() : '';
+    S.focus = '#reviewBox';
+  });
+}
+
+async function doAddPlayers() {
+  const a = S.add;
+  if (!a.review || a.review.errors.length || !a.opId) return;
+  await run(async () => {
+    say('');
+    const r = await api('players_add', { op_id: a.opId, season_id: S.seasonId, players: parseNames(a.text) });
+    if (!r) return;
+    if (r.ok) { say(plural(r.added || a.review.items.length, 'player') + ' added.', 'ok'); S.add = { text: '', review: null, opId: '' }; S.gen.preview = null; S.gen.confirming = false; await loadOverview(); }
+    else if (r.code === 'INVALID') { a.review = { items: [], errors: r.errors || [explain(r)] }; a.opId = ''; }
+    else if (r.code === 'NETWORK' || r.code === 'NOT_JSON') say(explain(r) + ' It is safe to press the button again: nothing will be added twice.', 'err');
+    else say(explain(r), 'err');
+  });
+}
+
+async function doPreviewFixtures() {
+  await run(async () => {
+    say(''); S.gen.confirming = false; S.gen.opId = ''; S.gen.saved = null;
+    const r = await api('fixtures_preview', { season_id: S.seasonId, format: S.gen.format });
+    if (!r) return;
+    if (r.ok) { S.gen.preview = r; S.gen.opId = newOpId(); S.focus = '#previewBox'; }
+    else { S.gen.preview = null; say(explain(r), 'err'); }
+  });
+}
+
+async function doSaveFixtures() {
+  const g = S.gen;
+  if (!g.preview || !g.opId) return;
+  await run(async () => {
+    say('');
+    const r = await api('fixtures_commit', { op_id: g.opId, season_id: S.seasonId, format: g.preview.format, preview_id: g.preview.preview_id });
+    if (!r) return;
+    if (r.ok) {
+      S.gen = { format: g.format, preview: null, opId: '', confirming: false, saved: { matches: r.matches || g.preview.summary.matches, rounds: r.rounds || g.preview.summary.rounds } };
+      say('Schedule saved.', 'ok'); await loadOverview();
+    } else if (r.code === 'NETWORK' || r.code === 'NOT_JSON') {
+      say(explain(r) + ' The save may or may not have gone through. Press "Yes, save the schedule" again: the same operation id is reused, so it can never be saved twice.', 'err');
+    } else if (r.code === 'PREVIEW_STALE' || r.code === 'FIXTURES_EXIST') {
+      g.preview = null; g.confirming = false; g.opId = ''; say(explain(r), 'err'); await loadOverview();
+    } else if (r.code === 'NEEDS_REVIEW') {
+      g.confirming = false; say(explain(r) + ' Nothing was repaired automatically.', 'err'); await loadOverview();
+    } else say(explain(r), 'err');
+  });
+}
+
+/* ======================= EVENTS ======================= */
+const app = $('#app');
+app.addEventListener('submit', (e) => {
+  if (e.target.id === 'loginForm') { e.preventDefault(); doLogin($('#lu').value, $('#lp').value); }
+});
+app.addEventListener('input', (e) => {
+  const b = e.target.getAttribute && e.target.getAttribute('data-bind'); if (!b) return;
+  let had = false;
+  if (b === 'create.name' || b === 'create.text') { S.create[b.split('.')[1]] = e.target.value; had = !!S.create.review; S.create.review = null; S.create.opId = ''; }
+  else if (b === 'add.text') { S.add.text = e.target.value; had = !!S.add.review; S.add.review = null; S.add.opId = ''; }
+  if (had) render();     // remove the now-stale review and its confirm button
+});
+app.addEventListener('change', (e) => {
+  if (e.target.getAttribute('data-bind') === 'gen.format') { S.gen.format = e.target.value; S.gen.preview = null; S.gen.confirming = false; S.gen.opId = ''; render(); }
+});
+document.addEventListener('click', async (e) => {
+  const t = e.target.closest('[data-act]'); if (!t) return;
+  const a = t.getAttribute('data-act');
+  if (a === 'logout') { await api('logout'); S.loggedIn = false; S.token = ''; S.overview = null; S.view = 'seasons'; say('Logged out.', 'ok'); resetCreate(); resetSeasonPanels(); return render(); }
+  if (a === 'home') { S.view = 'seasons'; say(''); await loadOverview(); return render(); }
+  if (a === 'open') { S.seasonId = t.getAttribute('data-id'); S.view = 'season'; resetSeasonPanels(); say(''); return render(); }
+  if (a === 'newseason') { resetCreate(); S.view = 'new'; say(''); return render(); }
+  if (a === 'cancel') { S.view = 'seasons'; resetCreate(); say(''); return render(); }
+  if (a === 'reviewseason') return doReviewSeason();
+  if (a === 'createseason') return doCreateSeason();
+  if (a === 'reviewadd') return doReviewAdd();
+  if (a === 'addplayers') return doAddPlayers();
+  if (a === 'gen-preview') return doPreviewFixtures();
+  if (a === 'gen-cancel') { S.gen.preview = null; S.gen.confirming = false; S.gen.opId = ''; return render(); }
+  if (a === 'gen-ask') { S.gen.confirming = true; S.focus = '[data-act="gen-save"]'; return render(); }
+  if (a === 'gen-back') { S.gen.confirming = false; return render(); }
+  if (a === 'gen-save') return doSaveFixtures();
+});
+
+render();
+</script>
+</body>
+</html>
