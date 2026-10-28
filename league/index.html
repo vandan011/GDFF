@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GDFF League</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Anton&display=swap" rel="stylesheet">
+<style>
+/* Tokens copied from the GDFF root index.html (dark base + editorial ivory layer). */
+:root{
+  --bg:linear-gradient(180deg,#071a11,#0b2418);
+  --tx:#eaf8f0; --mu:#a9c9b7; --ac:#6fe3a2; --onac:#06281a; --ac2:#1b4631; --gb:rgba(255,255,255,.14);
+  --iv:#f3ecd9; --cc:#0e1412; --mint:#58e2a6; --mut:#4d5247; --em:#0b4f31; --pos:#0b6a3b; --neg:#b3261e;
+  --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.4 -.2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  --disp:Anton,Impact,"Arial Narrow",sans-serif;
+  --ui:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);background-attachment:fixed;color:var(--tx);font:16px/1.55 var(--ui);min-height:100vh}
+body::before{content:"";position:fixed;inset:0;background-image:var(--grain);background-size:180px;opacity:.2;mix-blend-mode:overlay;pointer-events:none;z-index:0}
+a{color:inherit}
+.wr{max-width:1080px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.paper :focus-visible{outline-color:var(--cc)}
+
+.testbar{position:relative;z-index:10;background:var(--neg);color:#fff;font:800 11px/1.3 var(--ui);letter-spacing:.08em;text-transform:uppercase;text-align:center;padding:8px 12px}
+
+#top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:rgba(10,36,24,.72);-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);border-bottom:1px solid var(--gb)}
+#top .wr{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:10px;padding-bottom:10px}
+.brand{display:flex;align-items:baseline;gap:10px;text-decoration:none}
+.brand b{font:400 28px/1 var(--disp);letter-spacing:.02em;color:var(--iv)}
+.brand span{font:800 11px var(--ui);letter-spacing:.14em;text-transform:uppercase;color:var(--mu)}
+.seasonsel{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex:1 1 0;min-width:0;font:800 11px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--mu)}
+.seasonsel select{min-width:0;max-width:100%;text-overflow:ellipsis}
+.brand{flex:0 0 auto}
+
+h1{font:400 clamp(52px,14vw,104px)/.88 var(--disp);letter-spacing:.01em;text-transform:uppercase;color:var(--iv);margin:30px 0 6px}
+.sub{margin:0 0 4px;color:var(--mu);font-weight:600;font-size:14px}
+
+/* Hard-cornered square chips, as on the existing site. */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:20px 0 24px}
+.tabs button{min-width:92px;min-height:46px;padding:10px 16px;border-radius:0;border:2px solid var(--tx);background:transparent;color:var(--tx);font:800 13px var(--ui);letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.tabs button:hover{background:var(--ac2)}
+.tabs button[aria-selected="true"]{background:var(--ac);color:var(--onac);border-color:var(--ac)}
+
+select,input[type=search]{max-width:100%;text-overflow:ellipsis;font:600 14px var(--ui);min-height:44px;padding:9px 12px;border-radius:0;border:2px solid var(--cc);background:transparent;color:var(--cc)}
+#top select{border-color:var(--tx);color:var(--tx);min-height:40px}
+#top select option{color:#000}
+.paper select option{color:#000}
+
+main{padding-bottom:90px;animation:in .4s both}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* Ivory paper panel with the verified grain overlay. */
+.paper{position:relative;background:var(--iv);color:var(--cc);padding:18px 20px 16px;margin:0 0 22px;box-shadow:0 26px 50px -20px rgba(0,0,0,.6)}
+.paper::after{content:"";position:absolute;inset:7px;background-image:var(--grain);background-size:180px;mix-blend-mode:multiply;opacity:.22;pointer-events:none}
+.paper>*{position:relative;z-index:1}
+.paper h2,.paper h3{margin:0;font:400 26px/1 var(--disp);letter-spacing:.02em;text-transform:uppercase}
+.paper h3{font-size:24px}
+.paper .note{color:var(--mut);font-size:13px;font-weight:600;margin:8px 0 0}
+.paper small,.mutedtxt{color:var(--mut);font-weight:600;font-size:12.5px}
+
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{min-width:48px;min-height:44px;padding:9px 14px;border-radius:0;border:2px solid var(--cc);background:transparent;color:var(--cc);font:800 13px var(--ui);cursor:pointer}
+.chips button:hover{background:rgba(14,20,18,.1)}
+.chips button.on{background:var(--cc);color:var(--iv)}
+.bar{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:flex-end}
+.bar label{min-width:0;max-width:100%;display:flex;flex-direction:column;gap:4px;font:800 11px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.linkbtn{background:none;border:0;padding:6px 0;font:800 13px var(--ui);text-decoration:underline;color:var(--cc);cursor:pointer;min-height:44px}
+
+/* Fixtures */
+.fx{list-style:none;margin:12px 0 0;padding:0;border-top:2px solid var(--cc)}
+.fx li{border-bottom:1px solid rgba(14,20,18,.18)}
+.fx li>a,.fx li>div{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:4px 12px;align-items:center;padding:12px 2px;text-decoration:none;color:inherit}
+.fx a:hover{background:rgba(14,20,18,.06)}
+.fx .a,.fx .b{font-weight:700;overflow-wrap:anywhere}
+.fx .a{text-align:right}
+.fx .st{grid-column:1/-1;text-align:center;font:800 11px var(--ui);letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.score{min-width:70px;padding:6px 10px;text-align:center;font:400 26px/1 var(--disp);letter-spacing:.04em;background:var(--cc);color:var(--iv)}
+.vs{min-width:70px;padding:5px 10px;text-align:center;font:400 18px/1 var(--disp);letter-spacing:.06em;color:var(--mut);border:2px solid var(--mut)}
+.fx .bye{grid-template-columns:1fr auto}
+.fx .bye .a{text-align:left;color:var(--mut)}
+.tag{display:inline-block;padding:3px 8px;font:800 11px var(--ui);letter-spacing:.1em;text-transform:uppercase;border:2px solid var(--cc)}
+.tag.fill{background:var(--cc);color:var(--iv)}
+
+/* Match detail */
+.mh{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px 14px;align-items:center;margin:14px 0 6px}
+.mh .a,.mh .b{font:400 clamp(22px,5.5vw,38px)/1 var(--disp);text-transform:uppercase;overflow-wrap:anywhere}
+.mh .a{text-align:right}
+.mh .score{font-size:clamp(34px,8vw,56px);padding:8px 16px}
+.cols{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));margin-top:16px}
+.plist{list-style:none;margin:10px 0 0;padding:0;border-top:2px solid var(--cc)}
+.plist li{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(14,20,18,.18)}
+.plist b{font-weight:700}
+.nums{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+
+/* Ranked lists (leaderboards) */
+.rl{list-style:none;margin:10px 0 6px;padding:0;border-top:2px solid var(--cc)}
+.rl li{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(14,20,18,.18)}
+.rl .rk{font:400 22px/1 var(--disp);min-width:34px;color:var(--mut)}
+.rl .who{flex:1;min-width:0;display:flex;flex-direction:column}
+.rl .who b{font-weight:700;overflow-wrap:anywhere}
+.rl .val{font:800 19px var(--ui);min-width:40px;text-align:right;font-variant-numeric:tabular-nums;color:var(--pos)}
+.lb{display:grid;gap:22px;margin-bottom:22px;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr))}
+.lb .paper{margin:0}
+
+/* Tables */
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.lt{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+.lt abbr{text-decoration:none}
+.lt thead th{font:800 11px var(--ui);letter-spacing:.06em;text-transform:uppercase;text-align:right;padding:9px 7px;border-top:2px solid var(--cc);border-bottom:2px solid var(--cc);white-space:nowrap;background:var(--iv)}
+.lt td{padding:11px 7px;text-align:right;border-bottom:1px solid rgba(14,20,18,.18);font-weight:600;white-space:nowrap;background:var(--iv)}
+.lt .pos{font:400 22px/1 var(--disp);color:var(--mut);text-align:left;min-width:46px;position:sticky;left:0;z-index:2}
+.lt .nm{text-align:left;font-weight:700;position:sticky;left:46px;z-index:2;min-width:120px;white-space:normal}
+.lt thead th.nm,.lt thead th.pos{z-index:3}
+.lt td.pts{font:800 18px var(--ui);color:var(--pos)}
+.lt td small{display:block}
+.sortb{all:unset;cursor:pointer;display:inline-block;padding:4px 2px;min-height:24px;font:inherit;letter-spacing:inherit;text-transform:inherit}
+.sortb:focus-visible{outline:2px solid var(--cc);outline-offset:1px}
+table.lt.wide{min-width:0}
+.lt.wide .nm{left:0}
+.mwho{display:none}
+.lt tbody th.nm{background:var(--iv);font:700 16px/1.3 var(--ui);letter-spacing:0;text-transform:none;text-align:left;padding:11px 7px;border-bottom:1px solid rgba(14,20,18,.18)}
+table.lt.std{min-width:0}
+
+.empty{padding:34px 8px 30px;text-align:center}
+.empty h2{font-size:34px}
+.empty p{max-width:46ch;margin:10px auto 14px;color:var(--mut);font-weight:600}
+.btn{display:inline-block;min-height:44px;padding:11px 18px;border:2px solid var(--cc);background:var(--cc);color:var(--iv);font:800 13px var(--ui);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;cursor:pointer;border-radius:0}
+.btn:hover{background:var(--em);border-color:var(--em)}
+.msg{padding:26px 4px;color:var(--mu);font-weight:600}
+footer{position:relative;z-index:1;padding:0 0 40px;color:var(--mu);font-size:12.5px;font-weight:600;text-align:center}
+
+@media (max-width:560px){
+  .wr{padding:0 14px}
+  .paper{padding:16px 14px 12px}
+  .brand span{display:none}
+  .seasonsel>span{display:none}
+  .mh{gap:6px 8px}
+  .paper{padding-left:10px;padding-right:10px}
+  .lt thead th,.lt td{padding-left:3px;padding-right:3px}
+  .lt thead th{font-size:10px;letter-spacing:.02em}
+  .lt .pos{min-width:26px;font-size:18px}
+  .lt .nm{left:26px;min-width:0;overflow-wrap:anywhere}
+  .lt tbody th.nm{font-size:14px;padding-left:3px;padding-right:3px}
+  .lt.wide .nm{left:0}
+  .lt td.pts{font-size:16px}
+  .cwho{display:none}
+  .mwho{display:block;color:var(--mut);font-weight:600;font-size:12px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<noscript><div class="testbar">This page needs JavaScript.</div></noscript>
+<div id="testbar" class="testbar" hidden>TESTING ONLY &mdash; test environment, not the live league</div>
+
+<header id="top">
+  <div class="wr">
+    <a class="brand" href="../" aria-label="GDFF home"><b>GDFF</b><span>League</span></a>
+    <label class="seasonsel" id="seasonWrap" hidden><span>Season</span>
+      <select id="season" aria-label="Season"></select></label>
+  </div>
+</header>
+
+<div class="wr">
+  <h1>League</h1>
+  <p class="sub" id="seasonLine">&nbsp;</p>
+  <div class="tabs" role="tablist" aria-label="League sections">
+    <button role="tab" id="tab-fixtures" data-tab="fixtures" aria-controls="panel" aria-selected="true" tabindex="0">Fixtures</button>
+    <button role="tab" id="tab-table" data-tab="table" aria-controls="panel" aria-selected="false" tabindex="-1">Table</button>
+    <button role="tab" id="tab-stats" data-tab="stats" aria-controls="panel" aria-selected="false" tabindex="-1">Stats</button>
+  </div>
+  <main id="panel" role="tabpanel" tabindex="-1" aria-labelledby="tab-fixtures" aria-live="polite"></main>
+</div>
+<footer><div class="wr">GDFF League &middot; Gokuldham Football Federation</div></footer>
+
+<script>
+/* ======================= SETTINGS ======================= */
+// Paste your deployed web app URL (ends in /exec) between the quotes:
+const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbwbuxoBPYk5PDezVZV9olj0gagGxccrNvSyMHhqb39ZaGoPntmPghE9GIhDo33ZDTxb/exec';
+// Shows the red "testing only" bar. Set to false only when this page is approved for the live site.
+const SHOW_TEST_BANNER = true;
+const ADMIN_PAGE = 'admin.html';
+
+/* ======================= HELPERS ======================= */
+const $ = (s, r) => (r || document).querySelector(s);
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const num = (v) => (typeof v === 'number' && isFinite(v) ? v : 0);
+const key = (name) => String(name).trim().replace(/\s+/g, ' ').toLowerCase();   // same rule as the backend
+
+const S = {
+  seasons: [], data: null, loading: true, error: '',
+  tab: 'fixtures', match: '', focusKey: '', want: '',
+  fx: { status: 'all', who: '', round: '' },
+  st: { stat: 'all', who: '', q: '', sort: 'goals', dir: -1 }
+};
+
+/* ======================= DATA ======================= */
+function friendly(e) {
+  const m = String(e && e.message || e);
+  if (m === 'NOT_JSON') return 'The backend answered, but not with league data. Check that the web app URL is right and that access is set to "Anyone".';
+  if (m.indexOf('BACKEND:') === 0) return 'The backend reported a problem (' + m.slice(8) + '). Has the new Code.gs been deployed as a NEW VERSION, and has setupLeagueSchema been run?';
+  return 'Could not reach the backend. Check the web app URL, your connection, and that access is set to "Anyone". If you opened this file straight from your computer and the browser blocks it, serve the folder with a simple local web server instead.';
+}
+
+async function load(seasonId) {
+  S.loading = true; S.error = ''; S.want = seasonId || S.want; render();
+  if (BACKEND_URL.indexOf('PASTE_') === 0) {
+    S.loading = false;
+    S.error = 'Setup needed: put your deployed web app URL in BACKEND_URL at the top of the script in this file.';
+    return render();
+  }
+  try {
+    const url = BACKEND_URL + (BACKEND_URL.indexOf('?') > -1 ? '&' : '?') + 'action=public' + (seasonId ? '&season=' + encodeURIComponent(seasonId) : '');
+    const res = await fetch(url, { redirect: 'follow' });
+    const text = await res.text();
+    let j; try { j = JSON.parse(text); } catch (e) { throw new Error('NOT_JSON'); }
+    if (!j || j.ok !== true) throw new Error('BACKEND:' + (j && j.code || 'unknown'));
+    S.seasons = j.seasons || [];
+    S.data = j.season ? j : null;
+  } catch (e) { S.error = friendly(e); S.data = null; }
+  S.loading = false; render();
+}
+
+const names = () => { const m = {}; (S.data.participants || []).forEach((p) => { m[p.participant_id] = p.display_name; }); return m; };
+
+/* ======================= STANDINGS ======================= */
+function computeRows(d) {
+  const w = num(d.season.points_win), dr = num(d.season.points_draw), l = num(d.season.points_loss);
+  const rows = {};
+  d.participants.forEach((p) => { rows[p.participant_id] = { id: p.participant_id, name: p.display_name, P: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, Pts: 0 }; });
+  d.fixtures.forEach((f) => {
+    if (!f.completed || f.is_bye) return;
+    const a = rows[f.player_a_id], b = rows[f.player_b_id];
+    if (!a || !b) return;
+    [[a, f.a_goals, f.b_goals], [b, f.b_goals, f.a_goals]].forEach((t) => {
+      const r = t[0], gf = num(t[1]), ga = num(t[2]);
+      r.P++; r.GF += gf; r.GA += ga; r.GD = r.GF - r.GA;
+      if (gf > ga) { r.W++; r.Pts += w; } else if (gf === ga) { r.D++; r.Pts += dr; } else { r.L++; r.Pts += l; }
+    });
+  });
+  return Object.keys(rows).map((k) => rows[k]);
+}
+
+/* Groups players level on a criterion, best first. fn returns a number or an array of numbers (compared in order). */
+const cmpKey = (a, b) => { for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return b[i] - a[i]; return 0; };
+const splitBy = (group, fn) => {
+  const k = (r) => [].concat(fn(r));
+  const sorted = group.slice().sort((x, y) => cmpKey(k(x), k(y)));
+  const out = [];
+  sorted.forEach((r) => { const last = out[out.length - 1]; if (last && cmpKey(k(last[0]), k(r)) === 0) last.push(r); else out.push([r]); });
+  return out;
+};
+
+/* Head-to-head: only when EVERY fixture between the tied players has been played; mini-table of those games only. */
+function splitByH2H(group, fixtures, pw, pd, pl) {
+  const ids = {}; group.forEach((r) => { ids[r.id] = true; });
+  const games = fixtures.filter((f) => !f.is_bye && ids[f.player_a_id] && ids[f.player_b_id]);
+  if (games.some((f) => !f.completed)) return [group];
+  for (let i = 0; i < group.length; i++) for (let j = i + 1; j < group.length; j++) {
+    const x = group[i].id, y = group[j].id;
+    if (!games.some((f) => (f.player_a_id === x && f.player_b_id === y) || (f.player_a_id === y && f.player_b_id === x))) return [group];
+  }
+  const mini = {}; group.forEach((r) => { mini[r.id] = { pts: 0, gf: 0, ga: 0 }; });
+  games.forEach((f) => {
+    const a = mini[f.player_a_id], b = mini[f.player_b_id];
+    a.gf += f.a_goals; a.ga += f.b_goals; b.gf += f.b_goals; b.ga += f.a_goals;
+    if (f.a_goals > f.b_goals) { a.pts += pw; b.pts += pl; } else if (f.a_goals < f.b_goals) { b.pts += pw; a.pts += pl; } else { a.pts += pd; b.pts += pd; }
+  });
+  // mini-table order: points (the season's own points system), then goal difference, then goals scored
+  return splitBy(group, (r) => [mini[r.id].pts, mini[r.id].gf - mini[r.id].ga, mini[r.id].gf]);
+}
+
+function rankTable(d) {
+  const rows = computeRows(d);
+  const order = String(d.season.tiebreak_order || 'points,goal_difference,goals_for,head_to_head,admin_decision').split(',').map((s) => s.trim());
+  const fns = { points: (r) => r.Pts, goal_difference: (r) => r.GD, goals_for: (r) => r.GF };
+  let groups = [rows];
+  for (const crit of order) {
+    if (crit === 'admin_decision') break;
+    const next = [];
+    groups.forEach((g) => {
+      if (g.length === 1) next.push(g);
+      else if (crit === 'head_to_head') splitByH2H(g, d.fixtures, num(d.season.points_win), num(d.season.points_draw), num(d.season.points_loss)).forEach((x) => next.push(x));
+      else if (fns[crit]) splitBy(g, fns[crit]).forEach((x) => next.push(x));
+      else next.push(g);
+    });
+    groups = next;
+  }
+  const out = []; let pos = 1;
+  groups.forEach((g) => {
+    g.sort((a, b) => a.name.localeCompare(b.name));
+    g.forEach((r) => out.push({ r: r, pos: pos, tied: g.length > 1 }));
+    pos += g.length;
+  });
+  return out;
+}
+
+/* ======================= STATS ======================= */
+function aggregateStats(d) {
+  const nm = names(), map = {};
+  d.match_stats.forEach((m) => {
+    const k = m.participant_id + '|' + key(m.footballer_name);
+    const a = map[k] || (map[k] = { name: m.footballer_name, pid: m.participant_id, who: nm[m.participant_id] || m.participant_id, goals: 0, assists: 0, motm: 0, cs: 0 });
+    a.goals += num(m.goals); a.assists += num(m.assists); a.motm += num(m.motm); a.cs += num(m.clean_sheets);
+  });
+  return Object.keys(map).map((k) => map[k]);
+}
+
+function rankBy(rows, field) {
+  const list = rows.filter((r) => r[field] > 0).sort((a, b) => b[field] - a[field] || a.name.localeCompare(b.name));
+  let rank = 0, prev = null, idx = 0;
+  list.forEach((r) => { idx++; if (r[field] !== prev) { rank = idx; prev = r[field]; } r.rank = rank; });
+  list.forEach((r) => { r.shared = list.filter((o) => o.rank === r.rank).length > 1; });
+  return list.filter((r) => r.rank <= 5);
+}
+
+/* ======================= RENDER ======================= */
+function setTabUI() {
+  document.querySelectorAll('.tabs [role=tab]').forEach((b) => {
+    const on = b.dataset.tab === S.tab;
+    b.setAttribute('aria-selected', on ? 'true' : 'false');
+    b.tabIndex = on ? 0 : -1;
+  });
+  $('#panel').setAttribute('aria-labelledby', 'tab-' + S.tab);
+}
+
+function render() {
+  $('#testbar').hidden = !SHOW_TEST_BANNER;
+  const d = S.data;
+  const wrap = $('#seasonWrap');
+  wrap.hidden = !(S.seasons.length > 0);
+  if (S.seasons.length) {
+    $('#season').innerHTML = S.seasons.map((s) => '<option value="' + esc(s.season_id) + '"' + ((d ? d.season.season_id : S.want) === s.season_id ? ' selected' : '') + '>' + esc(s.name) + '</option>').join('');
+  }
+  $('#seasonLine').textContent = d ? d.season.name + ' · ' + (d.season.format === 'double' ? 'double' : 'single') + ' round-robin · ' + d.season.status : '\u00a0';
+  setTabUI();
+
+  const p = $('#panel');
+  if (S.loading) { p.innerHTML = '<p class="msg" role="status">Loading league data…</p>'; return; }
+  if (S.error) { p.innerHTML = '<div class="paper"><h2>Couldn\'t load the league</h2><p class="note">' + esc(S.error) + '</p><p><button class="btn" data-act="retry">Try again</button></p></div>'; return afterRender(); }
+  if (!d) { p.innerHTML = '<div class="paper empty"><h2>No season yet</h2><p>No league season has been published.</p></div>'; return afterRender(); }
+  if (S.match) p.innerHTML = matchHtml(d);
+  else if (S.tab === 'table') p.innerHTML = tableHtml(d);
+  else if (S.tab === 'stats') p.innerHTML = statsHtml(d);
+  else p.innerHTML = fixturesHtml(d);
+  afterRender();
+}
+
+function afterRender() {
+  if (S.focusKey) { const el = document.querySelector('[data-k="' + S.focusKey + '"]'); if (el) el.focus(); S.focusKey = ''; }
+}
+
+/* ---------- Fixtures ---------- */
+function fixturesHtml(d) {
+  if (!d.fixtures.length) {
+    return '<div class="paper empty"><h2>No fixtures yet</h2><p>The schedule for this season hasn\'t been generated. Once it is, every match and result will appear here.</p>' +
+           '<p><a class="btn" href="' + ADMIN_PAGE + '">League admin? Generate fixtures</a></p></div>';
+  }
+  const nm = names(), f = S.fx;
+  const matches = d.fixtures.filter((x) => !x.is_bye);
+  const done = matches.filter((x) => x.completed).length, up = matches.length - done;
+  const rounds = Array.from(new Set(d.fixtures.map((x) => x.round))).sort((a, b) => a - b);
+  const people = d.participants.slice().sort((a, b) => a.display_name.localeCompare(b.display_name));
+  const chip = (v, label) => '<button type="button" data-k="fs-' + v + '" data-fs="' + v + '" class="' + (f.status === v ? 'on' : '') + '" aria-pressed="' + (f.status === v) + '">' + label + '</button>';
+
+  let list = d.fixtures.filter((x) => {
+    if (f.round && String(x.round) !== f.round) return false;
+    if (f.who && x.player_a_id !== f.who && x.player_b_id !== f.who) return false;
+    if (f.status === 'upcoming') return !x.is_bye && !x.completed;
+    if (f.status === 'completed') return !x.is_bye && x.completed;
+    return true;
+  });
+
+  let h = '<div class="paper"><div class="bar">' +
+    '<div><div class="sr" id="fsl">Show</div><div class="chips" role="group" aria-labelledby="fsl">' +
+      chip('all', 'All') + chip('upcoming', 'Upcoming ' + up) + chip('completed', 'Completed ' + done) + '</div></div>' +
+    '<label>Competitor<select data-k="fw" data-fw><option value="">Everyone</option>' + people.map((p) => '<option value="' + esc(p.participant_id) + '"' + (f.who === p.participant_id ? ' selected' : '') + '>' + esc(p.display_name) + '</option>').join('') + '</select></label>' +
+    '<label>Round<select data-k="fr" data-fr><option value="">All rounds</option>' + rounds.map((r) => '<option value="' + r + '"' + (f.round === String(r) ? ' selected' : '') + '>Round ' + r + '</option>').join('') + '</select></label>' +
+    '</div></div>';
+
+  if (!list.length) return h + '<div class="paper empty"><h2>Nothing matches</h2><p>No fixtures match these filters.</p><p><button class="btn" data-act="clearfx">Clear filters</button></p></div>';
+
+  const byRound = {};
+  list.forEach((x) => { (byRound[x.round] = byRound[x.round] || []).push(x); });
+  Object.keys(byRound).map(Number).sort((a, b) => a - b).forEach((r) => {
+    const all = d.fixtures.filter((x) => x.round === r && !x.is_bye);
+    const played = all.filter((x) => x.completed).length;
+    h += '<section class="paper" aria-label="Round ' + r + '"><h2>Round ' + r + '</h2> <small>' + played + ' of ' + all.length + ' played</small><ul class="fx">';
+    byRound[r].forEach((x) => {
+      const A = esc(nm[x.player_a_id] || x.player_a_id);
+      if (x.is_bye) { h += '<li><div class="bye"><span class="a">' + A + '</span><span class="tag">Bye</span></div></li>'; return; }
+      const B = esc(nm[x.player_b_id] || x.player_b_id);
+      if (x.completed) {
+        h += '<li><a href="#match/' + encodeURIComponent(x.fixture_id) + '" aria-label="' + A + ' ' + x.a_goals + ' ' + B + ' ' + x.b_goals + ', full time. Open match details"><span class="a">' + A + '</span><span class="score">' + x.a_goals + ' – ' + x.b_goals + '</span><span class="b">' + B + '</span><span class="st">Full time · match details</span></a></li>';
+      } else {
+        h += '<li><div><span class="a">' + A + '</span><span class="vs">VS</span><span class="b">' + B + '</span><span class="st">Upcoming</span></div></li>';
+      }
+    });
+    h += '</ul></section>';
+  });
+  return h;
+}
+
+/* ---------- Match detail ---------- */
+function matchHtml(d) {
+  const nm = names();
+  const x = d.fixtures.filter((f) => f.fixture_id === S.match)[0];
+  const back = '<p><a class="btn" href="#fixtures">&larr; All fixtures</a></p>';
+  if (!x || !x.completed) return '<div class="paper empty"><h2>No result yet</h2><p>This match has no official result to show.</p>' + back + '</div>';
+  const side = (pid) => {
+    const rows = d.match_stats.filter((m) => m.fixture_id === x.fixture_id && m.participant_id === pid);
+    let h = '<div class="paper"><h3>' + esc(nm[pid] || pid) + '</h3>';
+    if (!rows.length) return h + '<p class="note">No individual stats were recorded for this side.</p></div>';
+    h += '<ul class="plist">' + rows.map((m) => {
+      const bits = [];
+      if (m.goals) bits.push('<span class="tag">Goals ' + m.goals + '</span>');
+      if (m.assists) bits.push('<span class="tag">Assists ' + m.assists + '</span>');
+      if (m.motm) bits.push('<span class="tag fill">MOTM</span>');
+      if (m.clean_sheets) bits.push('<span class="tag fill">Clean sheet</span>');
+      return '<li><b>' + esc(m.footballer_name) + '</b><span class="nums">' + bits.join('') + '</span></li>';
+    }).join('') + '</ul></div>';
+    return h;
+  };
+  return back + '<div class="paper"><small>Round ' + x.round + ' · Full time</small>' +
+    '<div class="mh"><span class="a">' + esc(nm[x.player_a_id]) + '</span><span class="score">' + x.a_goals + ' – ' + x.b_goals + '</span><span class="b">' + esc(nm[x.player_b_id]) + '</span></div></div>' +
+    '<div class="cols">' + side(x.player_a_id) + side(x.player_b_id) + '</div>';
+}
+
+/* ---------- Table ---------- */
+function tableHtml(d) {
+  if (!d.participants.length) return '<div class="paper empty"><h2>No table yet</h2><p>No competitors have been added to this season.</p></div>';
+  const ranked = rankTable(d);
+  const played = d.fixtures.some((f) => f.completed);
+  const s = d.season;
+  const labels = { points: 'points', goal_difference: 'goal difference', goals_for: 'goals scored', head_to_head: 'head-to-head', admin_decision: 'admin decision' };
+  const order = String(s.tiebreak_order || '').split(',').map((k) => labels[k.trim()] || k.trim()).filter(Boolean).join(', then ');
+  let h = '<div class="paper"><h2>League table</h2>' +
+    '<p class="note">Win ' + num(s.points_win) + ' · Draw ' + num(s.points_draw) + ' · Loss ' + num(s.points_loss) + '. Ties broken by: ' + esc(order) + '.</p>' +
+    '<p class="note">P played · W won · D drawn · L lost · GF goals for · GA goals against · GD goal difference · Pts points</p>' +
+    '<div class="scroll" tabindex="0" role="region" aria-label="League table, scrolls sideways on small screens"><table class="lt std"><caption class="sr">League standings</caption><thead><tr>' +
+    '<th class="pos" scope="col"><span class="sr">Position</span><span aria-hidden="true">#</span></th><th class="nm" scope="col" style="text-align:left">Competitor</th>' +
+    ['P:Played', 'W:Won', 'D:Drawn', 'L:Lost', 'GF:Goals for', 'GA:Goals against', 'GD:Goal difference', 'Pts:Points'].map((c) => { const p = c.split(':'); return '<th scope="col"><abbr title="' + p[1] + '">' + p[0] + '</abbr></th>'; }).join('') +
+    '</tr></thead><tbody>';
+  ranked.forEach((e) => {
+    const r = e.r, label = played ? (e.pos + (e.tied ? '=' : '')) : '–';
+    h += '<tr><td class="pos">' + label + '</td><th class="nm" scope="row">' + esc(r.name) + '</th><td>' + r.P + '</td><td>' + r.W + '</td><td>' + r.D + '</td><td>' + r.L + '</td><td>' + r.GF + '</td><td>' + r.GA + '</td><td>' + (r.GD > 0 ? '+' : '') + r.GD + '</td><td class="pts">' + r.Pts + '</td></tr>';
+  });
+  h += '</tbody></table></div>';
+  h += played ? (ranked.some((e) => e.tied) ? '<p class="note">“=” means level on every tie-breaker so far; the order within that group is alphabetical until it is settled.</p>' : '')
+              : '<p class="note">No results yet, so nobody is ranked.</p>';
+  return h + '</div>';
+}
+
+/* ---------- Stats ---------- */
+function statsHtml(d) {
+  const rows = aggregateStats(d);
+  if (!rows.length) return '<div class="paper empty"><h2>No stats yet</h2><p>Individual goals, assists, MOTM awards and clean sheets appear here once results are in.</p></div>';
+  const boards = [['Golden Boot', 'Goals', 'goals'], ['Assists', 'Assists', 'assists'], ['MOTM', 'Man of the Match awards', 'motm'], ['Golden Glove', 'Clean sheets', 'cs']];
+  const filterFor = { goals: 'goals', assists: 'assists', motm: 'motm', cs: 'cs' };
+  let h = '<div class="lb">' + boards.map((b) => {
+    const top = rankBy(rows, b[2]);
+    return '<section class="paper" aria-label="' + b[0] + '"><h3>' + b[0] + '</h3> <small>' + b[1] + '</small>' +
+      (top.length ? '<ol class="rl">' + top.map((r) => '<li><span class="rk">' + r.rank + (r.shared ? '=' : '') + '</span><span class="who"><b>' + esc(r.name) + '</b><small>' + esc(r.who) + '</small></span><span class="val">' + r[b[2]] + '</span></li>').join('') + '</ol>'
+                  : '<p class="note">None recorded yet.</p>') +
+      '<button type="button" class="linkbtn" data-k="all-' + b[2] + '" data-seeall="' + filterFor[b[2]] + '">See all ' + b[1].toLowerCase() + '</button></section>';
+  }).join('') + '</div>';
+
+  const people = d.participants.slice().sort((a, b) => a.display_name.localeCompare(b.display_name));
+  const chip = (v, label) => '<button type="button" data-k="ss-' + v + '" data-ss="' + v + '" class="' + (S.st.stat === v ? 'on' : '') + '" aria-pressed="' + (S.st.stat === v) + '">' + label + '</button>';
+  h += '<div class="paper" id="stAll"><h2>All footballers</h2><p class="note">Each footballer is counted separately for every competitor who used them.</p><div class="bar" style="margin-top:12px">' +
+    '<div><div class="sr" id="ssl">Show stat</div><div class="chips" role="group" aria-labelledby="ssl">' + chip('all', 'All') + chip('goals', 'Goals') + chip('assists', 'Assists') + chip('motm', 'MOTM') + chip('cs', 'Golden Glove') + '</div></div>' +
+    '<label>Competitor<select data-k="sw" data-sw><option value="">Everyone</option>' + people.map((p) => '<option value="' + esc(p.participant_id) + '"' + (S.st.who === p.participant_id ? ' selected' : '') + '>' + esc(p.display_name) + '</option>').join('') + '</select></label>' +
+    '<label>Search footballer<input type="search" data-sq value="' + esc(S.st.q) + '" autocomplete="off"></label></div>' +
+    '<div id="stTable">' + statsTableHtml(d) + '</div></div>';
+  return h;
+}
+
+function statsTableHtml(d) {
+  let rows = aggregateStats(d);
+  const st = S.st;
+  if (st.who) rows = rows.filter((r) => r.pid === st.who);
+  if (st.q.trim()) rows = rows.filter((r) => key(r.name).indexOf(key(st.q)) > -1);
+  if (st.stat !== 'all') rows = rows.filter((r) => r[st.stat] > 0);
+  const f = st.sort, dir = st.dir;
+  rows.sort((a, b) => {
+    let c = (f === 'name' || f === 'who') ? String(a[f]).localeCompare(String(b[f])) * dir : (b[f] - a[f]) * -dir;
+    if (c) return c;
+    return b.goals - a.goals || b.assists - a.assists || b.motm - a.motm || b.cs - a.cs || a.name.localeCompare(b.name);
+  });
+  if (!rows.length) return '<p class="note" role="status">No footballers match these filters.</p>';
+  const th = (field, label, left) => {
+    const on = st.sort === field;
+    return '<th scope="col"' + (field === 'name' ? ' class="nm"' : '') + (left ? ' style="text-align:left"' : '') +
+      ' aria-sort="' + (on ? (st.dir === 1 ? 'ascending' : 'descending') : 'none') + '"><button type="button" class="sortb" data-sort="' + field + '">' +
+      label + (on ? (st.dir === -1 ? ' ▼' : ' ▲') : '') + '</button></th>';
+  };
+  return '<div class="scroll" tabindex="0" role="region" aria-label="Footballer statistics, scrolls sideways on small screens"><table class="lt wide"><caption class="sr">Individual footballer statistics</caption><thead><tr>' +
+    th('name', 'Footballer', true) + th('who', 'Competitor', true).replace('<th ', '<th class="cwho" ') + th('goals', 'Goals') + th('assists', 'Assists') + th('motm', 'MOTM') + th('cs', 'Clean sheets') + '</tr></thead><tbody>' +
+    rows.map((r) => '<tr><th scope="row" class="nm">' + esc(r.name) + '<small class="mwho">' + esc(r.who) + '</small></th><td class="cwho" style="text-align:left">' + esc(r.who) + '</td><td>' + r.goals + '</td><td>' + r.assists + '</td><td>' + r.motm + '</td><td>' + r.cs + '</td></tr>').join('') +
+    '</tbody></table></div>';
+}
+
+/* ======================= EVENTS ======================= */
+function route() {
+  const h = decodeURIComponent(location.hash.replace(/^#/, ''));
+  if (h.indexOf('match/') === 0) { S.tab = 'fixtures'; S.match = h.slice(6); }
+  else { S.match = ''; S.tab = (h === 'table' || h === 'stats') ? h : 'fixtures'; }
+  render();
+}
+window.addEventListener('hashchange', () => { route(); window.scrollTo(0, 0); });
+
+document.querySelector('.tabs').addEventListener('click', (e) => {
+  const b = e.target.closest('[role=tab]'); if (!b) return;
+  if (location.hash === '#' + b.dataset.tab) { S.match = ''; route(); } else location.hash = '#' + b.dataset.tab;
+});
+document.querySelector('.tabs').addEventListener('keydown', (e) => {
+  const tabs = Array.from(document.querySelectorAll('.tabs [role=tab]')), i = tabs.indexOf(document.activeElement);
+  if (i < 0) return;
+  let n = -1;
+  if (e.key === 'ArrowRight') n = (i + 1) % tabs.length; else if (e.key === 'ArrowLeft') n = (i + tabs.length - 1) % tabs.length;
+  else if (e.key === 'Home') n = 0; else if (e.key === 'End') n = tabs.length - 1;
+  if (n < 0) return;
+  e.preventDefault(); tabs[n].focus(); location.hash = '#' + tabs[n].dataset.tab;
+});
+$('#season').addEventListener('change', (e) => { S.fx = { status: 'all', who: '', round: '' }; S.st.who = ''; S.st.q = ''; S.st.stat = 'all'; load(e.target.value); });
+
+const panel = $('#panel');
+panel.addEventListener('click', (e) => {
+  const t = e.target.closest('button'); if (!t) return;
+  if (t.dataset.act === 'retry') return load(S.data ? S.data.season.season_id : '');
+  if (t.dataset.act === 'clearfx') { S.fx = { status: 'all', who: '', round: '' }; return render(); }
+  if (t.dataset.fs) { S.fx.status = t.dataset.fs; S.focusKey = t.dataset.k; return render(); }
+  if (t.dataset.ss) { S.st.stat = t.dataset.ss; if (t.dataset.ss !== 'all') { S.st.sort = t.dataset.ss; S.st.dir = -1; } S.focusKey = t.dataset.k; return render(); }
+  if (t.dataset.seeall) { S.st.stat = t.dataset.seeall; S.st.sort = t.dataset.seeall; S.st.dir = -1; S.st.who = ''; S.st.q = ''; render(); const el = $('#stAll'); if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); const h2 = $('#stAll h2'); if (h2) { h2.tabIndex = -1; h2.focus({ preventScroll: true }); } } return; }
+  if (t.dataset.sort) {
+    const f = t.dataset.sort;
+    if (S.st.sort === f) S.st.dir = -S.st.dir; else { S.st.sort = f; S.st.dir = (f === 'name' || f === 'who') ? 1 : -1; }
+    $('#stTable').innerHTML = statsTableHtml(S.data);
+    const again = document.querySelector('[data-sort="' + f + '"]'); if (again) again.focus();
+  }
+});
+panel.addEventListener('change', (e) => {
+  const t = e.target;
+  if (t.hasAttribute('data-fw')) { S.fx.who = t.value; S.focusKey = 'fw'; render(); }
+  else if (t.hasAttribute('data-fr')) { S.fx.round = t.value; S.focusKey = 'fr'; render(); }
+  else if (t.hasAttribute('data-sw')) { S.st.who = t.value; S.focusKey = 'sw'; render(); }
+});
+panel.addEventListener('input', (e) => {
+  if (e.target.hasAttribute('data-sq')) { S.st.q = e.target.value; $('#stTable').innerHTML = statsTableHtml(S.data); }   // table only, so typing keeps focus
+});
+
+/* ======================= START ======================= */
+route();
+load('');
+</script>
+</body>
+</html>
