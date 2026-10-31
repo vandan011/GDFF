@@ -135,6 +135,44 @@ table.lt.std{min-width:0}
 .msg{padding:26px 4px;color:var(--mu);font-weight:600}
 footer{position:relative;z-index:1;padding:0 0 40px;color:var(--mu);font-size:12.5px;font-weight:600;text-align:center}
 
+
+/* Submit-a-result match centre (public). Proposals never count until an admin approves them. */
+.pendtag{display:inline-block;margin-left:8px;padding:2px 8px;font:800 10.5px var(--ui);letter-spacing:.08em;text-transform:uppercase;border:2px solid var(--mut);color:var(--mut)}
+.fx li>a.up{cursor:pointer}
+.board{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px 14px;align-items:center;margin:12px 0 4px;position:sticky;top:58px;z-index:5;background:var(--iv);padding:8px 0;border-bottom:2px solid var(--cc)}
+.board .tn{font:400 clamp(20px,4.6vw,34px)/1 var(--disp);text-transform:uppercase;overflow-wrap:anywhere}.board .tn.l{text-align:right}
+.board .big{display:flex;gap:8px;align-items:center;background:var(--cc);color:var(--iv);padding:6px 16px;font:400 clamp(34px,8vw,56px)/1 var(--disp)}
+.squads{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:12px}
+@media (max-width:760px){.squads{grid-template-columns:1fr}}
+.pl-head,.pl{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto auto;gap:6px 8px;align-items:center}
+.pl-head{font:800 10.5px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--mut);border-bottom:2px solid var(--cc);padding:6px 0;margin-top:8px}
+.pl-head span,.pl .cg{text-align:center}
+.sqlist{list-style:none;margin:0;padding:0}
+.pl{padding:7px 0;border-bottom:1px solid rgba(14,20,18,.14)}
+.pl .pn{font-weight:700;overflow-wrap:anywhere}
+.ctr{display:inline-flex;align-items:center;border:2px solid var(--cc)}
+.ctr button{width:36px;height:36px;border:0;background:transparent;color:var(--cc);font:800 20px/1 var(--ui);cursor:pointer;border-radius:0;padding:0}
+.ctr button:hover{background:rgba(14,20,18,.12)}.ctr button[disabled]{opacity:.35;cursor:not-allowed}
+.ctr output{min-width:30px;text-align:center;font:800 17px var(--ui);font-variant-numeric:tabular-nums}
+.cg::before{content:attr(data-l);display:none;font:800 10px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--mut);text-align:center;margin-bottom:2px}
+@media (max-width:480px){
+  .pl-head{display:none}
+  .pl{display:flex;flex-wrap:wrap;align-items:flex-end;gap:6px 10px}
+  .pl .pn{flex:1 0 100%}
+  .cg{display:flex;flex-direction:column;align-items:center}
+  .cg::before{display:block}
+}
+.tog{min-width:44px;height:40px;padding:0 6px;border:2px solid var(--cc);background:transparent;color:var(--cc);font:800 11px var(--ui);letter-spacing:.05em;cursor:pointer;border-radius:0}
+.tog[aria-pressed=true]{background:var(--cc);color:var(--iv)}
+.warn-l{margin:8px 0 0;padding:0;list-style:none;color:var(--neg);font-weight:700;font-size:13.5px}
+.box{border:2px solid var(--cc);padding:12px 14px;margin:14px 0 0}
+.box.ok{border-color:var(--pos);background:rgba(11,106,59,.1)}.box.err{border-color:var(--neg);background:rgba(179,38,30,.08)}
+.sumx{margin:8px 0 0;padding:0;list-style:none}.sumx li{padding:6px 0;border-bottom:1px solid rgba(14,20,18,.18);font-weight:600}
+.act{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:2px solid var(--cc)}
+.act .btn{margin:0}
+.fld{display:block;margin:12px 0 0}.fld span{display:block;font:800 11px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin-bottom:4px}
+.fld input{width:100%;max-width:420px}
+.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}
 @media (max-width:560px){
   .wr{padding:0 14px}
   .paper{padding:16px 14px 12px}
@@ -190,6 +228,7 @@ const ADMIN_PAGE = 'admin.html';
 /* ======================= HELPERS ======================= */
 const $ = (s, r) => (r || document).querySelector(s);
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const plural = (n, one, many) => n + ' ' + (n === 1 ? one : (many || one + 's'));
 const num = (v) => (typeof v === 'number' && isFinite(v) ? v : 0);
 const key = (name) => String(name).trim().replace(/\s+/g, ' ').toLowerCase();   // same rule as the backend
 
@@ -305,7 +344,7 @@ function rankTable(d) {
 function aggregateStats(d) {
   const nm = names(), map = {};
   d.match_stats.forEach((m) => {
-    const k = m.participant_id + '|' + key(m.footballer_name);
+    const k = m.footballer_id || (m.participant_id + '|' + key(m.footballer_name));
     const a = map[k] || (map[k] = { name: m.footballer_name, pid: m.participant_id, who: nm[m.participant_id] || m.participant_id, goals: 0, assists: 0, motm: 0, cs: 0 });
     a.goals += num(m.goals); a.assists += num(m.assists); a.motm += num(m.motm); a.cs += num(m.clean_sheets);
   });
@@ -345,6 +384,7 @@ function render() {
   if (S.loading) { p.innerHTML = '<p class="msg" role="status">Loading league data…</p>'; return; }
   if (S.error) { p.innerHTML = '<div class="paper"><h2>Couldn\'t load the league</h2><p class="note">' + esc(S.error) + '</p><p><button class="btn" data-act="retry">Try again</button></p></div>'; return afterRender(); }
   if (!d) { p.innerHTML = '<div class="paper empty"><h2>No season yet</h2><p>No league season has been published.</p></div>'; return afterRender(); }
+  if (S.submit) { p.innerHTML = submitHtml(d); paintSub(); return afterRender(); }
   if (S.match) p.innerHTML = matchHtml(d);
   else if (S.tab === 'table') p.innerHTML = tableHtml(d);
   else if (S.tab === 'stats') p.innerHTML = statsHtml(d);
@@ -399,7 +439,8 @@ function fixturesHtml(d) {
       if (x.completed) {
         h += '<li><a href="#match/' + encodeURIComponent(x.fixture_id) + '" aria-label="' + A + ' ' + x.a_goals + ' ' + B + ' ' + x.b_goals + ', full time. Open match details"><span class="a">' + A + '</span><span class="score">' + x.a_goals + ' – ' + x.b_goals + '</span><span class="b">' + B + '</span><span class="st">Full time · match details</span></a></li>';
       } else {
-        h += '<li><div><span class="a">' + A + '</span><span class="vs">VS</span><span class="b">' + B + '</span><span class="st">Upcoming</span></div></li>';
+        const pn = d.pending && d.pending[x.fixture_id] ? d.pending[x.fixture_id] : 0;
+        h += '<li><a class="up" href="#submit/' + encodeURIComponent(x.fixture_id) + '" aria-label="' + A + ' versus ' + B + ', upcoming. Submit a result' + (pn ? ' (a result is awaiting approval)' : '') + '"><span class="a">' + A + '</span><span class="vs">VS</span><span class="b">' + B + '</span><span class="st">Upcoming · tap to submit a result' + (pn ? ' <span class="pendtag">Result awaiting approval</span>' : '') + '</span></a></li>';
       }
     });
     h += '</ul></section>';
@@ -509,8 +550,9 @@ function statsTableHtml(d) {
 /* ======================= EVENTS ======================= */
 function route() {
   const h = decodeURIComponent(location.hash.replace(/^#/, ''));
-  if (h.indexOf('match/') === 0) { S.tab = 'fixtures'; S.match = h.slice(6); }
-  else { S.match = ''; S.tab = (h === 'table' || h === 'stats') ? h : 'fixtures'; }
+  if (h.indexOf('match/') === 0) { S.tab = 'fixtures'; S.match = h.slice(6); S.submit = ''; }
+  else if (h.indexOf('submit/') === 0) { S.tab = 'fixtures'; S.match = ''; S.submit = h.slice(7); }
+  else { S.match = ''; S.submit = ''; S.tab = (h === 'table' || h === 'stats') ? h : 'fixtures'; }
   render();
 }
 window.addEventListener('hashchange', () => { route(); window.scrollTo(0, 0); });
@@ -533,6 +575,7 @@ $('#season').addEventListener('change', (e) => { S.fx = { status: 'all', who: ''
 const panel = $('#panel');
 panel.addEventListener('click', (e) => {
   const t = e.target.closest('button'); if (!t) return;
+  if (t.dataset.sa) return subClick(t);
   if (t.dataset.act === 'retry') return load(S.data ? S.data.season.season_id : '');
   if (t.dataset.act === 'clearfx') { S.fx = { status: 'all', who: '', round: '' }; return render(); }
   if (t.dataset.fs) { S.fx.status = t.dataset.fs; S.focusKey = t.dataset.k; return render(); }
@@ -552,8 +595,143 @@ panel.addEventListener('change', (e) => {
   else if (t.hasAttribute('data-sw')) { S.st.who = t.value; S.focusKey = 'sw'; render(); }
 });
 panel.addEventListener('input', (e) => {
+  if (e.target.hasAttribute('data-sname') && S.sub) { S.sub.name = e.target.value; return; }
   if (e.target.hasAttribute('data-sq')) { S.st.q = e.target.value; $('#stTable').innerHTML = statsTableHtml(S.data); }   // table only, so typing keeps focus
 });
+
+
+/* ======================= PUBLIC RESULT PROPOSALS ======================= */
+S.sub = null; S.submit = '';
+const MAXC = 30;
+async function post(action, body) {
+  if (BACKEND_URL.indexOf('PASTE_') === 0) return { ok: false, code: 'SETUP' };
+  try {
+    const res = await fetch(BACKEND_URL, { method: 'POST', redirect: 'follow', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(Object.assign({ action: action }, body)) });
+    const text = await res.text();
+    try { return JSON.parse(text); } catch (e) { return { ok: false, code: 'NOT_JSON' }; }
+  } catch (e) { return { ok: false, code: 'NETWORK' }; }
+}
+const newOpId = () => 'op' + Array.from(crypto.getRandomValues(new Uint8Array(16)), (b) => b.toString(16).padStart(2, '0')).join('');
+const squadOf = (d, pid) => (d.squads || []).filter((f) => f.participant_id === pid).sort((a, b) => a.name.localeCompare(b.name));
+
+function openSubmit(d) {
+  const fx = d.fixtures.filter((f) => f.fixture_id === S.submit)[0];
+  if (!fx || fx.is_bye || fx.completed) return null;
+  if (!S.sub || S.sub.id !== fx.fixture_id) {
+    const vals = {};
+    [fx.player_a_id, fx.player_b_id].forEach((pid) => squadOf(d, pid).forEach((f) => { vals[f.footballer_id] = { g: 0, a: 0, cs: 0 }; }));
+    S.sub = { id: fx.fixture_id, fx: fx, vals: vals, motm: '', step: 'edit', name: '', opId: '', busy: false, errs: [], note: '', done: null };
+  }
+  return S.sub;
+}
+const subGoals = (d, s, pid) => squadOf(d, pid).reduce((t, f) => t + (s.vals[f.footballer_id] ? s.vals[f.footballer_id].g : 0), 0);
+const subSum = (d, s, pid, k) => squadOf(d, pid).reduce((t, f) => t + (s.vals[f.footballer_id] ? s.vals[f.footballer_id][k] : 0), 0);
+function subWarnings(d, s) {
+  const nm = names(), A = s.fx.player_a_id, B = s.fx.player_b_id, ga = subGoals(d, s, A), gb = subGoals(d, s, B), w = [];
+  [[A, ga, gb], [B, gb, ga]].forEach((t) => {
+    const as = subSum(d, s, t[0], 'a'), cs = subSum(d, s, t[0], 'cs');
+    if (as > t[1]) w.push((nm[t[0]] || '') + ' has ' + as + ' assist(s) but only ' + t[1] + ' goal(s): a goal has at most one assist.');
+    if (cs && t[2] > 0) w.push((nm[t[0]] || '') + ' cannot have a clean sheet when the opponent scored.');
+  });
+  return w;
+}
+
+function subRow(f) {
+  const id = esc(f.footballer_id), nm = esc(f.name);
+  const ctr = (k, label) => '<span class="cg" data-l="' + label + '"><span class="ctr" role="group" aria-label="' + label + ' for ' + nm + '"><button type="button" data-sa="dec" data-k="' + k + '" data-id="' + id + '" aria-label="Remove one ' + label.toLowerCase() + ' for ' + nm + '">−</button>' +
+    '<output data-v="' + k + ':' + id + '">0</output><button type="button" data-sa="inc" data-k="' + k + '" data-id="' + id + '" aria-label="Add one ' + label.toLowerCase() + ' for ' + nm + '">+</button></span></span>';
+  return '<li class="pl"><span class="pn">' + nm + '</span>' + ctr('g', 'Goals') + ctr('a', 'Assists') +
+    '<button type="button" class="tog" data-sa="cs" data-id="' + id + '" aria-pressed="false" title="Clean sheet" aria-label="Clean sheet for ' + nm + '">CS</button>' +
+    '<button type="button" class="tog" data-sa="motm" data-id="' + id + '" aria-pressed="false" title="Man of the Match" aria-label="Man of the Match: ' + nm + '">MOTM</button></li>';
+}
+function subSquad(d, pid) {
+  const nm = names(), list = squadOf(d, pid);
+  return '<h3>' + esc(nm[pid] || pid) + '</h3><div class="pl-head"><span style="text-align:left">Footballer</span><span>Goals</span><span>Assists</span><span>CS</span><span>MOTM</span></div>' +
+    (list.length ? '<ul class="sqlist">' + list.map(subRow).join('') + '</ul>' : '<p class="note">No footballers have been added for ' + esc(nm[pid] || 'this team') + ' yet, so their goals cannot be recorded.</p>');
+}
+
+function submitHtml(d) {
+  const s = openSubmit(d), back = '<a class="btn" href="#fixtures">&larr; All fixtures</a>';
+  if (!s) return '<div class="paper empty"><h2>Nothing to submit</h2><p>This match either has an official result already or cannot take one.</p><p>' + back + '</p></div>';
+  const nm = names(), A = s.fx.player_a_id, B = s.fx.player_b_id;
+  if (s.step === 'done') {
+    return '<div class="paper"><div class="box ok" role="status"><h2>Submitted</h2><p class="note" style="color:var(--cc)">Your result <b>' + esc(nm[A]) + ' ' + s.done.a + ' – ' + s.done.b + ' ' + esc(nm[B]) + '</b> is <b>pending admin approval</b>. ' +
+      'It does not change the table or statistics until an admin approves it.</p><p>' + back + '</p></div></div>';
+  }
+  const pend = d.pending && d.pending[s.fx.fixture_id] ? d.pending[s.fx.fixture_id] : 0;
+  let h = '<div class="paper"><a class="btn" style="margin:0" href="#fixtures">&larr; All fixtures</a><p class="note" style="margin:10px 0 0">Round ' + esc(s.fx.round) + ' · Submit a result for approval' +
+    (pend ? ' · ' + plural(pend, 'proposal') + ' already waiting' : '') + '</p>' +
+    '<div class="board" aria-live="polite"><span class="tn l">' + esc(nm[A]) + '</span><span class="big" aria-label="Score"><span id="ssc-a">0</span><span>–</span><span id="ssc-b">0</span></span><span class="tn">' + esc(nm[B]) + '</span></div>' +
+    '<p class="note" style="margin:0">The score is the total of each team\'s goals below, so it can never disagree with the player stats.</p><ul class="warn-l" id="sw" role="alert"></ul>';
+  if (s.step === 'review') {
+    const rows = [];
+    [A, B].forEach((pid) => squadOf(d, pid).forEach((f) => { const v = s.vals[f.footballer_id], mo = s.motm === f.footballer_id;
+      if (v.g || v.a || v.cs || mo) rows.push('<li>' + esc(f.name) + ' <span class="mutedtxt">(' + esc(nm[pid]) + ')</span>: ' + [v.g ? v.g + ' goal' + (v.g > 1 ? 's' : '') : '', v.a ? v.a + ' assist' + (v.a > 1 ? 's' : ''): '', v.cs ? 'clean sheet' : '', mo ? 'Man of the Match' : ''].filter(Boolean).join(', ') + '</li>'); }));
+    return h + '<div class="box"><h3>Check your result</h3><p style="margin:6px 0 0;font-weight:700">' + esc(nm[A]) + ' <span id="rv-a">' + subGoals(d, s, A) + '</span> – <span id="rv-b">' + subGoals(d, s, B) + '</span> ' + esc(nm[B]) + '</p>' +
+      (rows.length ? '<ul class="sumx">' + rows.join('') + '</ul>' : '<p class="note">No individual statistics were recorded.</p>') +
+      '<label class="fld"><span>Your name (optional)</span><input type="text" data-sname value="' + esc(s.name) + '" maxlength="30" autocomplete="off" aria-label="Your display name, optional"></label>' +
+      '<div class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="hp" data-hp tabindex="-1" autocomplete="off"></label></div>' +
+      (s.errs.length ? '<ul class="warn-l" role="alert">' + s.errs.map((e) => '<li>' + esc(e) + '</li>').join('') + '</ul>' : '') + (s.note ? '<p class="note" role="status">' + esc(s.note) + '</p>' : '') +
+      '<p class="note">Submitting sends this for the admin to approve. Nothing becomes official until then.</p>' +
+      '<div class="act"><button type="button" class="btn" data-sa="submit"' + (s.busy ? ' disabled' : '') + '>Submit for Approval</button><button type="button" class="btn alt" style="background:transparent;color:var(--cc)" data-sa="edit"' + (s.busy ? ' disabled' : '') + '>Back to editing</button></div></div></div>';
+  }
+  const empty = squadOf(d, A).length === 0 || squadOf(d, B).length === 0;
+  return h + '<div class="squads"><section class="sq" aria-label="' + esc(nm[A]) + ' squad">' + subSquad(d, A) + '</section><section class="sq" aria-label="' + esc(nm[B]) + ' squad">' + subSquad(d, B) + '</section></div>' +
+    '<div class="act"><button type="button" class="btn" data-sa="review" id="s-review"' + (empty ? ' disabled' : '') + '>Review and submit</button>' + (empty ? '<span class="note" style="margin:0">Both teams need footballers before a result can be submitted.</span>' : '') + '</div></div>';
+}
+
+function paintSub() {
+  const d = S.data, s = S.sub; if (!d || !s || s.step !== 'edit') return;
+  const A = s.fx.player_a_id, B = s.fx.player_b_id, sa = $('#ssc-a'); if (!sa) return;
+  sa.textContent = subGoals(d, s, A); $('#ssc-b').textContent = subGoals(d, s, B);
+  document.querySelectorAll('output[data-v]').forEach((o) => { const p = o.getAttribute('data-v').split(':'), v = s.vals[p[1]]; if (v) o.textContent = v[p[0]]; });
+  document.querySelectorAll('[data-sa=inc],[data-sa=dec]').forEach((b) => { const v = s.vals[b.getAttribute('data-id')]; if (!v) return; const k = b.getAttribute('data-k'); b.disabled = b.getAttribute('data-sa') === 'dec' ? v[k] <= 0 : v[k] >= MAXC; });
+  document.querySelectorAll('[data-sa=cs]').forEach((b) => { const v = s.vals[b.getAttribute('data-id')]; b.setAttribute('aria-pressed', v && v.cs ? 'true' : 'false'); });
+  document.querySelectorAll('[data-sa=motm]').forEach((b) => { b.setAttribute('aria-pressed', s.motm === b.getAttribute('data-id') ? 'true' : 'false'); });
+  const w = subWarnings(d, s); $('#sw').innerHTML = w.map((x) => '<li>' + esc(x) + '</li>').join('');
+  const rb = $('#s-review'); if (rb) rb.disabled = w.length > 0 || squadOf(d, A).length === 0 || squadOf(d, B).length === 0;
+}
+
+function subStats(d, s) {
+  const out = [];
+  [s.fx.player_a_id, s.fx.player_b_id].forEach((pid) => squadOf(d, pid).forEach((f) => {
+    const v = s.vals[f.footballer_id], mo = s.motm === f.footballer_id ? 1 : 0;
+    if (v.g || v.a || v.cs || mo) out.push({ footballer_id: f.footballer_id, goals: v.g, assists: v.a, motm: mo, cs: v.cs });
+  }));
+  return out;
+}
+
+async function doSubmit() {
+  const d = S.data, s = S.sub; if (!s || s.busy) return;
+  const stats = subStats(d, s), key = JSON.stringify([stats, s.name.trim()]);
+  if (!s.opId || s.opKey !== key) { s.opId = newOpId(); s.opKey = key; }      // retrying the same proposal reuses the id, so it is never recorded twice
+  s.busy = true; s.errs = []; s.note = ''; render();
+  const hp = document.querySelector('[data-hp]');
+  const r = await post('public_submit', { op_id: s.opId, fixture_id: s.id, name: s.name.trim(), hp: hp ? hp.value : '', stats: stats });
+  s.busy = false;
+  if (r.ok) {
+    s.step = 'done'; s.done = { a: r.a_goals, b: r.b_goals };
+    if (!r.already) { d.pending = d.pending || {}; d.pending[s.id] = (d.pending[s.id] || 0) + 1; }
+  } else if (r.code === 'INVALID') s.errs = r.errors || [r.message || 'The result could not be submitted.'];
+  else if (r.code === 'NETWORK' || r.code === 'NOT_JSON') s.note = 'We could not confirm the submission. Press "Submit for Approval" again: it cannot be recorded twice.';
+  else if (r.code === 'SETUP') s.note = 'Setup needed: put your deployed web app URL in BACKEND_URL at the top of the script in this file.';
+  else s.errs = [r.message || 'The result could not be submitted.'];
+  render();
+}
+
+function subClick(t) {
+  const s = S.sub, d = S.data, a = t.dataset.sa, id = t.dataset.id;
+  if (!s || !d) return;
+  if ((a === 'inc' || a === 'dec') && s.vals[id]) { const k = t.dataset.k, n = s.vals[id][k] + (a === 'inc' ? 1 : -1); if (n < 0 || n > MAXC) return; s.vals[id][k] = n; paintSub(); return; }
+  if (a === 'cs' && s.vals[id]) {
+    const pid = (d.squads || []).filter((f) => f.footballer_id === id)[0].participant_id, on = !s.vals[id].cs;
+    squadOf(d, pid).forEach((f) => { s.vals[f.footballer_id].cs = 0; }); s.vals[id].cs = on ? 1 : 0; paintSub(); return;
+  }
+  if (a === 'motm') { s.motm = s.motm === id ? '' : id; paintSub(); return; }
+  if (a === 'review') { if (subWarnings(d, s).length) return; s.step = 'review'; s.errs = []; s.note = ''; render(); const b = $('[data-sa=submit]'); if (b) b.focus(); return; }
+  if (a === 'edit') { s.step = 'edit'; s.errs = []; render(); return; }
+  if (a === 'submit') return doSubmit();
+}
 
 /* ======================= START ======================= */
 route();

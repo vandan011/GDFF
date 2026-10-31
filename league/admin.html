@@ -98,6 +98,76 @@ table.t{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;ma
 .rd li.bye{color:var(--mut);border-bottom:0}
 .hint{font-size:12.5px;color:var(--mut);font-weight:600;margin:4px 0 0}
 footer{position:relative;z-index:1;padding:0 0 40px;color:var(--mu);font-size:12.5px;font-weight:600;text-align:center}
+.tabs2{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 18px}
+.tabs2 button{min-height:44px;padding:10px 16px;border:2px solid var(--tx);background:transparent;color:var(--tx);font:800 13px var(--ui);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border-radius:0}
+.tabs2 button:hover{background:var(--ac2)}
+.tabs2 button[aria-current=true]{background:var(--ac);border-color:var(--ac);color:var(--onac)}
+.ind{font:700 13px/1.35 var(--ui)}
+.ind.ok{color:var(--pos)}.ind.err{color:var(--neg)}.ind.wait{color:var(--mut)}
+.bar{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-end;margin:10px 0 4px}
+.bar label{margin:0}
+select{font:600 14px var(--ui);min-height:44px;padding:9px 12px;border-radius:0;border:2px solid var(--cc);background:transparent;color:var(--cc);max-width:100%}
+select option{color:#000}
+.chipbtns{display:flex;gap:6px;flex-wrap:wrap}
+.chipbtns button{min-height:44px;padding:9px 14px;border:2px solid var(--cc);background:transparent;color:var(--cc);font:800 13px var(--ui);cursor:pointer;border-radius:0}
+.chipbtns button[aria-pressed=true]{background:var(--cc);color:var(--iv)}
+/* fixtures list */
+.fxl{list-style:none;margin:10px 0 0;padding:0;border-top:2px solid var(--cc)}
+.fxl li{border-bottom:1px solid rgba(14,20,18,.18)}
+.fxrow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:4px 12px;align-items:center;width:100%;padding:12px 2px;background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer;border-radius:0}
+button.fxrow:hover{background:rgba(14,20,18,.06)}
+.fxrow .a,.fxrow .b{font-weight:700;overflow-wrap:anywhere}.fxrow .a{text-align:right}
+.fxrow .st{grid-column:1/-1;text-align:center;font:800 11px var(--ui);letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.fxrow.bye{grid-template-columns:1fr auto;cursor:default}.fxrow.bye .a{text-align:left;color:var(--mut)}
+.score{min-width:70px;padding:6px 10px;text-align:center;font:400 26px/1 var(--disp);letter-spacing:.04em;background:var(--cc);color:var(--iv)}
+.vs{min-width:70px;padding:5px 10px;text-align:center;font:400 18px/1 var(--disp);letter-spacing:.06em;color:var(--mut);border:2px solid var(--mut)}
+/* match centre */
+.mc-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.board{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px 14px;align-items:center;margin:12px 0 4px;position:sticky;top:60px;z-index:5;background:var(--iv);padding:8px 0;border-bottom:2px solid var(--cc)}
+.board .tn{font:400 clamp(20px,4.6vw,34px)/1 var(--disp);text-transform:uppercase;overflow-wrap:anywhere}.board .tn.l{text-align:right}
+.board .big{display:flex;gap:8px;align-items:center;background:var(--cc);color:var(--iv);padding:6px 16px;font:400 clamp(34px,8vw,56px)/1 var(--disp)}
+.squads{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:12px}
+@media (max-width:760px){.squads{grid-template-columns:1fr}.board{top:56px}}
+.sq h3{margin:0}
+.pl-head,.pl{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto auto;gap:6px 8px;align-items:center}
+.pl-head{font:800 10.5px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--mut);border-bottom:2px solid var(--cc);padding:6px 0;margin-top:8px}
+.pl-head span,.pl .cg{text-align:center}
+.sqlist{list-style:none;margin:0;padding:0}
+.pl{padding:7px 0;border-bottom:1px solid rgba(14,20,18,.14)}
+.pl .pn{font-weight:700;overflow-wrap:anywhere}.pl .pn small{display:block;font-weight:600;color:var(--mut);font-size:11.5px}
+.ctr{display:inline-flex;align-items:center;border:2px solid var(--cc)}
+.ctr button{width:36px;height:36px;border:0;background:transparent;color:var(--cc);font:800 20px/1 var(--ui);cursor:pointer;border-radius:0;padding:0}
+.ctr button:hover{background:rgba(14,20,18,.12)}.ctr button[disabled]{opacity:.35;cursor:not-allowed}
+.ctr output{min-width:30px;text-align:center;font:800 17px var(--ui);font-variant-numeric:tabular-nums}
+.cg::before{content:attr(data-l);display:none;font:800 10px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--mut);text-align:center;margin-bottom:2px}
+@media (max-width:480px){
+  .pl-head{display:none}
+  .pl{display:flex;flex-wrap:wrap;align-items:flex-end;gap:6px 10px}
+  .pl .pn{flex:1 0 100%}
+  .cg{display:flex;flex-direction:column;align-items:center}
+  .cg::before{display:block}
+}
+.tog{min-width:44px;height:40px;padding:0 6px;border:2px solid var(--cc);background:transparent;color:var(--cc);font:800 11px var(--ui);letter-spacing:.05em;cursor:pointer;border-radius:0}
+.tog[aria-pressed=true]{background:var(--cc);color:var(--iv)}
+.quick{display:flex;gap:6px;margin-top:10px}.quick input{flex:1;min-width:0}
+.quick .btn{margin:0;min-height:44px;padding:8px 14px}
+.mc-act{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:2px solid var(--cc)}
+.mc-act .btn{margin:0}
+.warn-l{margin:8px 0 0;padding:0;list-style:none;color:var(--neg);font-weight:700;font-size:13.5px}
+.txtbtn{background:none;border:0;padding:6px 2px;font:800 12px var(--ui);text-decoration:underline;color:var(--cc);cursor:pointer;min-height:36px}
+/* teams */
+.cards{list-style:none;margin:10px 0 0;padding:0;border-top:2px solid var(--cc)}
+.cards li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(14,20,18,.18)}
+.cards .nm{font-weight:700;overflow-wrap:anywhere}
+.rowact{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.rowact input{min-height:40px;width:min(220px,100%)}
+.rowact .txtbtn{min-height:40px}
+/* pending */
+.psub{border:2px solid var(--cc);padding:12px 14px;margin-top:12px}
+.psub .sc{font:400 34px/1 var(--disp);margin:4px 0}
+.psub .ps{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.psub .flag{font-weight:700;font-size:13px;margin:4px 0}.sub .flag.w{color:#8a5f00}.sub .flag.r{color:var(--neg)}
+.psub .acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}.sub .acts .btn{margin:0}.sub .acts input{flex:1;min-width:140px}
 @media (max-width:560px){.wr{padding:0 14px}.paper{padding:16px 12px 12px}.brand span{display:none}.sum b{font-size:26px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -112,7 +182,7 @@ footer{position:relative;z-index:1;padding:0 0 40px;color:var(--mu);font-size:12
 </header>
 <div class="wr">
   <h1>Admin</h1>
-  <p class="sub">Seasons, players and fixtures. Result entry comes in a later stage.</p>
+  <p class="sub">Seasons, players, fixtures, squads, results and approvals.</p>
   <div id="msg" role="status" aria-live="polite"></div>
   <main id="app" tabindex="-1"></main>
 </div>
@@ -142,6 +212,11 @@ const S = {
 
 function say(text, kind) { S.msg = text || ''; S.msgKind = kind || ''; }
 function resetCreate() { S.create = { name: '', text: '', review: null, opId: '' }; }
+function resetStage2() {
+  S.m = null; S.ws = null; S.fxf = { status: 'all', round: '' };
+  S.team = { pid: '', q: '', archived: false, add: '', edit: { id: '', text: '' }, st: {}, confirm: '', err: '' };
+  S.pend = { list: [], decided: [], loaded: false, loading: false, showDecided: false, ops: {}, notes: {}, err: '' };
+}
 function resetSeasonPanels() {
   S.add = { text: '', review: null, opId: '' };
   S.gen = { format: 'double', preview: null, opId: '', confirming: false, saved: null };
@@ -190,7 +265,7 @@ function loginHtml() {
 }
 
 function stepsHtml(active) {
-  const s = ['1 Season and players', '2 Generate fixtures', '3 Enter results (next stage)'];
+  const s = ['1 Season and players', '2 Generate fixtures', '3 Squads and results'];
   return '<ol class="steps" aria-label="Workflow">' + s.map((t, i) => '<li class="' + (i === active ? 'on' : '') + '"' + (i === active ? ' aria-current="step"' : '') + '>' + esc(t) + '</li>').join('') + '</ol>';
 }
 
@@ -263,19 +338,28 @@ function previewHtml(p) {
 function seasonHtml() {
   const s = currentSeason();
   if (!s) return '<div class="paper"><p>That season was not found.</p><button class="btn" data-act="home">Back to seasons</button></div>';
-  const has = s.fixtures > 0;
+  if (S.m) return matchEditorHtml();
+  const has = s.fixtures > 0, pend = S.ws ? S.ws.pending_total : 0;
+  const tabs = [['fixtures', 'Fixtures'], ['teams', 'Teams'], ['pending', 'Pending' + (pend ? ' (' + pend + ')' : '')], ['setup', 'Setup']];
   let h = stepsHtml(has ? 2 : 1) + '<div class="paper"><h2>' + esc(s.name) + '</h2><p class="note">' + esc(s.status) + ' · ' + plural(s.players.length, 'player') + ' · ' + plural(s.fixtures, 'fixture') +
-    ' · <a href="' + PUBLIC_PAGE + '" target="_blank" rel="noopener">view public page</a></p>' +
-    '<div class="chips">' + s.players.map((p, i) => '<span class="chip">' + (i + 1) + '. ' + esc(p.display_name) + '</span>').join('') + '</div>' +
-    '<button class="btn alt" data-act="home">All seasons</button></div>';
+    ' · <a href="' + PUBLIC_PAGE + '" target="_blank" rel="noopener">view public page</a></p><button class="btn alt" data-act="home">All seasons</button></div>' +
+    '<div class="tabs2" role="group" aria-label="Season sections">' + tabs.map((t) => '<button type="button" data-act="tab" data-v="' + t[0] + '"' + (S.tab === t[0] ? ' aria-current="true"' : '') + '>' + esc(t[1]) + '</button>').join('') + '</div>';
+  if (S.tab === 'fixtures') return h + fixturesTabHtml();
+  if (S.tab === 'teams') return h + teamsTabHtml();
+  if (S.tab === 'pending') return h + pendingTabHtml();
+  return h + setupTabHtml(s, has);
+}
+
+function setupTabHtml(s, has) {
+  let h = '<div class="paper"><h2>Players</h2><div class="chips">' + s.players.map((p, i) => '<span class="chip">' + (i + 1) + '. ' + esc(p.display_name) + '</span>').join('') + '</div></div>';
   if (S.gen.saved) {
     h += '<div class="paper"><div class="box ok" role="status"><h3>Schedule saved</h3><p class="note">' + plural(S.gen.saved.matches, 'match', 'matches') + ' in ' + plural(S.gen.saved.rounds, 'round') +
-      ' are now public. The league table still shows everyone on zero until results are entered (next stage).</p>' +
+      ' are now public. The league table still shows everyone on zero until results are saved.</p>' +
       '<a class="btn" href="' + PUBLIC_PAGE + '" target="_blank" rel="noopener">View the public fixtures</a></div></div>';
   }
   if (has) {
     return h + '<div class="paper"><h2>Fixtures</h2><p class="note">' + plural(s.fixtures, 'fixture row') + ' saved' + (s.with_results ? ', ' + s.with_results + ' with results' : ', none played yet') +
-      '. Fixtures are locked in this stage; they are never overwritten.</p></div>';
+      '. Saved fixtures are never overwritten.</p></div>';
   }
   const a = S.add;
   h += '<div class="paper"><h2>Add more players</h2><p class="note">Possible only until fixtures are generated.</p>' +
@@ -306,6 +390,7 @@ function render() {
   else if (S.view === 'new') app.innerHTML = newSeasonHtml();
   else if (S.view === 'season') app.innerHTML = seasonHtml();
   else app.innerHTML = seasonsHtml();
+  if (S.loggedIn && S.view === 'season' && S.m && !S.m.loading) paintMatch();
   if (S.focus) { const el = $(S.focus); if (el) { el.focus({ preventScroll: false }); } S.focus = ''; }
   else if (keep) { const el = document.getElementById(keep.id); if (el) { el.focus({ preventScroll: true }); try { el.setSelectionRange(keep.s, keep.e); } catch (x) {} } }
 }
@@ -358,7 +443,7 @@ async function doCreateSeason() {
     if (!r) return;
     if (r.ok) {
       say('Season created and active. ' + plural(r.players || c.review.items.length, 'player') + ' on the public table, all on zero.', 'ok');
-      S.seasonId = r.season_id; S.view = 'season'; resetCreate(); resetSeasonPanels(); await loadOverview();
+      S.seasonId = r.season_id; S.view = 'season'; resetCreate(); resetSeasonPanels(); resetStage2(); S.tab = 'setup'; await loadOverview(); loadWs();
     } else if (r.code === 'INVALID') { c.review = { items: [], errors: r.errors || [explain(r)] }; c.opId = ''; S.focus = '#reviewBox'; }
     else if (r.code === 'NETWORK' || r.code === 'NOT_JSON') say(explain(r) + ' It is safe to press the button again: nothing will be created twice.', 'err');
     else say(explain(r), 'err');
@@ -411,7 +496,7 @@ async function doSaveFixtures() {
     if (!r) return;
     if (r.ok) {
       S.gen = { format: g.format, preview: null, opId: '', confirming: false, saved: { matches: r.matches || g.preview.summary.matches, rounds: r.rounds || g.preview.summary.rounds } };
-      say('Schedule saved.', 'ok'); await loadOverview();
+      say('Schedule saved. Open a fixture to enter its result.', 'ok'); await loadOverview(); S.tab = 'fixtures'; loadWs();
     } else if (r.code === 'NETWORK' || r.code === 'NOT_JSON') {
       say(explain(r) + ' The save may or may not have gone through. Press "Yes, save the schedule" again: the same operation id is reused, so it can never be saved twice.', 'err');
     } else if (r.code === 'PREVIEW_STALE' || r.code === 'FIXTURES_EXIST') {
@@ -422,6 +507,330 @@ async function doSaveFixtures() {
   });
 }
 
+
+/* ======================= STAGE 2: SQUADS, MATCH CENTRE, APPROVALS ======================= */
+Object.assign(S, {
+  tab: 'setup', ws: null, fxf: { status: 'all', round: '' },
+  team: { pid: '', q: '', archived: false, add: '', edit: { id: '', text: '' }, st: {}, confirm: '', err: '' },
+  m: null, pend: { list: [], decided: [], loaded: false, loading: false, showDecided: false, ops: {}, notes: {}, err: '' }
+});
+const MAXC = 30;
+const fmtTime = (iso) => { try { return new Date(iso).toLocaleString([], { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); } catch (e) { return iso || ''; } };
+
+async function loadWs(quiet) {
+  if (!S.seasonId) return;
+  const r = await api('admin_season', { season_id: S.seasonId });
+  if (!r) return;
+  if (r.ok) S.ws = r; else say(explain(r), 'err');
+  if (!quiet || !S.m) render();
+}
+
+/* ---------- Fixtures tab (clickable fixtures) ---------- */
+function fixturesTabHtml() {
+  const ws = S.ws;
+  if (!ws) return '<p class="msg">Loading…</p>';
+  if (!ws.fixtures.length) return '<div class="paper"><h2>Fixtures</h2><p class="note">No fixtures yet. Generate them in the Setup tab.</p></div>';
+  const f = S.fxf, rounds = Array.from(new Set(ws.fixtures.map((x) => x.round))).sort((a, b) => a - b);
+  const list = ws.fixtures.filter((x) => (!f.round || String(x.round) === f.round) && (f.status === 'all' || x.is_bye ? (f.status === 'all') : (f.status === 'done' ? x.completed : !x.completed)));
+  const chip = (v, l) => '<button type="button" data-act="fxf" data-v="' + v + '" aria-pressed="' + (f.status === v) + '">' + l + '</button>';
+  const done = ws.fixtures.filter((x) => !x.is_bye && x.completed).length, todo = ws.fixtures.filter((x) => !x.is_bye && !x.completed).length;
+  let h = '<div class="paper"><h2>Fixtures</h2><p class="note">Tap a match to enter, correct or delete its result.</p><div class="bar"><div class="chipbtns" role="group" aria-label="Show">' +
+    chip('all', 'All') + chip('todo', 'To play ' + todo) + chip('done', 'Played ' + done) + '</div>' +
+    '<label>Round<select data-bind="fxf.round"><option value="">All rounds</option>' + rounds.map((r) => '<option value="' + r + '"' + (f.round === String(r) ? ' selected' : '') + '>Round ' + r + '</option>').join('') + '</select></label></div></div>';
+  if (!list.length) return h + '<div class="paper"><p class="note">No fixtures match these filters.</p></div>';
+  const by = {};
+  list.forEach((x) => { (by[x.round] = by[x.round] || []).push(x); });
+  Object.keys(by).map(Number).sort((a, b) => a - b).forEach((r) => {
+    h += '<section class="paper" aria-label="Round ' + r + '"><h3>Round ' + r + '</h3><ul class="fxl">' + by[r].map((x) => {
+      if (x.is_bye) return '<li><div class="fxrow bye"><span class="a">' + esc(x.a_name) + '</span><span class="tag">Bye</span></div></li>';
+      const mid = x.completed ? '<span class="score">' + x.a_goals + ' – ' + x.b_goals + '</span>' : '<span class="vs">VS</span>';
+      const st = x.pending ? plural(x.pending, 'proposal') + ' waiting for approval' : (x.completed ? 'Official · tap to edit' : 'Tap to enter result');
+      return '<li><button type="button" class="fxrow" data-act="openmatch" data-id="' + esc(x.fixture_id) + '"><span class="a">' + esc(x.a_name) + '</span>' + mid + '<span class="b">' + esc(x.b_name) + '</span><span class="st">' + esc(st) + '</span></button></li>';
+    }).join('') + '</ul></section>';
+  });
+  return h;
+}
+
+/* ---------- Match centre ---------- */
+function openMatch(id) {
+  const fx = (S.ws && S.ws.fixtures.filter((x) => x.fixture_id === id)[0]) || {};
+  S.m = { id: id, fx: fx, loading: true, a: null, b: null, vals: {}, motm: '', resultId: '', version: 0, legacy: 0, dirty: false, saving: false, status: '', errs: [], confirmDel: false, op: null, add: { a: { text: '', st: '' }, b: { text: '', st: '' } }, pending: 0, stale: false };
+  say(''); render(); loadMatch();
+}
+
+function initVals(m, side) { side.squad.forEach((f) => { if (!m.vals[f.footballer_id]) m.vals[f.footballer_id] = { g: 0, a: 0, cs: 0 }; }); }
+
+async function loadMatch(squadsOnly) {
+  const m = S.m; if (!m) return;
+  const r = await api('admin_match', { fixture_id: m.id });
+  if (!S.m || S.m !== m) return;
+  if (!r) { S.m = null; return render(); }
+  if (!r.ok) { say(explain(r), 'err'); S.m = null; return render(); }
+  m.a = r.a; m.b = r.b; m.pending = r.pending.length; initVals(m, m.a); initVals(m, m.b);
+  if (squadsOnly) {                                         // squads refreshed: never touch the counters already entered
+    if ((r.result ? r.result.result_id : '') !== m.resultId) m.stale = true;
+  } else {
+    m.loading = false; m.resultId = r.result ? r.result.result_id : ''; m.version = r.result ? r.result.version : 0; m.legacy = 0; m.motm = '';
+    Object.keys(m.vals).forEach((k) => { m.vals[k] = { g: 0, a: 0, cs: 0 }; });
+    if (r.result) r.result.stats.forEach((s) => { m.vals[s.footballer_id] = { g: s.goals, a: s.assists, cs: s.cs }; if (s.motm) m.motm = s.footballer_id; });
+    m.dirty = false; m.status = ''; m.errs = []; m.stale = false;
+  }
+  m.loading = false;
+  render();
+}
+
+const sideOf = (m, k) => m[k];
+function teamGoals(m, k) { return m[k].squad.reduce((t, f) => t + (m.vals[f.footballer_id] ? m.vals[f.footballer_id].g : 0), 0); }
+function teamSum(m, k, key) { return m[k].squad.reduce((t, f) => t + (m.vals[f.footballer_id] ? m.vals[f.footballer_id][key] : 0), 0); }
+
+function matchWarnings(m) {
+  const w = [], ga = teamGoals(m, 'a'), gb = teamGoals(m, 'b');
+  [['a', ga, gb], ['b', gb, ga]].forEach((t) => {
+    const as = teamSum(m, t[0], 'a'), cs = teamSum(m, t[0], 'cs');
+    if (as > t[1]) w.push(m[t[0]].name + ' has ' + as + ' assist(s) but only ' + t[1] + ' goal(s): a goal has at most one assist.');
+    if (cs && t[2] > 0) w.push(m[t[0]].name + ' cannot have a clean sheet when the opponent scored.');
+  });
+  return w;
+}
+
+function plRow(m, k, f) {
+  const id = esc(f.footballer_id), nm = esc(f.name);
+  const ctr = (key, label) => '<span class="cg" data-l="' + label + '"><span class="ctr" role="group" aria-label="' + label + ' for ' + nm + '"><button type="button" data-act="dec" data-k="' + key + '" data-id="' + id + '" aria-label="Remove one ' + label.toLowerCase() + ' for ' + nm + '">−</button>' +
+    '<output data-v="' + key + ':' + id + '" aria-live="off">0</output><button type="button" data-act="inc" data-k="' + key + '" data-id="' + id + '" aria-label="Add one ' + label.toLowerCase() + ' for ' + nm + '">+</button></span></span>';
+  return '<li class="pl" data-fid="' + id + '"><span class="pn">' + nm + (f.archived ? '<small>removed from squad</small>' : '') + '</span>' + ctr('g', 'Goals') + ctr('a', 'Assists') +
+    '<button type="button" class="tog" data-act="cs" data-id="' + id + '" aria-pressed="false" title="Clean sheet" aria-label="Clean sheet for ' + nm + '">CS</button>' +
+    '<button type="button" class="tog" data-act="motm" data-id="' + id + '" aria-pressed="false" title="Man of the Match" aria-label="Man of the Match: ' + nm + '">MOTM</button></li>';
+}
+
+function squadPanelHtml(m, k) {
+  const side = m[k], add = m.add[k];
+  return '<h3>' + esc(side.name) + '</h3><div class="pl-head"><span style="text-align:left">Footballer</span><span>Goals</span><span>Assists</span><span>CS</span><span>MOTM</span></div>' +
+    (side.squad.length ? '<ul class="sqlist">' + side.squad.map((f) => plRow(m, k, f)).join('') + '</ul>' : '<p class="note">No footballers yet. Add the first one below.</p>') +
+    '<div class="quick"><input type="text" id="qa-' + k + '" data-bind="m.add.' + k + '" data-enter="addfb:' + k + '" value="' + esc(add.text) + '" placeholder="Add a footballer" maxlength="40" aria-label="Add a footballer to ' + esc(side.name) + '" autocomplete="off">' +
+    '<button type="button" class="btn alt" data-act="addfb" data-k="' + k + '">Add</button></div><div class="ind ' + (add.st && add.st.indexOf('✓') > -1 ? 'ok' : (add.st && add.st.indexOf('…') > -1 ? 'wait' : 'err')) + '" id="qs-' + k + '" role="status" style="min-height:18px;margin-top:4px">' + esc(add.st) + '</div>';
+}
+
+function matchEditorHtml() {
+  const m = S.m, fx = m.fx || {};
+  if (m.loading) return '<div class="paper"><button class="btn alt" data-act="closematch">← Fixtures</button><p class="msg" style="color:var(--mut)">Loading match…</p></div>';
+  return '<div class="paper mc"><div class="mc-top"><button type="button" class="btn alt" style="margin:0" data-act="closematch">← Fixtures</button><span class="note" style="margin:0">Round ' + esc(fx.round || '') + ' · <span id="mc-state"></span></span></div>' +
+    '<div class="board" aria-live="polite"><span class="tn l">' + esc(m.a.name) + '</span><span class="big" aria-label="Score"><span id="sc-a">0</span><span>–</span><span id="sc-b">0</span></span><span class="tn">' + esc(m.b.name) + '</span></div>' +
+    '<p class="hint" style="margin:0">The score is the sum of each team\'s goals below. It is calculated automatically.</p><ul class="warn-l" id="mc-warn" role="alert"></ul>' +
+    (m.legacy ? '<div class="box warn"><p class="note">This result has no per-footballer detail. Saving will replace it with what you enter here.</p></div>' : '') +
+    '<div class="squads"><section class="sq" id="sq-a" aria-label="' + esc(m.a.name) + ' squad">' + squadPanelHtml(m, 'a') + '</section><section class="sq" id="sq-b" aria-label="' + esc(m.b.name) + ' squad">' + squadPanelHtml(m, 'b') + '</section></div>' +
+    '<div id="mc-stale"></div><div class="mc-act"><button type="button" class="btn" data-act="savematch" id="mc-save">Save result</button><span class="ind" id="mc-ind" role="status"></span>' +
+    '<button type="button" class="txtbtn" data-act="refreshsquads">Refresh squads</button>' +
+    '<span id="mc-del"></span></div><div id="mc-confirm"></div></div>';
+}
+
+function paintMatch() {
+  const m = S.m; if (!m || m.loading) return;
+  $('#sc-a').textContent = teamGoals(m, 'a'); $('#sc-b').textContent = teamGoals(m, 'b');
+  document.querySelectorAll('output[data-v]').forEach((o) => { const p = o.getAttribute('data-v').split(':'), v = m.vals[p[1]]; if (v) o.textContent = v[p[0]]; });
+  document.querySelectorAll('[data-act=inc],[data-act=dec]').forEach((b) => { const v = m.vals[b.getAttribute('data-id')]; if (!v) return; const k = b.getAttribute('data-k'); b.disabled = b.getAttribute('data-act') === 'dec' ? v[k] <= 0 : v[k] >= MAXC; });
+  document.querySelectorAll('[data-act=cs]').forEach((b) => { b.setAttribute('aria-pressed', m.vals[b.getAttribute('data-id')] && m.vals[b.getAttribute('data-id')].cs ? 'true' : 'false'); });
+  document.querySelectorAll('[data-act=motm]').forEach((b) => { b.setAttribute('aria-pressed', m.motm === b.getAttribute('data-id') ? 'true' : 'false'); });
+  const w = matchWarnings(m).concat(m.errs);
+  $('#mc-warn').innerHTML = w.map((x) => '<li>' + esc(x) + '</li>').join('');
+  $('#mc-state').textContent = m.resultId ? 'official result v' + m.version : 'not played yet';
+  const save = $('#mc-save'); save.textContent = m.resultId ? 'Save correction' : 'Save result';
+  save.disabled = m.saving || matchWarnings(m).length > 0 || (!m.dirty && !!m.resultId);
+  const ind = $('#mc-ind');
+  ind.className = 'ind ' + (m.saving ? 'wait' : (/^Saved|^Result deleted|^No changes/.test(m.status) ? 'ok' : (m.status ? 'err' : (m.dirty ? 'wait' : ''))));
+  ind.textContent = m.saving ? 'Saving…' : (m.status || (m.dirty ? 'Unsaved changes' : ''));
+  $('#mc-del').innerHTML = m.resultId ? '<button type="button" class="btn alt" data-act="askdelete" style="border-color:var(--neg);color:var(--neg)">Delete result</button>' : '';
+  $('#mc-confirm').innerHTML = m.confirmDel ? '<div class="box err" role="alertdialog" aria-label="Confirm deleting the result"><h3>Delete this official result?</h3><p class="note">The match goes back to "not played", and its goals, assists and awards stop counting in the table and statistics. The deleted result is kept in the history.</p>' +
+    '<button type="button" class="btn" data-act="delete">Yes, delete the result</button><button type="button" class="btn alt" data-act="canceldelete">Keep it</button></div>' : '';
+  $('#mc-stale').innerHTML = m.stale ? '<div class="box warn" role="alert"><p class="note">This match\'s official result was changed somewhere else. Saving will be refused to protect it.</p><button type="button" class="btn alt" data-act="reloadmatch">Reload the match (discards what you entered here)</button></div>' : '';
+}
+
+function markDirty() { const m = S.m; m.dirty = true; m.status = ''; m.errs = []; m.op = null; }
+
+function matchStatsList(m) {
+  const out = [];
+  ['a', 'b'].forEach((k) => m[k].squad.forEach((f) => {
+    const v = m.vals[f.footballer_id], mo = m.motm === f.footballer_id ? 1 : 0;
+    if (v.g || v.a || v.cs || mo) out.push({ footballer_id: f.footballer_id, goals: v.g, assists: v.a, motm: mo, cs: v.cs });
+  }));
+  return out;
+}
+
+async function doSaveMatch() {
+  const m = S.m; if (!m || m.saving) return;
+  const stats = matchStatsList(m), key = JSON.stringify(stats);
+  if (!m.op || m.op.key !== key) m.op = { id: newOpId(), key: key };       // a retry of the SAME data reuses the id, so it can never save twice
+  m.saving = true; m.errs = []; paintMatch();
+  const r = await api('result_save', { fixture_id: m.id, op_id: m.op.id, expected_result_id: m.resultId, stats: stats });
+  if (S.m !== m) return;
+  m.saving = false;
+  if (!r) { S.m = null; return render(); }
+  if (r.ok) {
+    m.resultId = r.result_id; m.version = r.version; m.dirty = false; m.op = null; m.stale = false; m.confirmDel = false;
+    m.status = r.unchanged ? 'No changes to save.' : 'Saved ✓ ' + r.a_goals + '–' + r.b_goals;
+    loadWs(true);
+  } else if (r.code === 'INVALID') { m.errs = r.errors || [explain(r)]; m.status = ''; }
+  else if (r.code === 'STALE') { m.stale = true; m.status = 'Not saved: the match changed elsewhere.'; }
+  else if (r.code === 'NETWORK' || r.code === 'NOT_JSON') m.status = 'Could not confirm the save. Press Save again: it cannot be saved twice.';
+  else m.status = explain(r);
+  paintMatch();
+}
+
+async function doDeleteResult() {
+  const m = S.m; if (!m || m.saving || !m.resultId) return;
+  m.saving = true; m.confirmDel = false; paintMatch();
+  const r = await api('result_delete', { fixture_id: m.id, op_id: newOpId(), expected_result_id: m.resultId });
+  if (S.m !== m) return;
+  m.saving = false;
+  if (!r) { S.m = null; return render(); }
+  if (r.ok) {
+    m.resultId = ''; m.version = 0; m.dirty = false; m.op = null; m.motm = ''; m.stale = false; m.status = 'Result deleted. The match is scheduled again.';
+    Object.keys(m.vals).forEach((k) => { m.vals[k] = { g: 0, a: 0, cs: 0 }; });
+    loadWs(true);
+  } else if (r.code === 'STALE') { m.stale = true; m.status = 'Not deleted: the match changed elsewhere.'; }
+  else m.status = explain(r);
+  paintMatch();
+}
+
+async function doAddInMatch(k) {
+  const m = S.m; if (!m) return;
+  const add = m.add[k], name = add.text.trim();
+  if (!name) { add.st = 'Enter a name'; $('#qs-' + k).textContent = add.st; return; }
+  add.st = 'Saving…'; setQs(k);
+  const r = await api('footballer_add', { season_id: S.seasonId, participant_id: m[k].participant_id, name: name });
+  if (S.m !== m) return;
+  if (!r) { S.m = null; return render(); }
+  if (r.ok) {
+    const f = r.footballer;
+    if (!m[k].squad.some((x) => x.footballer_id === f.footballer_id)) m[k].squad.push({ footballer_id: f.footballer_id, name: f.name, archived: false });
+    m[k].squad.sort((x, y) => x.name.localeCompare(y.name));
+    m.vals[f.footballer_id] = m.vals[f.footballer_id] || { g: 0, a: 0, cs: 0 };
+    add.text = ''; add.st = (r.restored ? 'Restored ' : 'Added ') + f.name + ' ✓';
+    repaintSquad(k); loadWs(true);
+  } else add.st = (r.errors && r.errors[0]) || explain(r);
+  setQs(k);
+}
+
+function setQs(k) { const m = S.m, el = $('#qs-' + k); if (!el) return; const st = m.add[k].st; el.className = 'ind ' + (st.indexOf('✓') > -1 ? 'ok' : (st.indexOf('…') > -1 ? 'wait' : 'err')); el.textContent = st; }
+function repaintSquad(k) {          // only this squad is rebuilt; counters live in state, so nothing entered is lost
+  const m = S.m, sec = $('#sq-' + k); if (!sec) return;
+  sec.innerHTML = squadPanelHtml(m, k); paintMatch();
+  const inp = $('#qa-' + k); if (inp) inp.focus();
+}
+
+/* ---------- Teams tab ---------- */
+function teamsTabHtml() {
+  const ws = S.ws; if (!ws) return '<p class="msg">Loading…</p>';
+  const T = S.team;
+  if (!T.pid) {
+    return '<div class="paper"><h2>Teams</h2><p class="note">Each competitor has their own squad of in-game footballers. Squads can change at any time during the season.</p><ul class="cards">' +
+      ws.participants.map((p) => '<li><span><span class="nm">' + esc(p.display_name) + '</span><br><span class="hint">' + plural(p.squad_size, 'footballer') + (p.archived ? ' · ' + p.archived + ' removed' : '') + '</span></span>' +
+        '<button type="button" class="btn alt" style="margin:0" data-act="team-open" data-id="' + esc(p.participant_id) + '">Open</button></li>').join('') + '</ul></div>';
+  }
+  const p = ws.participants.filter((x) => x.participant_id === T.pid)[0] || { display_name: T.pid };
+  const all = ws.squads[T.pid] || [], q = T.q.trim().toLowerCase();
+  const active = all.filter((f) => f.status === 'active' && (!q || f.name.toLowerCase().indexOf(q) > -1)), gone = all.filter((f) => f.status !== 'active' && (!q || f.name.toLowerCase().indexOf(q) > -1));
+  const ind = (id) => { const s = T.st[id]; return s ? '<span class="ind ' + s.k + '">' + esc(s.t) + '</span>' : ''; };
+  const row = (f) => {
+    if (T.edit.id === f.footballer_id) return '<li><span class="rowact" style="flex:1"><input type="text" id="fe-' + esc(f.footballer_id) + '" data-bind="team.edit" data-enter="fb-save:' + esc(f.footballer_id) + '" value="' + esc(T.edit.text) + '" maxlength="40" aria-label="New name for ' + esc(f.name) + '">' +
+      '<button type="button" class="btn" style="margin:0;min-height:40px;padding:6px 12px" data-act="fb-save" data-id="' + esc(f.footballer_id) + '">Save</button><button type="button" class="txtbtn" data-act="fb-cancel">Cancel</button></span></li>';
+    if (T.confirm === f.footballer_id) return '<li style="display:block"><div class="box err" role="alertdialog"><h3>Remove ' + esc(f.name) + '?</h3><p class="note">' + esc(f.name) + ' is part of ' + plural(f.matches_with_stats, 'official match record') + '. Removing hides them from new match entries; every goal, assist and award stays in the history and can be restored.</p>' +
+      '<button type="button" class="btn" data-act="fb-archive" data-id="' + esc(f.footballer_id) + '" data-confirmed="1">Remove</button><button type="button" class="btn alt" data-act="fb-cancel">Cancel</button></div></li>';
+    return '<li><span><span class="nm">' + esc(f.name) + '</span>' + (f.matches_with_stats ? '<br><span class="hint">' + plural(f.matches_with_stats, 'match') + ' with stats</span>' : '') + '</span><span class="rowact">' + ind(f.footballer_id) +
+      (f.status === 'active' ? '<button type="button" class="txtbtn" data-act="fb-edit" data-id="' + esc(f.footballer_id) + '">Rename</button><button type="button" class="txtbtn" data-act="fb-archive" data-id="' + esc(f.footballer_id) + '">Remove</button>'
+                             : '<button type="button" class="txtbtn" data-act="fb-restore" data-id="' + esc(f.footballer_id) + '">Restore</button>') + '</span></li>';
+  };
+  return '<div class="paper"><button type="button" class="btn alt" style="margin:0 0 8px" data-act="team-back">← All teams</button><h2>' + esc(p.display_name) + '</h2><p class="note">' + plural(all.filter((f) => f.status === 'active').length, 'footballer') + ' in the squad. Every change saves immediately.</p>' +
+    '<div class="quick"><input type="text" id="fb-new" data-bind="team.add" data-enter="fb-add" value="' + esc(T.add) + '" placeholder="Add a footballer, then press Enter" maxlength="40" aria-label="Add a footballer to ' + esc(p.display_name) + '" autocomplete="off"><button type="button" class="btn alt" data-act="fb-add">Add</button></div>' +
+    '<div id="fb-msg" class="ind ' + (T.err ? 'err' : '') + '" role="status" style="min-height:18px;margin-top:4px">' + esc(T.err) + '</div>' +
+    (all.length > 6 ? '<label for="fb-q">Find a footballer</label><input type="text" id="fb-q" data-bind="team.q" value="' + esc(T.q) + '" autocomplete="off">' : '') +
+    (active.length ? '<ul class="cards">' + active.map(row).join('') + '</ul>' : '<p class="note">' + (q ? 'No footballer matches that search.' : 'No footballers yet. Add the first one above.') + '</p>') +
+    (all.some((f) => f.status !== 'active') ? '<button type="button" class="txtbtn" data-act="fb-showgone" aria-expanded="' + T.archived + '">' + (T.archived ? 'Hide' : 'Show') + ' removed footballers (' + all.filter((f) => f.status !== 'active').length + ')</button>' : '') +
+    (T.archived && gone.length ? '<ul class="cards">' + gone.map(row).join('') + '</ul>' : '') + '</div>';
+}
+
+function setSt(id, k, t) { S.team.st[id] = { k: k, t: t }; }
+function patchSquad(pid, f) {
+  const list = S.ws.squads[pid] || (S.ws.squads[pid] = []), i = list.findIndex((x) => x.footballer_id === f.footballer_id);
+  const item = { footballer_id: f.footballer_id, name: f.name, status: f.status, matches_with_stats: i > -1 ? list[i].matches_with_stats : 0 };
+  if (i > -1) list[i] = item; else list.push(item);
+  list.sort((x, y) => x.name.localeCompare(y.name));
+  const p = S.ws.participants.filter((x) => x.participant_id === pid)[0];
+  if (p) { p.squad_size = list.filter((x) => x.status === 'active').length; p.archived = list.filter((x) => x.status !== 'active').length; }
+}
+async function doFbAdd() {
+  const T = S.team, name = T.add.trim();
+  if (!name) { T.err = 'Enter a name.'; return render(); }
+  T.err = 'Saving…'; render();
+  const r = await api('footballer_add', { season_id: S.seasonId, participant_id: T.pid, name: name });
+  if (!r) return;
+  if (r.ok) { patchSquad(T.pid, r.footballer); T.add = ''; T.err = ''; setSt(r.footballer.footballer_id, 'ok', r.restored ? 'Restored ✓' : 'Added ✓'); }
+  else T.err = (r.errors && r.errors[0]) || explain(r);
+  render(); const i = $('#fb-new'); if (i) i.focus();
+}
+async function doFbRename(id) {
+  const T = S.team; setSt(id, 'wait', 'Saving…'); const text = T.edit.text; T.edit = { id: '', text: '' }; render();
+  const r = await api('footballer_rename', { footballer_id: id, name: text });
+  if (!r) return;
+  if (r.ok) { patchSquad(T.pid, r.footballer); setSt(id, 'ok', 'Saved ✓'); } else { setSt(id, 'err', (r.errors && r.errors[0]) || explain(r)); }
+  render();
+}
+async function doFbArchive(id) {
+  const T = S.team; T.confirm = ''; setSt(id, 'wait', 'Saving…'); render();
+  const r = await api('footballer_archive', { footballer_id: id });
+  if (!r) return;
+  if (r.ok) { patchSquad(T.pid, r.footballer); setSt(id, 'ok', 'Removed ✓'); } else setSt(id, 'err', explain(r));
+  render();
+}
+async function doFbRestore(id) {
+  const T = S.team; setSt(id, 'wait', 'Saving…'); render();
+  const r = await api('footballer_restore', { footballer_id: id });
+  if (!r) return;
+  if (r.ok) { patchSquad(T.pid, r.footballer); setSt(id, 'ok', 'Restored ✓'); } else setSt(id, 'err', explain(r));
+  render();
+}
+
+/* ---------- Pending tab ---------- */
+async function loadPend() {
+  const P = S.pend; P.loading = true; P.err = '';
+  const r = await api('submissions_list', { season_id: S.seasonId, include_decided: P.showDecided });
+  P.loading = false;
+  if (!r) return;
+  if (r.ok) { P.list = r.pending; P.decided = r.decided; P.loaded = true; } else P.err = explain(r);
+  render();
+}
+function statLine(s) { return esc(s.name) + ' ' + [s.goals ? s.goals + ' G' : '', s.assists ? s.assists + ' A' : '', s.motm ? 'MOTM' : '', s.cs ? 'CS' : ''].filter(Boolean).join(' · '); }
+function subHtml(u, decided) {
+  let h = '<div class="psub"><strong>Round ' + esc(u.round) + ': ' + esc(u.a_name) + ' vs ' + esc(u.b_name) + '</strong><div class="hint">' + esc(u.submission_id) + ' · from ' + esc(u.submitter_name || 'anonymous') + ' · ' + esc(fmtTime(u.created_at)) + '</div>' +
+    '<div class="sc">' + u.a_goals + ' – ' + u.b_goals + '</div><div class="ps">' + (u.stats.length ? u.stats.map((s) => '<span class="chip">' + statLine(s) + '</span>').join('') : '<span class="hint">No individual statistics</span>') + '</div>';
+  if (decided) return h + '<div class="flag">' + esc(u.status) + (u.decision_note ? ': ' + esc(u.decision_note) : '') + '</div></div>';
+  if (u.conflicts && u.conflicts.length) h += '<div class="flag w">' + plural(u.conflicts.length, 'other proposal') + ' for this match (' + esc(u.conflicts.join(', ')) + '). Approving one marks the others as superseded.</div>';
+  if (u.official) h += '<div class="flag r">This match already has an official result (' + u.official.a_goals + '–' + u.official.b_goals + '). Approving replaces it; the old version stays in the history.</div>';
+  const busy = S.pend.ops[u.submission_id + ':busy'];
+  return h + '<div class="acts"><button type="button" class="btn" data-act="pend-approve" data-id="' + esc(u.submission_id) + '"' + (u.official ? ' data-replace="1"' : '') + (busy ? ' disabled' : '') + '>' + (u.official ? 'Approve and replace' : 'Approve') + '</button>' +
+    '<input type="text" data-bind="pend.note" data-sid="' + esc(u.submission_id) + '" placeholder="Reason if rejecting (optional)" maxlength="120" aria-label="Rejection reason for ' + esc(u.submission_id) + '" value="' + esc(S.pend.notes[u.submission_id] || '') + '">' +
+    '<button type="button" class="btn alt" data-act="pend-reject" data-id="' + esc(u.submission_id) + '"' + (busy ? ' disabled' : '') + '>Reject</button></div><div class="ind err" id="pe-' + esc(u.submission_id) + '" role="alert"></div></div>';
+}
+function pendingTabHtml() {
+  const P = S.pend;
+  if (!P.loaded) { if (!P.loading) loadPend(); return '<p class="msg">Loading…</p>'; }
+  let h = '<div class="paper"><h2>Pending results</h2><p class="note">Results proposed from the public page. None of these count anywhere until you approve them.</p>' + (P.err ? '<div class="box err">' + esc(P.err) + '</div>' : '') +
+    (P.list.length ? P.list.map((u) => subHtml(u, false)).join('') : '<p class="note">Nothing is waiting for approval.</p>') +
+    '<button type="button" class="txtbtn" data-act="pend-decided" aria-expanded="' + P.showDecided + '">' + (P.showDecided ? 'Hide' : 'Show') + ' recently decided</button>' +
+    (P.showDecided ? (P.decided.length ? P.decided.map((u) => subHtml(u, true)).join('') : '<p class="note">None yet.</p>') : '') + '</div>';
+  return h;
+}
+async function doDecide(id, approve, replace) {
+  const P = S.pend, k = id + ':busy', u = P.list.filter((x) => x.submission_id === id)[0]; if (!u || P.ops[k]) return;
+  P.ops[k] = true; render();
+  const op = P.ops[id] || (P.ops[id] = newOpId());
+  const r = approve ? await api('submission_approve', { submission_id: id, op_id: op, replace: !!replace }) : await api('submission_reject', { submission_id: id, note: P.notes[id] || '' });
+  delete P.ops[k];
+  if (!r) return;
+  if (r.ok) { delete P.ops[id]; say(approve ? 'Approved. The result is official and the table and statistics are updated.' : 'Rejected. Official data is unchanged.', 'ok'); await Promise.all([loadPend(), loadWs(true)]); render(); return; }
+  render();
+  const el = $('#pe-' + id); if (el) el.textContent = (r.errors && r.errors.join(' ')) || explain(r);
+}
+
 /* ======================= EVENTS ======================= */
 const app = $('#app');
 app.addEventListener('submit', (e) => {
@@ -429,20 +838,36 @@ app.addEventListener('submit', (e) => {
 });
 app.addEventListener('input', (e) => {
   const b = e.target.getAttribute && e.target.getAttribute('data-bind'); if (!b) return;
+  if (b === 'team.add') { S.team.add = e.target.value; return; }
+  if (b === 'team.edit') { S.team.edit.text = e.target.value; return; }
+  if (b === 'team.q') { S.team.q = e.target.value; render(); return; }
+  if (b === 'm.add.a' || b === 'm.add.b') { if (S.m) S.m.add[b.slice(-1)].text = e.target.value; return; }
+  if (b === 'pend.note') { S.pend.notes[e.target.getAttribute('data-sid')] = e.target.value; return; }
   let had = false;
   if (b === 'create.name' || b === 'create.text') { S.create[b.split('.')[1]] = e.target.value; had = !!S.create.review; S.create.review = null; S.create.opId = ''; }
   else if (b === 'add.text') { S.add.text = e.target.value; had = !!S.add.review; S.add.review = null; S.add.opId = ''; }
   if (had) render();     // remove the now-stale review and its confirm button
 });
 app.addEventListener('change', (e) => {
+  if (e.target.getAttribute('data-bind') === 'fxf.round') { S.fxf.round = e.target.value; render(); return; }
   if (e.target.getAttribute('data-bind') === 'gen.format') { S.gen.format = e.target.value; S.gen.preview = null; S.gen.confirming = false; S.gen.opId = ''; render(); }
+});
+app.addEventListener('keydown', (e) => {
+  if (e.key !== 'Enter') return;
+  const d = e.target.getAttribute && e.target.getAttribute('data-enter'); if (!d) return;
+  e.preventDefault();
+  const p = d.split(':');
+  if (p[0] === 'addfb') doAddInMatch(p[1]); else if (p[0] === 'fb-add') doFbAdd(); else if (p[0] === 'fb-save') doFbRename(p[1]);
+});
+document.addEventListener('visibilitychange', () => {        // coming back to the tab refreshes squads without touching entered counters
+  if (!document.hidden && S.loggedIn && S.m && !S.m.loading && !S.m.saving) loadMatch(true);
 });
 document.addEventListener('click', async (e) => {
   const t = e.target.closest('[data-act]'); if (!t) return;
   const a = t.getAttribute('data-act');
-  if (a === 'logout') { await api('logout'); S.loggedIn = false; S.token = ''; S.overview = null; S.view = 'seasons'; say('Logged out.', 'ok'); resetCreate(); resetSeasonPanels(); return render(); }
-  if (a === 'home') { S.view = 'seasons'; say(''); await loadOverview(); return render(); }
-  if (a === 'open') { S.seasonId = t.getAttribute('data-id'); S.view = 'season'; resetSeasonPanels(); say(''); return render(); }
+  if (a === 'logout') { await api('logout'); S.loggedIn = false; S.token = ''; S.overview = null; S.view = 'seasons'; say('Logged out.', 'ok'); resetCreate(); resetSeasonPanels(); resetStage2(); return render(); }
+  if (a === 'home') { S.view = 'seasons'; S.m = null; S.ws = null; say(''); await loadOverview(); return render(); }
+  if (a === 'open') { S.seasonId = t.getAttribute('data-id'); S.view = 'season'; resetSeasonPanels(); resetStage2(); const cs = currentSeason(); S.tab = cs && cs.fixtures > 0 ? 'fixtures' : 'setup'; say(''); render(); loadWs(); return; }
   if (a === 'newseason') { resetCreate(); S.view = 'new'; say(''); return render(); }
   if (a === 'cancel') { S.view = 'seasons'; resetCreate(); say(''); return render(); }
   if (a === 'reviewseason') return doReviewSeason();
@@ -454,6 +879,45 @@ document.addEventListener('click', async (e) => {
   if (a === 'gen-ask') { S.gen.confirming = true; S.focus = '[data-act="gen-save"]'; return render(); }
   if (a === 'gen-back') { S.gen.confirming = false; return render(); }
   if (a === 'gen-save') return doSaveFixtures();
+  /* ---- STAGE 2 ---- */
+  const id = t.getAttribute('data-id');
+  if (a === 'tab') { S.tab = t.getAttribute('data-v'); if (S.tab === 'pending') S.pend.loaded = false; return render(); }
+  if (a === 'fxf') { S.fxf.status = t.getAttribute('data-v'); return render(); }
+  if (a === 'openmatch') return openMatch(id);
+  if (a === 'closematch') { S.m = null; render(); loadWs(); return; }
+  if (S.m && (a === 'inc' || a === 'dec')) {
+    const v = S.m.vals[id], k = t.getAttribute('data-k'); if (!v) return;
+    const n = v[k] + (a === 'inc' ? 1 : -1); if (n < 0 || n > MAXC) return;
+    v[k] = n; markDirty(); paintMatch(); return;
+  }
+  if (S.m && a === 'cs') {
+    const m = S.m, v = m.vals[id], k = m.a.squad.some((f) => f.footballer_id === id) ? 'a' : 'b', on = !v.cs;
+    m[k].squad.forEach((f) => { m.vals[f.footballer_id].cs = 0; }); v.cs = on ? 1 : 0; markDirty(); paintMatch(); return;
+  }
+  if (S.m && a === 'motm') { S.m.motm = S.m.motm === id ? '' : id; markDirty(); paintMatch(); return; }
+  if (S.m && a === 'savematch') return doSaveMatch();
+  if (S.m && a === 'askdelete') { S.m.confirmDel = true; paintMatch(); const b = $('[data-act="delete"]'); if (b) b.focus(); return; }
+  if (S.m && a === 'canceldelete') { S.m.confirmDel = false; paintMatch(); return; }
+  if (S.m && a === 'delete') return doDeleteResult();
+  if (S.m && a === 'reloadmatch') { S.m.loading = true; render(); return loadMatch(false); }
+  if (S.m && a === 'refreshsquads') { await loadMatch(true); if (S.m) { S.m.status = 'Squads refreshed ✓'; paintMatch(); } return; }
+  if (S.m && a === 'addfb') return doAddInMatch(t.getAttribute('data-k'));
+  if (a === 'team-open') { S.team.pid = id; S.team.q = ''; S.team.err = ''; S.team.st = {}; return render(); }
+  if (a === 'team-back') { S.team.pid = ''; S.team.edit = { id: '', text: '' }; S.team.confirm = ''; return render(); }
+  if (a === 'fb-add') return doFbAdd();
+  if (a === 'fb-edit') { const f = (S.ws.squads[S.team.pid] || []).filter((x) => x.footballer_id === id)[0]; S.team.edit = { id: id, text: f ? f.name : '' }; S.team.confirm = ''; render(); const i = $('#fe-' + id); if (i) { i.focus(); i.select(); } return; }
+  if (a === 'fb-save') return doFbRename(id);
+  if (a === 'fb-cancel') { S.team.edit = { id: '', text: '' }; S.team.confirm = ''; return render(); }
+  if (a === 'fb-archive') {
+    const f = (S.ws.squads[S.team.pid] || []).filter((x) => x.footballer_id === id)[0];
+    if (f && f.matches_with_stats > 0 && t.getAttribute('data-confirmed') !== '1') { S.team.confirm = id; return render(); }
+    return doFbArchive(id);
+  }
+  if (a === 'fb-restore') return doFbRestore(id);
+  if (a === 'fb-showgone') { S.team.archived = !S.team.archived; return render(); }
+  if (a === 'pend-decided') { S.pend.showDecided = !S.pend.showDecided; S.pend.loaded = false; return render(); }
+  if (a === 'pend-approve') return doDecide(id, true, t.getAttribute('data-replace') === '1');
+  if (a === 'pend-reject') return doDecide(id, false, false);
 });
 
 render();
