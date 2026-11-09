@@ -17,6 +17,7 @@
   --disp:Anton,Impact,"Arial Narrow",sans-serif;
   --ui:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
 }
+[hidden]{display:none!important}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-padding-top:72px}
 body{margin:0;background:var(--bg);background-attachment:fixed;color:var(--tx);font:16px/1.55 var(--ui);min-height:100vh}
@@ -144,7 +145,7 @@ footer{position:relative;z-index:1;padding:0 0 40px;color:var(--mu);font-size:12
 .board .big{display:flex;gap:8px;align-items:center;background:var(--cc);color:var(--iv);padding:6px 16px;font:400 clamp(34px,8vw,56px)/1 var(--disp)}
 .squads{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:12px}
 @media (max-width:760px){.squads{grid-template-columns:1fr}}
-.pl-head,.pl{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto auto;gap:6px 8px;align-items:center}
+.pl-head,.pl{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:6px 8px;align-items:center}
 .pl-head{font:800 10.5px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--mut);border-bottom:2px solid var(--cc);padding:6px 0;margin-top:8px}
 .pl-head span,.pl .cg{text-align:center}
 .sqlist{list-style:none;margin:0;padding:0}
@@ -173,6 +174,102 @@ footer{position:relative;z-index:1;padding:0 0 40px;color:var(--mu);font-size:12
 .fld{display:block;margin:12px 0 0}.fld span{display:block;font:800 11px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin-bottom:4px}
 .fld input{width:100%;max-width:420px}
 .hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}
+
+/* ===== Layout shell: desktop sidebar, mobile chip navigation (patterns from the reference; GDFF colours and type) ===== */
+.shell{position:relative;z-index:1;display:grid;grid-template-columns:272px minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;align-self:start;height:100vh;display:flex;flex-direction:column;gap:20px;padding:26px 18px;background:rgba(5,22,14,.72);border-right:1px solid var(--gb);overflow:auto}
+.side .brand{display:flex;align-items:baseline;gap:10px;text-decoration:none}
+.side .brand b{font:400 34px/1 var(--disp);color:var(--iv);letter-spacing:.02em}
+.side .brand span{font:800 11px var(--ui);letter-spacing:.14em;text-transform:uppercase;color:var(--mu)}
+.seasonsel{display:block;flex:none}
+.seasonsel select{width:100%;border-color:var(--tx);color:var(--tx);min-height:44px;background:rgba(255,255,255,.04)}
+.seasonsel select option{color:#000}
+.side .tabs{display:flex;flex-direction:column;gap:6px;margin:0}
+.side .tabs button{display:flex;align-items:center;gap:12px;width:100%;min-width:0;min-height:48px;padding:10px 14px;border:2px solid transparent;background:transparent;color:var(--tx);font:800 14px var(--ui);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border-radius:0;text-align:left}
+.side .tabs button:hover{background:var(--ac2)}
+.side .tabs button[aria-selected="true"]{background:var(--ac);color:var(--onac)}
+.tabs svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:square;flex:0 0 auto}
+.content{padding:0 36px;min-width:0;max-width:1180px;width:100%}
+.pagehead{padding:30px 0 18px}
+.eyebrow{font:800 12px var(--ui);letter-spacing:.16em;text-transform:uppercase;color:var(--ac)}
+.pagehead h1{font:400 clamp(34px,5vw,58px)/1 var(--disp);margin:6px 0 4px;text-transform:uppercase;color:var(--iv);letter-spacing:.01em}
+@media (max-width:959px){
+  .shell{display:block}
+  .side{z-index:30;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:10px 14px 8px;border-right:0;border-bottom:1px solid var(--gb);background:rgba(7,26,17,.94);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);overflow:visible}
+  .side .brand b{font-size:26px}
+  .seasonsel{flex:1 1 140px;min-width:0;margin-left:auto}
+  .seasonsel select{min-height:40px}
+  .side .tabs{order:3;flex:0 0 100%;flex-direction:row;overflow-x:auto;gap:8px;padding:2px 0 4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .side .tabs::-webkit-scrollbar{display:none}
+  .side .tabs button{flex:0 0 auto;width:auto;min-width:58px;min-height:44px;justify-content:center;padding:8px 14px;background:rgba(255,255,255,.1)}
+  .side .tabs button span{display:none}
+  .side .tabs button[aria-selected="true"]{background:var(--ac)}
+  .side .tabs button[aria-selected="true"] span{display:inline}
+  .content{padding:0 14px}
+  .pagehead{padding:16px 0 10px}
+}
+
+/* Filters on the dark page: horizontally scrolling chips */
+.toolbar{display:flex;flex-direction:column;gap:10px;margin:0 0 16px}
+.rchips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;scroll-snap-type:x proximity;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.rchips button{flex:0 0 auto;min-height:42px;padding:8px 16px;border:2px solid var(--tx);background:transparent;color:var(--tx);font:800 13px var(--ui);letter-spacing:.04em;cursor:pointer;border-radius:0;scroll-snap-align:center;white-space:nowrap}
+.rchips button:hover{background:var(--ac2)}
+.rchips button[aria-pressed="true"]{background:var(--ac);border-color:var(--ac);color:var(--onac)}
+.frow{display:flex;gap:10px 14px;flex-wrap:wrap;align-items:center}
+.toolbar .chips button{border-color:var(--tx);color:var(--tx);min-height:40px;padding:6px 12px}
+.toolbar .chips button:hover{background:var(--ac2)}
+.toolbar .chips button[aria-pressed="true"]{background:var(--ac);border-color:var(--ac);color:var(--onac)}
+.sel select{border-color:var(--tx);color:var(--tx);background:rgba(255,255,255,.04);min-height:40px}
+.sel select option{color:#000}
+
+/* Logos (an image link, with an initial badge as the fallback) */
+.lg{width:52px;height:52px;object-fit:contain;display:block;flex:0 0 auto}
+.lg.md{width:36px;height:36px}.lg.sm{width:28px;height:28px}.lg.xs{width:22px;height:22px}
+.lgi{display:grid;place-items:center;background:var(--em);color:var(--iv);font:400 22px/1 var(--disp)}
+.lg.md.lgi{font-size:17px}.lg.sm.lgi{font-size:15px}.lg.xs.lgi{font-size:12px}
+.wlg{display:inline-flex;align-items:center;gap:8px;min-width:0}.wlg>span{min-width:0;overflow-wrap:anywhere}
+
+/* Match cards: logos above names, score in the middle, stacked on phones */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:14px;margin:0 0 22px}
+.rh{font:400 24px/1 var(--disp);letter-spacing:.03em;text-transform:uppercase;color:var(--iv);margin:22px 0 10px}
+.mcard{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px 6px;align-items:center;background:var(--iv);color:var(--cc);padding:18px 10px 12px;text-decoration:none;box-shadow:0 18px 36px -22px rgba(0,0,0,.7)}
+.mcard::after{content:"";position:absolute;inset:6px;background-image:var(--grain);background-size:180px;mix-blend-mode:multiply;opacity:.22;pointer-events:none}
+.mcard>*{position:relative;z-index:1}
+a.mcard:hover{outline:2px solid var(--ac)}
+.team{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;min-width:0}
+.tn2{font-weight:700;overflow-wrap:break-word;line-height:1.2}
+.mid{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:58px}
+.state{padding:2px 8px;background:rgba(14,20,18,.1);font:800 10px var(--ui);letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.mid .big{font:400 clamp(30px,6vw,40px)/1 var(--disp);letter-spacing:.04em;white-space:nowrap}
+.mid .big.vs{font-size:24px;color:var(--mut)}
+.mcard .foot{grid-column:1/-1;text-align:center;font:800 11px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--mut);padding-top:6px;border-top:1px solid rgba(14,20,18,.14)}
+.mcard.bye{grid-template-columns:auto 1fr auto;padding:12px 14px}
+.mcard.bye .tn2{color:var(--mut);text-align:left}
+.mh2{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:center;margin:12px 0 4px}
+.mh2 .team .lg{width:64px;height:64px}.mh2 .tn2{font:400 clamp(20px,4.6vw,32px)/1.05 var(--disp);text-transform:uppercase}
+.mh2 .score{font-size:clamp(32px,7vw,52px);padding:8px 16px}
+
+/* Table: rank badges, logo + name */
+.rk{display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 4px;font:400 18px/1 var(--disp);color:var(--mut)}
+.rk.top{background:var(--em);color:var(--iv)}
+
+/* Leaderboards: one ranked list at a time */
+.lbhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;border-bottom:2px solid var(--cc);padding-bottom:8px;margin-bottom:4px}
+.lbl{list-style:none;margin:0;padding:0}
+.lbr{display:grid;grid-template-columns:34px 44px minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid rgba(14,20,18,.16)}
+.rk2{font:400 22px/1 var(--disp);color:var(--mut);text-align:center}
+.av{width:44px;height:44px;display:grid;place-items:center;background:repeating-linear-gradient(135deg,rgba(11,79,49,.10) 0 7px,rgba(11,79,49,.20) 7px 14px);color:var(--em);font:400 22px/1 var(--disp)}
+.who2{display:flex;flex-direction:column;gap:2px;min-width:0}.who2>b{font-weight:700;overflow-wrap:anywhere}
+.who2 .wlg{font-size:13px;color:var(--mut);font-weight:600}
+.val2{text-align:right;line-height:1}.val2 b{display:block;font:400 30px/1 var(--disp);color:var(--cc)}
+.val2 small{font:800 10.5px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:#8a5f00}
+.lbr.first{grid-template-columns:34px 64px minmax(0,1fr) auto;padding:18px 0}
+.lbr.first .av{width:64px;height:64px;font-size:30px}.lbr.first .who2>b{font-size:20px}.lbr.first .val2 b{font-size:44px}
+.gkb{display:inline-block;margin-left:6px;padding:1px 6px;border:2px solid var(--cc);font:800 10px var(--ui);letter-spacing:.08em;text-transform:uppercase;vertical-align:middle}
+.csauto{display:block;font:800 11px var(--ui);letter-spacing:.06em;text-transform:uppercase;color:var(--pos)}
+.board .tn{display:flex;align-items:center;gap:8px}.board .tn.l{justify-content:flex-end}
+@media (max-width:480px){.lbr{grid-template-columns:28px 40px minmax(0,1fr) auto;gap:8px}.av{width:40px;height:40px}.lbr.first{grid-template-columns:28px 56px minmax(0,1fr) auto}.lbr.first .av{width:56px;height:56px}.lbr.first .val2 b{font-size:38px}}
+@media (max-width:480px){.board .tn{font-size:17px;gap:6px;overflow-wrap:break-word}.board .tn .lg{width:24px;height:24px}.board .big{padding:6px 10px}}
 @media (max-width:560px){
   .wr{padding:0 14px}
   .paper{padding:16px 14px 12px}
@@ -195,34 +292,28 @@ footer{position:relative;z-index:1;padding:0 0 40px;color:var(--mu);font-size:12
 </head>
 <body>
 <noscript><div class="testbar">This page needs JavaScript.</div></noscript>
-<div id="testbar" class="testbar" hidden>TESTING ONLY &mdash; test environment, not the live league</div>
-
-<header id="top">
-  <div class="wr">
+<div class="shell">
+  <header class="side" id="side">
     <a class="brand" href="../" aria-label="GDFF home"><b>GDFF</b><span>League</span></a>
-    <label class="seasonsel" id="seasonWrap" hidden><span>Season</span>
+    <label class="seasonsel" id="seasonWrap" hidden><span class="sr">Season</span>
       <select id="season" aria-label="Season"></select></label>
+    <nav class="tabs" role="tablist" aria-label="League sections">
+      <button role="tab" id="tab-fixtures" data-tab="fixtures" aria-label="Fixtures" aria-controls="panel" aria-selected="true" tabindex="0"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Fixtures</span></button>
+      <button role="tab" id="tab-table" data-tab="table" aria-label="Table" aria-controls="panel" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h1M4 12h1M4 18h1"/></svg><span>Table</span></button>
+      <button role="tab" id="tab-stats" data-tab="stats" aria-label="Stats" aria-controls="panel" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg><span>Stats</span></button>
+    </nav>
+  </header>
+  <div class="content">
+    <div class="pagehead"><span class="eyebrow" id="eyebrow">Fixtures</span><h1 id="seasonTitle">League</h1><p class="sub" id="seasonLine">&nbsp;</p></div>
+    <main id="panel" role="tabpanel" tabindex="-1" aria-labelledby="tab-fixtures" aria-live="polite"></main>
+    <footer><div class="wr">GDFF League &middot; Gokuldham Football Federation</div></footer>
   </div>
-</header>
-
-<div class="wr">
-  <h1>League</h1>
-  <p class="sub" id="seasonLine">&nbsp;</p>
-  <div class="tabs" role="tablist" aria-label="League sections">
-    <button role="tab" id="tab-fixtures" data-tab="fixtures" aria-controls="panel" aria-selected="true" tabindex="0">Fixtures</button>
-    <button role="tab" id="tab-table" data-tab="table" aria-controls="panel" aria-selected="false" tabindex="-1">Table</button>
-    <button role="tab" id="tab-stats" data-tab="stats" aria-controls="panel" aria-selected="false" tabindex="-1">Stats</button>
-  </div>
-  <main id="panel" role="tabpanel" tabindex="-1" aria-labelledby="tab-fixtures" aria-live="polite"></main>
 </div>
-<footer><div class="wr">GDFF League &middot; Gokuldham Football Federation</div></footer>
 
 <script>
 /* ======================= SETTINGS ======================= */
-// Paste your deployed web app URL (ends in /exec) between the quotes:
+// The deployed Apps Script web app (backend):
 const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbwbuxoBPYk5PDezVZV9olj0gagGxccrNvSyMHhqb39ZaGoPntmPghE9GIhDo33ZDTxb/exec';
-// Shows the red "testing only" bar. Set to false only when this page is approved for the live site.
-const SHOW_TEST_BANNER = true;
 const ADMIN_PAGE = 'admin.html';
 
 /* ======================= HELPERS ======================= */
@@ -370,14 +461,15 @@ function setTabUI() {
 }
 
 function render() {
-  $('#testbar').hidden = !SHOW_TEST_BANNER;
   const d = S.data;
   const wrap = $('#seasonWrap');
   wrap.hidden = !(S.seasons.length > 0);
   if (S.seasons.length) {
     $('#season').innerHTML = S.seasons.map((s) => '<option value="' + esc(s.season_id) + '"' + ((d ? d.season.season_id : S.want) === s.season_id ? ' selected' : '') + '>' + esc(s.name) + '</option>').join('');
   }
-  $('#seasonLine').textContent = d ? d.season.name + ' · ' + (d.season.format === 'double' ? 'double' : 'single') + ' round-robin · ' + d.season.status : '\u00a0';
+  $('#eyebrow').textContent = S.submit ? 'Submit a result' : (S.match ? 'Match' : ({ fixtures: 'Fixtures', table: 'League table', stats: 'Player stats' }[S.tab] || 'League'));
+  $('#seasonTitle').textContent = d ? d.season.name : 'League';
+  $('#seasonLine').textContent = d ? (d.season.format === 'double' ? 'double' : 'single') + ' round-robin · ' + d.season.status : '\u00a0';
   setTabUI();
 
   const p = $('#panel');
@@ -393,57 +485,58 @@ function render() {
 }
 
 function afterRender() {
+  const rc = document.querySelector('.rchips'), on = rc && rc.querySelector('[aria-pressed="true"]');
+  if (rc && on) rc.scrollLeft = on.offsetLeft - (rc.clientWidth - on.offsetWidth) / 2;
   if (S.focusKey) { const el = document.querySelector('[data-k="' + S.focusKey + '"]'); if (el) el.focus(); S.focusKey = ''; }
 }
 
 /* ---------- Fixtures ---------- */
+function curRound(d) {
+  const open = d.fixtures.filter((f) => !f.is_bye && !f.completed).map((f) => f.round);
+  return open.length ? Math.min.apply(null, open) : Math.max.apply(null, d.fixtures.map((f) => f.round));
+}
+function teamBlock(pid) { return '<span class="team">' + lg(pid) + '<span class="tn2">' + esc(names()[pid] || pid) + '</span></span>'; }
+function cardHtml(d, x) {
+  const A = x.player_a_id, B = x.player_b_id, nm = names(), an = esc(nm[A] || A), bn = esc(nm[B] || B);
+  if (x.is_bye) return '<div class="mcard bye">' + lg(A, 'sm') + '<span class="tn2">' + an + '</span><span class="tag">Bye</span></div>';
+  if (x.completed) {
+    return '<a class="mcard done" href="#match/' + encodeURIComponent(x.fixture_id) + '" aria-label="' + an + ' ' + x.a_goals + ', ' + bn + ' ' + x.b_goals + ', full time. Open match details">' + teamBlock(A) +
+      '<span class="mid"><span class="state">Full time</span><span class="big">' + x.a_goals + ' – ' + x.b_goals + '</span></span>' + teamBlock(B) + '</a>';
+  }
+  const pn = d.pending && d.pending[x.fixture_id] ? d.pending[x.fixture_id] : 0;
+  return '<a class="mcard up" href="#submit/' + encodeURIComponent(x.fixture_id) + '" aria-label="' + an + ' versus ' + bn + ', upcoming. Submit a result' + (pn ? ' (a result is awaiting approval)' : '') + '">' + teamBlock(A) +
+    '<span class="mid"><span class="state">Upcoming</span><span class="big vs">VS</span></span>' + teamBlock(B) +
+    '<span class="foot">Tap to submit a result' + (pn ? ' <span class="pendtag">Result awaiting approval</span>' : '') + '</span></a>';
+}
 function fixturesHtml(d) {
   if (!d.fixtures.length) {
     return '<div class="paper empty"><h2>No fixtures yet</h2><p>The schedule for this season hasn\'t been generated. Once it is, every match and result will appear here.</p>' +
            '<p><a class="btn" href="' + ADMIN_PAGE + '">League admin? Generate fixtures</a></p></div>';
   }
-  const nm = names(), f = S.fx;
-  const matches = d.fixtures.filter((x) => !x.is_bye);
-  const done = matches.filter((x) => x.completed).length, up = matches.length - done;
+  const f = S.fx;
   const rounds = Array.from(new Set(d.fixtures.map((x) => x.round))).sort((a, b) => a - b);
   const people = d.participants.slice().sort((a, b) => a.display_name.localeCompare(b.display_name));
-  const chip = (v, label) => '<button type="button" data-k="fs-' + v + '" data-fs="' + v + '" class="' + (f.status === v ? 'on' : '') + '" aria-pressed="' + (f.status === v) + '">' + label + '</button>';
-
-  let list = d.fixtures.filter((x) => {
-    if (f.round && String(x.round) !== f.round) return false;
+  const sel = f.round === '' ? (f.who ? 'all' : String(curRound(d))) : String(f.round);      // '' = the current round
+  const matches = d.fixtures.filter((x) => !x.is_bye), done = matches.filter((x) => x.completed).length, up = matches.length - done;
+  const chip = (v, label) => '<button type="button" data-k="fs-' + v + '" data-fs="' + v + '" aria-pressed="' + (f.status === v) + '">' + label + '</button>';
+  const rchip = (v, label) => '<button type="button" data-k="fr-' + v + '" data-frv="' + v + '" aria-pressed="' + (sel === String(v)) + '">' + label + '</button>';
+  const list = d.fixtures.filter((x) => {
+    if (sel !== 'all' && String(x.round) !== sel) return false;
     if (f.who && x.player_a_id !== f.who && x.player_b_id !== f.who) return false;
     if (f.status === 'upcoming') return !x.is_bye && !x.completed;
     if (f.status === 'completed') return !x.is_bye && x.completed;
     return true;
   });
-
-  let h = '<div class="paper"><div class="bar">' +
-    '<div><div class="sr" id="fsl">Show</div><div class="chips" role="group" aria-labelledby="fsl">' +
-      chip('all', 'All') + chip('upcoming', 'Upcoming ' + up) + chip('completed', 'Completed ' + done) + '</div></div>' +
-    '<label>Competitor<select data-k="fw" data-fw><option value="">Everyone</option>' + people.map((p) => '<option value="' + esc(p.participant_id) + '"' + (f.who === p.participant_id ? ' selected' : '') + '>' + esc(p.display_name) + '</option>').join('') + '</select></label>' +
-    '<label>Round<select data-k="fr" data-fr><option value="">All rounds</option>' + rounds.map((r) => '<option value="' + r + '"' + (f.round === String(r) ? ' selected' : '') + '>Round ' + r + '</option>').join('') + '</select></label>' +
-    '</div></div>';
-
+  let h = '<div class="toolbar"><div class="rchips" role="group" aria-label="Round">' + rchip('all', 'All rounds') + rounds.map((r) => rchip(r, 'Round ' + r)).join('') + '</div>' +
+    '<div class="frow"><div class="chips" role="group" aria-label="Show">' + chip('all', 'All') + chip('upcoming', 'Upcoming ' + up) + chip('completed', 'Completed ' + done) + '</div>' +
+    '<label class="sel"><span class="sr">Competitor</span><select data-k="fw" data-fw aria-label="Competitor"><option value="">All competitors</option>' + people.map((p) => '<option value="' + esc(p.participant_id) + '"' + (f.who === p.participant_id ? ' selected' : '') + '>' + esc(p.display_name) + '</option>').join('') + '</select></label></div></div>';
   if (!list.length) return h + '<div class="paper empty"><h2>Nothing matches</h2><p>No fixtures match these filters.</p><p><button class="btn" data-act="clearfx">Clear filters</button></p></div>';
-
   const byRound = {};
   list.forEach((x) => { (byRound[x.round] = byRound[x.round] || []).push(x); });
-  Object.keys(byRound).map(Number).sort((a, b) => a - b).forEach((r) => {
-    const all = d.fixtures.filter((x) => x.round === r && !x.is_bye);
-    const played = all.filter((x) => x.completed).length;
-    h += '<section class="paper" aria-label="Round ' + r + '"><h2>Round ' + r + '</h2> <small>' + played + ' of ' + all.length + ' played</small><ul class="fx">';
-    byRound[r].forEach((x) => {
-      const A = esc(nm[x.player_a_id] || x.player_a_id);
-      if (x.is_bye) { h += '<li><div class="bye"><span class="a">' + A + '</span><span class="tag">Bye</span></div></li>'; return; }
-      const B = esc(nm[x.player_b_id] || x.player_b_id);
-      if (x.completed) {
-        h += '<li><a href="#match/' + encodeURIComponent(x.fixture_id) + '" aria-label="' + A + ' ' + x.a_goals + ' ' + B + ' ' + x.b_goals + ', full time. Open match details"><span class="a">' + A + '</span><span class="score">' + x.a_goals + ' – ' + x.b_goals + '</span><span class="b">' + B + '</span><span class="st">Full time · match details</span></a></li>';
-      } else {
-        const pn = d.pending && d.pending[x.fixture_id] ? d.pending[x.fixture_id] : 0;
-        h += '<li><a class="up" href="#submit/' + encodeURIComponent(x.fixture_id) + '" aria-label="' + A + ' versus ' + B + ', upcoming. Submit a result' + (pn ? ' (a result is awaiting approval)' : '') + '"><span class="a">' + A + '</span><span class="vs">VS</span><span class="b">' + B + '</span><span class="st">Upcoming · tap to submit a result' + (pn ? ' <span class="pendtag">Result awaiting approval</span>' : '') + '</span></a></li>';
-      }
-    });
-    h += '</ul></section>';
+  const keys = Object.keys(byRound).map(Number).sort((a, b) => a - b);
+  keys.forEach((r) => {
+    if (keys.length > 1) h += '<h2 class="rh">Round ' + r + '</h2>';
+    h += '<div class="mgrid">' + byRound[r].map((x) => cardHtml(d, x)).join('') + '</div>';
   });
   return h;
 }
@@ -456,7 +549,7 @@ function matchHtml(d) {
   if (!x || !x.completed) return '<div class="paper empty"><h2>No result yet</h2><p>This match has no official result to show.</p>' + back + '</div>';
   const side = (pid) => {
     const rows = d.match_stats.filter((m) => m.fixture_id === x.fixture_id && m.participant_id === pid);
-    let h = '<div class="paper"><h3>' + esc(nm[pid] || pid) + '</h3>';
+    let h = '<div class="paper"><h3>' + withLogo(pid, nm[pid] || pid, 'sm') + '</h3>';
     if (!rows.length) return h + '<p class="note">No individual stats were recorded for this side.</p></div>';
     h += '<ul class="plist">' + rows.map((m) => {
       const bits = [];
@@ -469,7 +562,7 @@ function matchHtml(d) {
     return h;
   };
   return back + '<div class="paper"><small>Round ' + x.round + ' · Full time</small>' +
-    '<div class="mh"><span class="a">' + esc(nm[x.player_a_id]) + '</span><span class="score">' + x.a_goals + ' – ' + x.b_goals + '</span><span class="b">' + esc(nm[x.player_b_id]) + '</span></div></div>' +
+    '<div class="mh2">' + teamBlock(x.player_a_id) + '<span class="score">' + x.a_goals + ' – ' + x.b_goals + '</span>' + teamBlock(x.player_b_id) + '</div></div>' +
     '<div class="cols">' + side(x.player_a_id) + side(x.player_b_id) + '</div>';
 }
 
@@ -490,7 +583,7 @@ function tableHtml(d) {
     '</tr></thead><tbody>';
   ranked.forEach((e) => {
     const r = e.r, label = played ? (e.pos + (e.tied ? '=' : '')) : '–';
-    h += '<tr><td class="pos">' + label + '</td><th class="nm" scope="row">' + esc(r.name) + '</th><td>' + r.P + '</td><td>' + r.W + '</td><td>' + r.D + '</td><td>' + r.L + '</td><td>' + r.GF + '</td><td>' + r.GA + '</td><td>' + (r.GD > 0 ? '+' : '') + r.GD + '</td><td class="pts">' + r.Pts + '</td></tr>';
+    h += '<tr><td class="pos"><span class="rk' + (played && e.pos <= 3 ? ' top' : '') + '">' + label + '</span></td><th class="nm" scope="row">' + withLogo(r.id, r.name, 'sm') + '</th><td>' + r.P + '</td><td>' + r.W + '</td><td>' + r.D + '</td><td>' + r.L + '</td><td>' + r.GF + '</td><td>' + r.GA + '</td><td>' + (r.GD > 0 ? '+' : '') + r.GD + '</td><td class="pts">' + r.Pts + '</td></tr>';
   });
   h += '</tbody></table></div>';
   h += played ? (ranked.some((e) => e.tied) ? '<p class="note">“=” means level on every tie-breaker so far; the order within that group is alphabetical until it is settled.</p>' : '')
@@ -499,18 +592,29 @@ function tableHtml(d) {
 }
 
 /* ---------- Stats ---------- */
+const BOARDS = [['goals', 'Golden Boot', 'Goals'], ['assists', 'Assists', 'Assists'], ['motm', 'MOTM', 'MOTM'], ['cs', 'Golden Glove', 'Clean sheets']];
+function rankList(rows, field) {
+  const list = rows.filter((r) => r[field] > 0).sort((a, b) => b[field] - a[field] || a.name.localeCompare(b.name));
+  let rank = 0, prev = null, idx = 0;
+  list.forEach((r) => { idx++; if (r[field] !== prev) { rank = idx; prev = r[field]; } r.rank = rank; });
+  list.forEach((r) => { r.shared = list.filter((o) => o.rank === r.rank).length > 1; });
+  return list;
+}
+function lbRow(r, b, first) {
+  return '<li class="lbr' + (first ? ' first' : '') + '"><span class="rk2">' + r.rank + (r.shared ? '=' : '') + '</span><span class="av" aria-hidden="true">' + esc(r.name.charAt(0).toUpperCase()) + '</span>' +
+    '<span class="who2"><b>' + esc(r.name) + '</b>' + withLogo(r.pid, r.who, 'xs') + '</span><span class="val2"><b>' + r[b[0]] + '</b><small>' + b[2] + '</small></span></li>';
+}
 function statsHtml(d) {
-  const rows = aggregateStats(d);
-  if (!rows.length) return '<div class="paper empty"><h2>No stats yet</h2><p>Individual goals, assists, MOTM awards and clean sheets appear here once results are in.</p></div>';
-  const boards = [['Golden Boot', 'Goals', 'goals'], ['Assists', 'Assists', 'assists'], ['MOTM', 'Man of the Match awards', 'motm'], ['Golden Glove', 'Clean sheets', 'cs']];
-  const filterFor = { goals: 'goals', assists: 'assists', motm: 'motm', cs: 'cs' };
-  let h = '<div class="lb">' + boards.map((b) => {
-    const top = rankBy(rows, b[2]);
-    return '<section class="paper" aria-label="' + b[0] + '"><h3>' + b[0] + '</h3> <small>' + b[1] + '</small>' +
-      (top.length ? '<ol class="rl">' + top.map((r) => '<li><span class="rk">' + r.rank + (r.shared ? '=' : '') + '</span><span class="who"><b>' + esc(r.name) + '</b><small>' + esc(r.who) + '</small></span><span class="val">' + r[b[2]] + '</span></li>').join('') + '</ol>'
-                  : '<p class="note">None recorded yet.</p>') +
-      '<button type="button" class="linkbtn" data-k="all-' + b[2] + '" data-seeall="' + filterFor[b[2]] + '">See all ' + b[1].toLowerCase() + '</button></section>';
-  }).join('') + '</div>';
+  const all = aggregateStats(d);
+  if (!all.length) return '<div class="paper empty"><h2>No stats yet</h2><p>Individual goals, assists, MOTM awards and clean sheets appear here once results are in.</p></div>';
+  const b = BOARDS.filter((x) => x[0] === S.st.board)[0] || BOARDS[0];
+  const rows = S.st.who ? all.filter((r) => r.pid === S.st.who) : all;
+  const ranked = rankList(rows, b[0]), shown = S.st.more ? ranked : ranked.filter((r) => r.rank <= 10);
+  let h = '<div class="toolbar"><div class="rchips" role="group" aria-label="Leaderboard">' +
+    BOARDS.map((x) => '<button type="button" data-k="lb-' + x[0] + '" data-lb="' + x[0] + '" aria-pressed="' + (b[0] === x[0]) + '">' + x[1] + '</button>').join('') + '</div></div>' +
+    '<section class="paper" aria-label="' + b[1] + ' leaderboard"><div class="lbhead"><h2>' + b[1] + '</h2><span class="mutedtxt">' + plural(ranked.length, 'player') + '</span></div>' +
+    (shown.length ? '<ol class="lbl">' + shown.map((r, i) => lbRow(r, b, i === 0)).join('') + '</ol>' : '<p class="note">None recorded yet.</p>') +
+    (ranked.length > shown.length ? '<button type="button" class="linkbtn" data-k="lb-more" data-more="1">Show all ' + ranked.length + '</button>' : '') + '</section>';
 
   const people = d.participants.slice().sort((a, b) => a.display_name.localeCompare(b.display_name));
   const chip = (v, label) => '<button type="button" data-k="ss-' + v + '" data-ss="' + v + '" class="' + (S.st.stat === v ? 'on' : '') + '" aria-pressed="' + (S.st.stat === v) + '">' + label + '</button>';
@@ -543,7 +647,7 @@ function statsTableHtml(d) {
   };
   return '<div class="scroll" tabindex="0" role="region" aria-label="Footballer statistics, scrolls sideways on small screens"><table class="lt wide"><caption class="sr">Individual footballer statistics</caption><thead><tr>' +
     th('name', 'Footballer', true) + th('who', 'Competitor', true).replace('<th ', '<th class="cwho" ') + th('goals', 'Goals') + th('assists', 'Assists') + th('motm', 'MOTM') + th('cs', 'Clean sheets') + '</tr></thead><tbody>' +
-    rows.map((r) => '<tr><th scope="row" class="nm">' + esc(r.name) + '<small class="mwho">' + esc(r.who) + '</small></th><td class="cwho" style="text-align:left">' + esc(r.who) + '</td><td>' + r.goals + '</td><td>' + r.assists + '</td><td>' + r.motm + '</td><td>' + r.cs + '</td></tr>').join('') +
+    rows.map((r) => '<tr><th scope="row" class="nm">' + esc(r.name) + '<small class="mwho">' + withLogo(r.pid, r.who, 'xs') + '</small></th><td class="cwho" style="text-align:left">' + withLogo(r.pid, r.who, 'xs') + '</td><td>' + r.goals + '</td><td>' + r.assists + '</td><td>' + r.motm + '</td><td>' + r.cs + '</td></tr>').join('') +
     '</tbody></table></div>';
 }
 
@@ -579,6 +683,9 @@ panel.addEventListener('click', (e) => {
   if (t.dataset.act === 'retry') return load(S.data ? S.data.season.season_id : '');
   if (t.dataset.act === 'clearfx') { S.fx = { status: 'all', who: '', round: '' }; return render(); }
   if (t.dataset.fs) { S.fx.status = t.dataset.fs; S.focusKey = t.dataset.k; return render(); }
+  if (t.dataset.frv !== undefined) { S.fx.round = t.dataset.frv; S.focusKey = t.dataset.k; return render(); }
+  if (t.dataset.lb) { S.st.board = t.dataset.lb; S.st.more = false; S.focusKey = t.dataset.k; return render(); }
+  if (t.dataset.more) { S.st.more = true; S.focusKey = ''; return render(); }
   if (t.dataset.ss) { S.st.stat = t.dataset.ss; if (t.dataset.ss !== 'all') { S.st.sort = t.dataset.ss; S.st.dir = -1; } S.focusKey = t.dataset.k; return render(); }
   if (t.dataset.seeall) { S.st.stat = t.dataset.seeall; S.st.sort = t.dataset.seeall; S.st.dir = -1; S.st.who = ''; S.st.q = ''; render(); const el = $('#stAll'); if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); const h2 = $('#stAll h2'); if (h2) { h2.tabIndex = -1; h2.focus({ preventScroll: true }); } } return; }
   if (t.dataset.sort) {
@@ -600,8 +707,24 @@ panel.addEventListener('input', (e) => {
 });
 
 
+
+/* ---------- logos ---------- */
+const logoMap = () => { const m = {}; ((S.data && S.data.participants) || []).forEach((p) => { m[p.participant_id] = p.logo_url || ''; }); return m; };
+function lg(pid, cls) {
+  const nm = names()[pid] || '?', url = logoMap()[pid], ini = esc((String(nm).trim().charAt(0) || '?').toUpperCase());
+  return url ? '<img class="lg ' + (cls || '') + '" src="' + esc(url) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" data-i="' + ini + '">'
+             : '<span class="lg lgi ' + (cls || '') + '" aria-hidden="true">' + ini + '</span>';
+}
+const withLogo = (pid, name, cls) => '<span class="wlg">' + lg(pid, cls || 'xs') + '<span>' + esc(name) + '</span></span>';
+document.addEventListener('error', (e) => {          // a logo link that fails to load falls back to the initial badge
+  const t = e.target;
+  if (t && t.tagName === 'IMG' && t.classList.contains('lg')) {
+    const s = document.createElement('span'); s.className = t.className.replace('lg ', 'lg lgi '); s.setAttribute('aria-hidden', 'true'); s.textContent = t.getAttribute('data-i') || '?'; t.replaceWith(s);
+  }
+}, true);
+
 /* ======================= PUBLIC RESULT PROPOSALS ======================= */
-S.sub = null; S.submit = '';
+S.sub = null; S.submit = ''; S.st.board = 'goals'; S.st.more = false;
 const MAXC = 30;
 async function post(action, body) {
   if (BACKEND_URL.indexOf('PASTE_') === 0) return { ok: false, code: 'SETUP' };
@@ -637,17 +760,17 @@ function subWarnings(d, s) {
 }
 
 function subRow(f) {
-  const id = esc(f.footballer_id), nm = esc(f.name);
+  const id = esc(f.footballer_id), nm = esc(f.name), gk = String(f.is_gk) === '1';
   const ctr = (k, label) => '<span class="cg" data-l="' + label + '"><span class="ctr" role="group" aria-label="' + label + ' for ' + nm + '"><button type="button" data-sa="dec" data-k="' + k + '" data-id="' + id + '" aria-label="Remove one ' + label.toLowerCase() + ' for ' + nm + '">−</button>' +
     '<output data-v="' + k + ':' + id + '">0</output><button type="button" data-sa="inc" data-k="' + k + '" data-id="' + id + '" aria-label="Add one ' + label.toLowerCase() + ' for ' + nm + '">+</button></span></span>';
-  return '<li class="pl"><span class="pn">' + nm + '</span>' + ctr('g', 'Goals') + ctr('a', 'Assists') +
-    '<button type="button" class="tog" data-sa="cs" data-id="' + id + '" aria-pressed="false" title="Clean sheet" aria-label="Clean sheet for ' + nm + '">CS</button>' +
+  return '<li class="pl"><span class="pn">' + nm + (gk ? ' <span class="gkb" title="Registered goalkeeper">GK</span><span class="csauto" data-gk="' + esc(f.participant_id) + '" hidden>Clean sheet (automatic)</span>' : '') + '</span>' + ctr('g', 'Goals') + ctr('a', 'Assists') +
     '<button type="button" class="tog" data-sa="motm" data-id="' + id + '" aria-pressed="false" title="Man of the Match" aria-label="Man of the Match: ' + nm + '">MOTM</button></li>';
 }
 function subSquad(d, pid) {
-  const nm = names(), list = squadOf(d, pid);
-  return '<h3>' + esc(nm[pid] || pid) + '</h3><div class="pl-head"><span style="text-align:left">Footballer</span><span>Goals</span><span>Assists</span><span>CS</span><span>MOTM</span></div>' +
-    (list.length ? '<ul class="sqlist">' + list.map(subRow).join('') + '</ul>' : '<p class="note">No footballers have been added for ' + esc(nm[pid] || 'this team') + ' yet, so their goals cannot be recorded.</p>');
+  const nm = names(), list = squadOf(d, pid), hasGk = list.some((f) => String(f.is_gk) === '1');
+  return '<h3>' + withLogo(pid, nm[pid] || pid, 'sm') + '</h3><div class="pl-head"><span style="text-align:left">Footballer</span><span>Goals</span><span>Assists</span><span>MOTM</span></div>' +
+    (list.length ? '<ul class="sqlist">' + list.map(subRow).join('') + '</ul>' : '<p class="note">No footballers have been added for ' + esc(nm[pid] || 'this team') + ' yet, so their goals cannot be recorded.</p>') +
+    (list.length && !hasGk ? '<p class="note">No goalkeeper is registered for ' + esc(nm[pid] || 'this team') + ', so no clean sheet can be awarded to them automatically.</p>' : '<p class="note">Clean sheets are worked out automatically from the final score.</p>');
 }
 
 function submitHtml(d) {
@@ -661,7 +784,7 @@ function submitHtml(d) {
   const pend = d.pending && d.pending[s.fx.fixture_id] ? d.pending[s.fx.fixture_id] : 0;
   let h = '<div class="paper"><a class="btn" style="margin:0" href="#fixtures">&larr; All fixtures</a><p class="note" style="margin:10px 0 0">Round ' + esc(s.fx.round) + ' · Submit a result for approval' +
     (pend ? ' · ' + plural(pend, 'proposal') + ' already waiting' : '') + '</p>' +
-    '<div class="board" aria-live="polite"><span class="tn l">' + esc(nm[A]) + '</span><span class="big" aria-label="Score"><span id="ssc-a">0</span><span>–</span><span id="ssc-b">0</span></span><span class="tn">' + esc(nm[B]) + '</span></div>' +
+    '<div class="board" aria-live="polite"><span class="tn l">' + esc(nm[A]) + lg(A, 'sm') + '</span><span class="big" aria-label="Score"><span id="ssc-a">0</span><span>–</span><span id="ssc-b">0</span></span><span class="tn">' + lg(B, 'sm') + esc(nm[B]) + '</span></div>' +
     '<p class="note" style="margin:0">The score is the total of each team\'s goals below, so it can never disagree with the player stats.</p><ul class="warn-l" id="sw" role="alert"></ul>';
   if (s.step === 'review') {
     const rows = [];
@@ -669,7 +792,7 @@ function submitHtml(d) {
       if (v.g || v.a || v.cs || mo) rows.push('<li>' + esc(f.name) + ' <span class="mutedtxt">(' + esc(nm[pid]) + ')</span>: ' + [v.g ? v.g + ' goal' + (v.g > 1 ? 's' : '') : '', v.a ? v.a + ' assist' + (v.a > 1 ? 's' : ''): '', v.cs ? 'clean sheet' : '', mo ? 'Man of the Match' : ''].filter(Boolean).join(', ') + '</li>'); }));
     return h + '<div class="box"><h3>Check your result</h3><p style="margin:6px 0 0;font-weight:700">' + esc(nm[A]) + ' <span id="rv-a">' + subGoals(d, s, A) + '</span> – <span id="rv-b">' + subGoals(d, s, B) + '</span> ' + esc(nm[B]) + '</p>' +
       (rows.length ? '<ul class="sumx">' + rows.join('') + '</ul>' : '<p class="note">No individual statistics were recorded.</p>') +
-      '<label class="fld"><span>Your name (optional)</span><input type="text" data-sname value="' + esc(s.name) + '" maxlength="30" autocomplete="off" aria-label="Your display name, optional"></label>' +
+      '<label class="fld"><span>Your name (required)</span><input type="text" data-sname value="' + esc(s.name) + '" maxlength="30" autocomplete="off" aria-label="Your name (required)" required aria-required="true"></label>' +
       '<div class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="hp" data-hp tabindex="-1" autocomplete="off"></label></div>' +
       (s.errs.length ? '<ul class="warn-l" role="alert">' + s.errs.map((e) => '<li>' + esc(e) + '</li>').join('') + '</ul>' : '') + (s.note ? '<p class="note" role="status">' + esc(s.note) + '</p>' : '') +
       '<p class="note">Submitting sends this for the admin to approve. Nothing becomes official until then.</p>' +
@@ -688,6 +811,7 @@ function paintSub() {
   document.querySelectorAll('[data-sa=inc],[data-sa=dec]').forEach((b) => { const v = s.vals[b.getAttribute('data-id')]; if (!v) return; const k = b.getAttribute('data-k'); b.disabled = b.getAttribute('data-sa') === 'dec' ? v[k] <= 0 : v[k] >= MAXC; });
   document.querySelectorAll('[data-sa=cs]').forEach((b) => { const v = s.vals[b.getAttribute('data-id')]; b.setAttribute('aria-pressed', v && v.cs ? 'true' : 'false'); });
   document.querySelectorAll('[data-sa=motm]').forEach((b) => { b.setAttribute('aria-pressed', s.motm === b.getAttribute('data-id') ? 'true' : 'false'); });
+  document.querySelectorAll('[data-gk]').forEach((el) => { const pid = el.getAttribute('data-gk'); el.hidden = (pid === A ? subGoals(d, s, B) : subGoals(d, s, A)) !== 0; });
   const w = subWarnings(d, s); $('#sw').innerHTML = w.map((x) => '<li>' + esc(x) + '</li>').join('');
   const rb = $('#s-review'); if (rb) rb.disabled = w.length > 0 || squadOf(d, A).length === 0 || squadOf(d, B).length === 0;
 }
@@ -703,6 +827,11 @@ function subStats(d, s) {
 
 async function doSubmit() {
   const d = S.data, s = S.sub; if (!s || s.busy) return;
+  if (!s.name.trim()) {                                       // empty or only spaces: stop here with a clear message
+    s.errs = ['Please enter your name before submitting.']; s.note = ''; render();
+    const ni = $('[data-sname]'); if (ni) { ni.setAttribute('aria-invalid', 'true'); ni.focus(); }
+    return;
+  }
   const stats = subStats(d, s), key = JSON.stringify([stats, s.name.trim()]);
   if (!s.opId || s.opKey !== key) { s.opId = newOpId(); s.opKey = key; }      // retrying the same proposal reuses the id, so it is never recorded twice
   s.busy = true; s.errs = []; s.note = ''; render();
@@ -712,7 +841,7 @@ async function doSubmit() {
   if (r.ok) {
     s.step = 'done'; s.done = { a: r.a_goals, b: r.b_goals };
     if (!r.already) { d.pending = d.pending || {}; d.pending[s.id] = (d.pending[s.id] || 0) + 1; }
-  } else if (r.code === 'INVALID') s.errs = r.errors || [r.message || 'The result could not be submitted.'];
+  } else if (r.code === 'INVALID' || r.code === 'NAME_REQUIRED') s.errs = r.errors || [r.message || 'The result could not be submitted.'];
   else if (r.code === 'NETWORK' || r.code === 'NOT_JSON') s.note = 'We could not confirm the submission. Press "Submit for Approval" again: it cannot be recorded twice.';
   else if (r.code === 'SETUP') s.note = 'Setup needed: put your deployed web app URL in BACKEND_URL at the top of the script in this file.';
   else s.errs = [r.message || 'The result could not be submitted.'];

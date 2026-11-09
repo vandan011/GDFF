@@ -18,6 +18,7 @@
   --disp:Anton,Impact,"Arial Narrow",sans-serif;
   --ui:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
 }
+[hidden]{display:none!important}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);background-attachment:fixed;color:var(--tx);font:16px/1.55 var(--ui);min-height:100vh}
@@ -35,7 +36,7 @@ a{color:inherit}
 .brand b{font:400 28px/1 var(--disp);letter-spacing:.02em;color:var(--iv)}
 .brand span{font:800 11px var(--ui);letter-spacing:.14em;text-transform:uppercase;color:var(--mu)}
 #sessionbar{display:flex;align-items:center;gap:10px;font:700 13px var(--ui);color:var(--mu)}
-h1{font:400 clamp(44px,12vw,88px)/.9 var(--disp);letter-spacing:.01em;text-transform:uppercase;color:var(--iv);margin:26px 0 6px}
+h1{font:400 clamp(30px,6vw,46px)/1 var(--disp);letter-spacing:.01em;text-transform:uppercase;color:var(--iv);margin:18px 0 4px}
 .sub{margin:0 0 18px;color:var(--mu);font-weight:600;font-size:14px}
 main{padding-bottom:90px;animation:in .4s both}
 @keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -98,8 +99,10 @@ table.t{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;ma
 .rd li.bye{color:var(--mut);border-bottom:0}
 .hint{font-size:12.5px;color:var(--mut);font-weight:600;margin:4px 0 0}
 footer{position:relative;z-index:1;padding:0 0 40px;color:var(--mu);font-size:12.5px;font-weight:600;text-align:center}
-.tabs2{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 18px}
-.tabs2 button{min-height:44px;padding:10px 16px;border:2px solid var(--tx);background:transparent;color:var(--tx);font:800 13px var(--ui);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border-radius:0}
+
+.tabs2{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;margin:0 0 16px;padding:6px 0;position:sticky;top:56px;z-index:8;background:rgba(7,26,17,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tabs2::-webkit-scrollbar{display:none}
+.tabs2 button{flex:0 0 auto;white-space:nowrap;min-height:44px;padding:10px 16px;border:2px solid var(--tx);background:transparent;color:var(--tx);font:800 13px var(--ui);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border-radius:0}
 .tabs2 button:hover{background:var(--ac2)}
 .tabs2 button[aria-current=true]{background:var(--ac);border-color:var(--ac);color:var(--onac)}
 .ind{font:700 13px/1.35 var(--ui)}
@@ -168,12 +171,41 @@ button.fxrow:hover{background:rgba(14,20,18,.06)}
 .psub .ps{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
 .psub .flag{font-weight:700;font-size:13px;margin:4px 0}.sub .flag.w{color:#8a5f00}.sub .flag.r{color:var(--neg)}
 .psub .acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}.sub .acts .btn{margin:0}.sub .acts input{flex:1;min-width:140px}
+
+/* Logos, match cards and round chips (same patterns as the public page) */
+.lg{width:52px;height:52px;object-fit:contain;display:block;flex:0 0 auto}
+.lg.md{width:36px;height:36px}.lg.sm{width:28px;height:28px}.lg.xs{width:22px;height:22px}
+.lgi{display:grid;place-items:center;background:var(--em);color:var(--iv);font:400 22px/1 var(--disp)}
+.lg.md.lgi{font-size:17px}.lg.sm.lgi{font-size:15px}.lg.xs.lgi{font-size:12px}
+.wlg{display:inline-flex;align-items:center;gap:10px;min-width:0}.wlg>span{min-width:0;overflow-wrap:anywhere}
+.rchips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;scroll-snap-type:x proximity;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.rchips button{flex:0 0 auto;min-height:42px;padding:8px 16px;border:2px solid var(--cc);background:transparent;color:var(--cc);font:800 13px var(--ui);letter-spacing:.04em;cursor:pointer;border-radius:0;scroll-snap-align:center;white-space:nowrap}
+.rchips button[aria-pressed="true"]{background:var(--cc);color:var(--iv)}
+.rh{font:400 22px/1 var(--disp);letter-spacing:.03em;text-transform:uppercase;margin:18px 0 8px}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,310px),1fr));gap:12px;margin-top:10px}
+.mcard{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px 6px;align-items:center;width:100%;border:2px solid var(--cc);background:transparent;color:var(--cc);padding:14px 8px 10px;text-align:center;font:inherit;cursor:pointer;border-radius:0}
+button.mcard:hover{background:rgba(14,20,18,.07)}
+.mcard.bye{grid-template-columns:auto 1fr auto;padding:10px 12px;cursor:default;text-align:left}.mcard.bye .tn2{color:var(--mut)}
+.team{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0}
+.tn2{font-weight:700;overflow-wrap:break-word;line-height:1.2}
+.mid{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:58px}
+.state{padding:2px 8px;background:rgba(14,20,18,.1);font:800 10px var(--ui);letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.mid .big{font:400 34px/1 var(--disp);letter-spacing:.04em;white-space:nowrap}.mid .big.vs{font-size:22px;color:var(--mut)}
+.mcard .foot{grid-column:1/-1;font:800 11px var(--ui);letter-spacing:.06em;text-transform:uppercase;color:var(--mut);padding-top:6px;border-top:1px solid rgba(14,20,18,.14)}
+.warnt{color:var(--neg)}
+.gkb{display:inline-block;margin-left:6px;padding:1px 6px;border:2px solid var(--cc);font:800 10px var(--ui);letter-spacing:.08em;text-transform:uppercase;vertical-align:middle}
+.csauto{display:block;font:800 11px var(--ui);letter-spacing:.06em;text-transform:uppercase;color:var(--pos)}
+.note-l{margin:6px 0 0;padding:0;list-style:none;color:#8a5f00;font-weight:700;font-size:13.5px}
+.board .tn{display:flex;align-items:center;gap:8px}.board .tn.l{justify-content:flex-end}
+.logo-row{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;margin-top:10px}.logo-row input{flex:1 1 260px;min-width:0}.logo-row .btn{margin:0}
+.chk{display:flex;align-items:center;gap:8px;min-height:44px;font:800 12px var(--ui);letter-spacing:.04em;margin:0;text-transform:none;color:var(--cc)}.chk input{width:20px;height:20px;accent-color:var(--cc)}
+.pl-head,.pl{grid-template-columns:minmax(0,1fr) auto auto auto!important}
+@media (max-width:480px){.board .tn{font-size:17px;gap:6px;overflow-wrap:break-word}.board .tn .lg{width:24px;height:24px}.board .big{padding:6px 10px}}
 @media (max-width:560px){.wr{padding:0 14px}.paper{padding:16px 12px 12px}.brand span{display:none}.sum b{font-size:26px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<div class="testbar">TESTING ONLY &mdash; NOT PRODUCTION READY &mdash; this test password login is not the production security solution</div>
 <header id="top">
   <div class="wr">
     <a class="brand" href="index.html" aria-label="Back to the public league page"><b>GDFF</b><span>League admin</span></a>
@@ -182,7 +214,7 @@ button.fxrow:hover{background:rgba(14,20,18,.06)}
 </header>
 <div class="wr">
   <h1>Admin</h1>
-  <p class="sub">Seasons, players, fixtures, squads, results and approvals.</p>
+  <p class="sub">Seasons, squads, fixtures, results and approvals.</p>
   <div id="msg" role="status" aria-live="polite"></div>
   <main id="app" tabindex="-1"></main>
 </div>
@@ -190,7 +222,7 @@ button.fxrow:hover{background:rgba(14,20,18,.06)}
 
 <script>
 /* ======================= SETTINGS ======================= */
-// Same deployed web app URL as league/index.html (ends in /exec):
+// The deployed Apps Script web app (backend), the same one league/index.html uses:
 const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbwbuxoBPYk5PDezVZV9olj0gagGxccrNvSyMHhqb39ZaGoPntmPghE9GIhDo33ZDTxb/exec';
 const PUBLIC_PAGE = 'index.html';
 
@@ -525,30 +557,49 @@ async function loadWs(quiet) {
   if (!quiet || !S.m) render();
 }
 
+
+/* ---------- logos ---------- */
+function lgu(url, name, cls) {
+  const ini = esc((String(name || '?').trim().charAt(0) || '?').toUpperCase());
+  return url ? '<img class="lg ' + (cls || '') + '" src="' + esc(url) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" data-i="' + ini + '">'
+             : '<span class="lg lgi ' + (cls || '') + '" aria-hidden="true">' + ini + '</span>';
+}
+document.addEventListener('error', (e) => {
+  const t = e.target;
+  if (t && t.tagName === 'IMG' && t.classList.contains('lg')) { const s = document.createElement('span'); s.className = t.className.replace('lg ', 'lg lgi '); s.setAttribute('aria-hidden', 'true'); s.textContent = t.getAttribute('data-i') || '?'; t.replaceWith(s); }
+}, true);
+
 /* ---------- Fixtures tab (clickable fixtures) ---------- */
+function curRoundWs(ws) {
+  const open = ws.fixtures.filter((x) => !x.is_bye && !x.completed).map((x) => x.round);
+  return open.length ? Math.min.apply(null, open) : Math.max.apply(null, ws.fixtures.map((x) => x.round));
+}
+function adminCard(x) {
+  if (x.is_bye) return '<div class="mcard bye">' + lgu(x.a_logo, x.a_name, 'sm') + '<span class="tn2">' + esc(x.a_name) + '</span><span class="tag">Bye</span></div>';
+  const mid = x.completed ? '<span class="mid"><span class="state">Official</span><span class="big">' + x.a_goals + ' – ' + x.b_goals + '</span></span>' : '<span class="mid"><span class="state">To play</span><span class="big vs">VS</span></span>';
+  const foot = (x.pending ? plural(x.pending, 'proposal') + ' waiting for approval' : (x.completed ? 'Tap to edit result' : 'Tap to enter result')) + (x.gk_missing ? ' · <span class="warnt">Goalkeeper missing</span>' : '');
+  return '<button type="button" class="mcard" data-act="openmatch" data-id="' + esc(x.fixture_id) + '"><span class="team">' + lgu(x.a_logo, x.a_name) + '<span class="tn2">' + esc(x.a_name) + '</span></span>' + mid +
+    '<span class="team">' + lgu(x.b_logo, x.b_name) + '<span class="tn2">' + esc(x.b_name) + '</span></span><span class="foot">' + foot + '</span></button>';
+}
 function fixturesTabHtml() {
   const ws = S.ws;
   if (!ws) return '<p class="msg">Loading…</p>';
   if (!ws.fixtures.length) return '<div class="paper"><h2>Fixtures</h2><p class="note">No fixtures yet. Generate them in the Setup tab.</p></div>';
   const f = S.fxf, rounds = Array.from(new Set(ws.fixtures.map((x) => x.round))).sort((a, b) => a - b);
-  const list = ws.fixtures.filter((x) => (!f.round || String(x.round) === f.round) && (f.status === 'all' || x.is_bye ? (f.status === 'all') : (f.status === 'done' ? x.completed : !x.completed)));
+  const sel = f.round === '' ? String(curRoundWs(ws)) : f.round;                  // '' = the current round
+  const list = ws.fixtures.filter((x) => (sel === 'all' || String(x.round) === sel) && (f.status === 'all' || (!x.is_bye && (f.status === 'done' ? x.completed : !x.completed))));
   const chip = (v, l) => '<button type="button" data-act="fxf" data-v="' + v + '" aria-pressed="' + (f.status === v) + '">' + l + '</button>';
+  const rchip = (v, l) => '<button type="button" data-act="fxr" data-v="' + v + '" aria-pressed="' + (sel === String(v)) + '">' + l + '</button>';
   const done = ws.fixtures.filter((x) => !x.is_bye && x.completed).length, todo = ws.fixtures.filter((x) => !x.is_bye && !x.completed).length;
-  let h = '<div class="paper"><h2>Fixtures</h2><p class="note">Tap a match to enter, correct or delete its result.</p><div class="bar"><div class="chipbtns" role="group" aria-label="Show">' +
-    chip('all', 'All') + chip('todo', 'To play ' + todo) + chip('done', 'Played ' + done) + '</div>' +
-    '<label>Round<select data-bind="fxf.round"><option value="">All rounds</option>' + rounds.map((r) => '<option value="' + r + '"' + (f.round === String(r) ? ' selected' : '') + '>Round ' + r + '</option>').join('') + '</select></label></div></div>';
-  if (!list.length) return h + '<div class="paper"><p class="note">No fixtures match these filters.</p></div>';
+  let h = '<div class="paper"><h2>Fixtures</h2><p class="note">Tap a match to enter, correct or delete its result.</p>' +
+    '<div class="rchips" role="group" aria-label="Round" style="margin-top:10px">' + rchip('all', 'All rounds') + rounds.map((r) => rchip(r, 'Round ' + r)).join('') + '</div>' +
+    '<div class="chipbtns" role="group" aria-label="Show" style="margin-top:6px">' + chip('all', 'All') + chip('todo', 'To play ' + todo) + chip('done', 'Played ' + done) + '</div>';
+  if (!list.length) return h + '<p class="note">No fixtures match these filters.</p></div>';
   const by = {};
   list.forEach((x) => { (by[x.round] = by[x.round] || []).push(x); });
-  Object.keys(by).map(Number).sort((a, b) => a - b).forEach((r) => {
-    h += '<section class="paper" aria-label="Round ' + r + '"><h3>Round ' + r + '</h3><ul class="fxl">' + by[r].map((x) => {
-      if (x.is_bye) return '<li><div class="fxrow bye"><span class="a">' + esc(x.a_name) + '</span><span class="tag">Bye</span></div></li>';
-      const mid = x.completed ? '<span class="score">' + x.a_goals + ' – ' + x.b_goals + '</span>' : '<span class="vs">VS</span>';
-      const st = x.pending ? plural(x.pending, 'proposal') + ' waiting for approval' : (x.completed ? 'Official · tap to edit' : 'Tap to enter result');
-      return '<li><button type="button" class="fxrow" data-act="openmatch" data-id="' + esc(x.fixture_id) + '"><span class="a">' + esc(x.a_name) + '</span>' + mid + '<span class="b">' + esc(x.b_name) + '</span><span class="st">' + esc(st) + '</span></button></li>';
-    }).join('') + '</ul></section>';
-  });
-  return h;
+  const keys = Object.keys(by).map(Number).sort((a, b) => a - b);
+  keys.forEach((r) => { if (keys.length > 1) h += '<h3 class="rh">Round ' + r + '</h3>'; h += '<div class="mgrid">' + by[r].map(adminCard).join('') + '</div>'; });
+  return h + '</div>';
 }
 
 /* ---------- Match centre ---------- */
@@ -597,14 +648,13 @@ function plRow(m, k, f) {
   const id = esc(f.footballer_id), nm = esc(f.name);
   const ctr = (key, label) => '<span class="cg" data-l="' + label + '"><span class="ctr" role="group" aria-label="' + label + ' for ' + nm + '"><button type="button" data-act="dec" data-k="' + key + '" data-id="' + id + '" aria-label="Remove one ' + label.toLowerCase() + ' for ' + nm + '">−</button>' +
     '<output data-v="' + key + ':' + id + '" aria-live="off">0</output><button type="button" data-act="inc" data-k="' + key + '" data-id="' + id + '" aria-label="Add one ' + label.toLowerCase() + ' for ' + nm + '">+</button></span></span>';
-  return '<li class="pl" data-fid="' + id + '"><span class="pn">' + nm + (f.archived ? '<small>removed from squad</small>' : '') + '</span>' + ctr('g', 'Goals') + ctr('a', 'Assists') +
-    '<button type="button" class="tog" data-act="cs" data-id="' + id + '" aria-pressed="false" title="Clean sheet" aria-label="Clean sheet for ' + nm + '">CS</button>' +
+  return '<li class="pl" data-fid="' + id + '"><span class="pn">' + nm + (f.gk ? ' <span class="gkb" title="Registered goalkeeper">GK</span><span class="csauto" data-gk="' + k + '" hidden>Clean sheet (automatic)</span>' : '') + (f.archived ? '<small>removed from squad</small>' : '') + '</span>' + ctr('g', 'Goals') + ctr('a', 'Assists') +
     '<button type="button" class="tog" data-act="motm" data-id="' + id + '" aria-pressed="false" title="Man of the Match" aria-label="Man of the Match: ' + nm + '">MOTM</button></li>';
 }
 
 function squadPanelHtml(m, k) {
   const side = m[k], add = m.add[k];
-  return '<h3>' + esc(side.name) + '</h3><div class="pl-head"><span style="text-align:left">Footballer</span><span>Goals</span><span>Assists</span><span>CS</span><span>MOTM</span></div>' +
+  return '<h3 class="wlg">' + lgu(side.logo_url, side.name, 'sm') + '<span>' + esc(side.name) + '</span></h3><div class="pl-head"><span style="text-align:left">Footballer</span><span>Goals</span><span>Assists</span><span>MOTM</span></div>' +
     (side.squad.length ? '<ul class="sqlist">' + side.squad.map((f) => plRow(m, k, f)).join('') + '</ul>' : '<p class="note">No footballers yet. Add the first one below.</p>') +
     '<div class="quick"><input type="text" id="qa-' + k + '" data-bind="m.add.' + k + '" data-enter="addfb:' + k + '" value="' + esc(add.text) + '" placeholder="Add a footballer" maxlength="40" aria-label="Add a footballer to ' + esc(side.name) + '" autocomplete="off">' +
     '<button type="button" class="btn alt" data-act="addfb" data-k="' + k + '">Add</button></div><div class="ind ' + (add.st && add.st.indexOf('✓') > -1 ? 'ok' : (add.st && add.st.indexOf('…') > -1 ? 'wait' : 'err')) + '" id="qs-' + k + '" role="status" style="min-height:18px;margin-top:4px">' + esc(add.st) + '</div>';
@@ -614,8 +664,8 @@ function matchEditorHtml() {
   const m = S.m, fx = m.fx || {};
   if (m.loading) return '<div class="paper"><button class="btn alt" data-act="closematch">← Fixtures</button><p class="msg" style="color:var(--mut)">Loading match…</p></div>';
   return '<div class="paper mc"><div class="mc-top"><button type="button" class="btn alt" style="margin:0" data-act="closematch">← Fixtures</button><span class="note" style="margin:0">Round ' + esc(fx.round || '') + ' · <span id="mc-state"></span></span></div>' +
-    '<div class="board" aria-live="polite"><span class="tn l">' + esc(m.a.name) + '</span><span class="big" aria-label="Score"><span id="sc-a">0</span><span>–</span><span id="sc-b">0</span></span><span class="tn">' + esc(m.b.name) + '</span></div>' +
-    '<p class="hint" style="margin:0">The score is the sum of each team\'s goals below. It is calculated automatically.</p><ul class="warn-l" id="mc-warn" role="alert"></ul>' +
+    '<div class="board" aria-live="polite"><span class="tn l">' + esc(m.a.name) + lgu(m.a.logo_url, m.a.name, 'md') + '</span><span class="big" aria-label="Score"><span id="sc-a">0</span><span>–</span><span id="sc-b">0</span></span><span class="tn">' + lgu(m.b.logo_url, m.b.name, 'md') + esc(m.b.name) + '</span></div>' +
+    '<p class="hint" style="margin:0">The score is the sum of each team\'s goals below. It is calculated automatically.</p><ul class="warn-l" id="mc-warn" role="alert"></ul><ul class="note-l" id="mc-note"></ul>' +
     (m.legacy ? '<div class="box warn"><p class="note">This result has no per-footballer detail. Saving will replace it with what you enter here.</p></div>' : '') +
     '<div class="squads"><section class="sq" id="sq-a" aria-label="' + esc(m.a.name) + ' squad">' + squadPanelHtml(m, 'a') + '</section><section class="sq" id="sq-b" aria-label="' + esc(m.b.name) + ' squad">' + squadPanelHtml(m, 'b') + '</section></div>' +
     '<div id="mc-stale"></div><div class="mc-act"><button type="button" class="btn" data-act="savematch" id="mc-save">Save result</button><span class="ind" id="mc-ind" role="status"></span>' +
@@ -628,10 +678,13 @@ function paintMatch() {
   $('#sc-a').textContent = teamGoals(m, 'a'); $('#sc-b').textContent = teamGoals(m, 'b');
   document.querySelectorAll('output[data-v]').forEach((o) => { const p = o.getAttribute('data-v').split(':'), v = m.vals[p[1]]; if (v) o.textContent = v[p[0]]; });
   document.querySelectorAll('[data-act=inc],[data-act=dec]').forEach((b) => { const v = m.vals[b.getAttribute('data-id')]; if (!v) return; const k = b.getAttribute('data-k'); b.disabled = b.getAttribute('data-act') === 'dec' ? v[k] <= 0 : v[k] >= MAXC; });
-  document.querySelectorAll('[data-act=cs]').forEach((b) => { b.setAttribute('aria-pressed', m.vals[b.getAttribute('data-id')] && m.vals[b.getAttribute('data-id')].cs ? 'true' : 'false'); });
+  document.querySelectorAll('[data-gk]').forEach((el) => { el.hidden = (el.getAttribute('data-gk') === 'a' ? teamGoals(m, 'b') : teamGoals(m, 'a')) !== 0; });
   document.querySelectorAll('[data-act=motm]').forEach((b) => { b.setAttribute('aria-pressed', m.motm === b.getAttribute('data-id') ? 'true' : 'false'); });
   const w = matchWarnings(m).concat(m.errs);
   $('#mc-warn').innerHTML = w.map((x) => '<li>' + esc(x) + '</li>').join('');
+  const notes = (m.warnings || []).slice();                 // not errors: they never block saving
+  [['a', 'b'], ['b', 'a']].forEach((p) => { if (teamGoals(m, p[1]) === 0 && !m[p[0]].squad.some((f) => f.gk && !f.archived)) notes.push(m[p[0]].name + ' has no registered goalkeeper, so no clean sheet will be awarded. Register one in Teams.'); });
+  $('#mc-note').innerHTML = notes.filter((x, i) => notes.indexOf(x) === i).map((x) => '<li>' + esc(x) + '</li>').join('');
   $('#mc-state').textContent = m.resultId ? 'official result v' + m.version : 'not played yet';
   const save = $('#mc-save'); save.textContent = m.resultId ? 'Save correction' : 'Save result';
   save.disabled = m.saving || matchWarnings(m).length > 0 || (!m.dirty && !!m.resultId);
@@ -646,11 +699,11 @@ function paintMatch() {
 
 function markDirty() { const m = S.m; m.dirty = true; m.status = ''; m.errs = []; m.op = null; }
 
-function matchStatsList(m) {
+function matchStatsList(m) {                                // clean sheets are never sent: the server works them out from the score and the registered goalkeeper
   const out = [];
   ['a', 'b'].forEach((k) => m[k].squad.forEach((f) => {
     const v = m.vals[f.footballer_id], mo = m.motm === f.footballer_id ? 1 : 0;
-    if (v.g || v.a || v.cs || mo) out.push({ footballer_id: f.footballer_id, goals: v.g, assists: v.a, motm: mo, cs: v.cs });
+    if (v.g || v.a || mo) out.push({ footballer_id: f.footballer_id, goals: v.g, assists: v.a, motm: mo });
   }));
   return out;
 }
@@ -666,6 +719,7 @@ async function doSaveMatch() {
   if (!r) { S.m = null; return render(); }
   if (r.ok) {
     m.resultId = r.result_id; m.version = r.version; m.dirty = false; m.op = null; m.stale = false; m.confirmDel = false;
+    m.warnings = r.warnings || [];
     m.status = r.unchanged ? 'No changes to save.' : 'Saved ✓ ' + r.a_goals + '–' + r.b_goals;
     loadWs(true);
   } else if (r.code === 'INVALID') { m.errs = r.errors || [explain(r)]; m.status = ''; }
@@ -722,25 +776,28 @@ function teamsTabHtml() {
   const ws = S.ws; if (!ws) return '<p class="msg">Loading…</p>';
   const T = S.team;
   if (!T.pid) {
-    return '<div class="paper"><h2>Teams</h2><p class="note">Each competitor has their own squad of in-game footballers. Squads can change at any time during the season.</p><ul class="cards">' +
-      ws.participants.map((p) => '<li><span><span class="nm">' + esc(p.display_name) + '</span><br><span class="hint">' + plural(p.squad_size, 'footballer') + (p.archived ? ' · ' + p.archived + ' removed' : '') + '</span></span>' +
+    return '<div class="paper"><h2>Teams</h2><p class="note">Each competitor has their own squad of in-game footballers, a logo and one registered goalkeeper. Squads can change at any time during the season.</p><ul class="cards">' +
+      ws.participants.map((p) => '<li><span class="wlg">' + lgu(p.logo_url, p.display_name, 'md') + '<span><span class="nm">' + esc(p.display_name) + '</span><br><span class="hint">' + plural(p.squad_size, 'footballer') + (p.archived ? ' · ' + p.archived + ' removed' : '') + (p.has_gk ? '' : ' · <span class="warnt">no goalkeeper</span>') + '</span></span></span>' +
         '<button type="button" class="btn alt" style="margin:0" data-act="team-open" data-id="' + esc(p.participant_id) + '">Open</button></li>').join('') + '</ul></div>';
   }
-  const p = ws.participants.filter((x) => x.participant_id === T.pid)[0] || { display_name: T.pid };
+  const p = ws.participants.filter((x) => x.participant_id === T.pid)[0] || { display_name: T.pid, logo_url: '' };
   const all = ws.squads[T.pid] || [], q = T.q.trim().toLowerCase();
   const active = all.filter((f) => f.status === 'active' && (!q || f.name.toLowerCase().indexOf(q) > -1)), gone = all.filter((f) => f.status !== 'active' && (!q || f.name.toLowerCase().indexOf(q) > -1));
   const ind = (id) => { const s = T.st[id]; return s ? '<span class="ind ' + s.k + '">' + esc(s.t) + '</span>' : ''; };
   const row = (f) => {
     if (T.edit.id === f.footballer_id) return '<li><span class="rowact" style="flex:1"><input type="text" id="fe-' + esc(f.footballer_id) + '" data-bind="team.edit" data-enter="fb-save:' + esc(f.footballer_id) + '" value="' + esc(T.edit.text) + '" maxlength="40" aria-label="New name for ' + esc(f.name) + '">' +
       '<button type="button" class="btn" style="margin:0;min-height:40px;padding:6px 12px" data-act="fb-save" data-id="' + esc(f.footballer_id) + '">Save</button><button type="button" class="txtbtn" data-act="fb-cancel">Cancel</button></span></li>';
-    if (T.confirm === f.footballer_id) return '<li style="display:block"><div class="box err" role="alertdialog"><h3>Remove ' + esc(f.name) + '?</h3><p class="note">' + esc(f.name) + ' is part of ' + plural(f.matches_with_stats, 'official match record') + '. Removing hides them from new match entries; every goal, assist and award stays in the history and can be restored.</p>' +
+    if (T.confirm === f.footballer_id) return '<li style="display:block"><div class="box err" role="alertdialog"><h3>Remove ' + esc(f.name) + '?</h3><p class="note">' + esc(f.name) + ' is part of ' + plural(f.matches_with_stats, 'official match record') + '. Removing hides them from new match entries; every goal, assist and award stays in the history and can be restored.' + (f.gk ? ' They will also stop being the registered goalkeeper.' : '') + '</p>' +
       '<button type="button" class="btn" data-act="fb-archive" data-id="' + esc(f.footballer_id) + '" data-confirmed="1">Remove</button><button type="button" class="btn alt" data-act="fb-cancel">Cancel</button></div></li>';
-    return '<li><span><span class="nm">' + esc(f.name) + '</span>' + (f.matches_with_stats ? '<br><span class="hint">' + plural(f.matches_with_stats, 'match') + ' with stats</span>' : '') + '</span><span class="rowact">' + ind(f.footballer_id) +
-      (f.status === 'active' ? '<button type="button" class="txtbtn" data-act="fb-edit" data-id="' + esc(f.footballer_id) + '">Rename</button><button type="button" class="txtbtn" data-act="fb-archive" data-id="' + esc(f.footballer_id) + '">Remove</button>'
+    return '<li><span><span class="nm">' + esc(f.name) + '</span>' + (f.gk ? ' <span class="gkb">Goalkeeper</span>' : '') + (f.matches_with_stats ? '<br><span class="hint">' + plural(f.matches_with_stats, 'match') + ' with stats</span>' : '') + '</span><span class="rowact">' + ind(f.footballer_id) +
+      (f.status === 'active' ? '<button type="button" class="txtbtn" data-act="fb-gk" data-id="' + esc(f.footballer_id) + '" data-v="' + (f.gk ? '0' : '1') + '">' + (f.gk ? 'Remove goalkeeper' : 'Make goalkeeper') + '</button><button type="button" class="txtbtn" data-act="fb-edit" data-id="' + esc(f.footballer_id) + '">Rename</button><button type="button" class="txtbtn" data-act="fb-archive" data-id="' + esc(f.footballer_id) + '">Remove</button>'
                              : '<button type="button" class="txtbtn" data-act="fb-restore" data-id="' + esc(f.footballer_id) + '">Restore</button>') + '</span></li>';
   };
-  return '<div class="paper"><button type="button" class="btn alt" style="margin:0 0 8px" data-act="team-back">← All teams</button><h2>' + esc(p.display_name) + '</h2><p class="note">' + plural(all.filter((f) => f.status === 'active').length, 'footballer') + ' in the squad. Every change saves immediately.</p>' +
-    '<div class="quick"><input type="text" id="fb-new" data-bind="team.add" data-enter="fb-add" value="' + esc(T.add) + '" placeholder="Add a footballer, then press Enter" maxlength="40" aria-label="Add a footballer to ' + esc(p.display_name) + '" autocomplete="off"><button type="button" class="btn alt" data-act="fb-add">Add</button></div>' +
+  const lst = T.lgst ? '<span class="ind ' + T.lgst.k + '" role="status">' + esc(T.lgst.t) + '</span>' : '';
+  return '<div class="paper"><button type="button" class="btn alt" style="margin:0 0 8px;display:block" data-act="team-back">← All teams</button><h2 class="wlg">' + lgu(p.logo_url, p.display_name, 'md') + '<span>' + esc(p.display_name) + '</span></h2>' +
+    '<label for="lg-url">Logo image link (https://…)</label><div class="logo-row"><input type="text" id="lg-url" data-bind="team.logo" value="' + esc(T.logo) + '" placeholder="https://example.com/crest.png" maxlength="500" autocomplete="off" inputmode="url"><button type="button" class="btn" data-act="logo-save">Save logo</button>' + (p.logo_url ? '<button type="button" class="btn alt" data-act="logo-clear">Remove logo</button>' : '') + '</div><div style="min-height:18px;margin-top:4px">' + lst + '</div>' +
+    '<p class="note">' + plural(all.filter((f) => f.status === 'active').length, 'footballer') + ' in the squad. Every change saves immediately. ' + (p.has_gk ? '' : '<span class="warnt">No goalkeeper is registered yet, so no clean sheets can be awarded to this competitor.</span>') + '</p>' +
+    '<div class="quick"><input type="text" id="fb-new" data-bind="team.add" data-enter="fb-add" value="' + esc(T.add) + '" placeholder="Add a footballer, then press Enter" maxlength="40" aria-label="Add a footballer to ' + esc(p.display_name) + '" autocomplete="off"><label class="chk"><input type="checkbox" data-bind="team.gk"' + (T.gk ? ' checked' : '') + '> Goalkeeper</label><button type="button" class="btn alt" data-act="fb-add">Add</button></div>' +
     '<div id="fb-msg" class="ind ' + (T.err ? 'err' : '') + '" role="status" style="min-height:18px;margin-top:4px">' + esc(T.err) + '</div>' +
     (all.length > 6 ? '<label for="fb-q">Find a footballer</label><input type="text" id="fb-q" data-bind="team.q" value="' + esc(T.q) + '" autocomplete="off">' : '') +
     (active.length ? '<ul class="cards">' + active.map(row).join('') + '</ul>' : '<p class="note">' + (q ? 'No footballer matches that search.' : 'No footballers yet. Add the first one above.') + '</p>') +
@@ -751,21 +808,40 @@ function teamsTabHtml() {
 function setSt(id, k, t) { S.team.st[id] = { k: k, t: t }; }
 function patchSquad(pid, f) {
   const list = S.ws.squads[pid] || (S.ws.squads[pid] = []), i = list.findIndex((x) => x.footballer_id === f.footballer_id);
-  const item = { footballer_id: f.footballer_id, name: f.name, status: f.status, matches_with_stats: i > -1 ? list[i].matches_with_stats : 0 };
+  const item = { footballer_id: f.footballer_id, name: f.name, status: f.status, gk: !!f.gk, matches_with_stats: i > -1 ? list[i].matches_with_stats : 0 };
   if (i > -1) list[i] = item; else list.push(item);
   list.sort((x, y) => x.name.localeCompare(y.name));
   const p = S.ws.participants.filter((x) => x.participant_id === pid)[0];
-  if (p) { p.squad_size = list.filter((x) => x.status === 'active').length; p.archived = list.filter((x) => x.status !== 'active').length; }
+  if (p) { p.squad_size = list.filter((x) => x.status === 'active').length; p.archived = list.filter((x) => x.status !== 'active').length; p.has_gk = list.some((x) => x.status === 'active' && x.gk); }
 }
 async function doFbAdd() {
   const T = S.team, name = T.add.trim();
   if (!name) { T.err = 'Enter a name.'; return render(); }
   T.err = 'Saving…'; render();
-  const r = await api('footballer_add', { season_id: S.seasonId, participant_id: T.pid, name: name });
+  const r = await api('footballer_add', { season_id: S.seasonId, participant_id: T.pid, name: name, gk: !!T.gk });
   if (!r) return;
-  if (r.ok) { patchSquad(T.pid, r.footballer); T.add = ''; T.err = ''; setSt(r.footballer.footballer_id, 'ok', r.restored ? 'Restored ✓' : 'Added ✓'); }
+  if (r.ok) { patchSquad(T.pid, r.footballer); T.add = ''; T.gk = false; T.err = ''; setSt(r.footballer.footballer_id, 'ok', r.restored ? 'Restored ✓' : 'Added ✓'); }
   else T.err = (r.errors && r.errors[0]) || explain(r);
   render(); const i = $('#fb-new'); if (i) i.focus();
+}
+async function doFbGk(id, on) {
+  const T = S.team; setSt(id, 'wait', 'Saving…'); render();
+  const r = await api('footballer_gk', { footballer_id: id, gk: on });
+  if (!r) return;
+  if (r.ok) { patchSquad(T.pid, r.footballer); setSt(id, 'ok', on ? 'Goalkeeper set ✓' : 'Goalkeeper removed ✓'); } else setSt(id, 'err', explain(r));
+  render();
+}
+async function doLogo(clear) {
+  const T = S.team, url = clear ? '' : T.logo.trim();
+  T.lgst = { k: 'wait', t: 'Saving…' }; render();
+  const r = await api('participant_logo', { participant_id: T.pid, logo_url: url });
+  if (!r) return;
+  if (r.ok) {
+    const p = S.ws.participants.filter((x) => x.participant_id === T.pid)[0]; if (p) p.logo_url = r.logo_url;
+    S.ws.fixtures.forEach((x) => { if (x.a_id === T.pid) x.a_logo = r.logo_url; if (x.b_id === T.pid) x.b_logo = r.logo_url; });
+    T.logo = r.logo_url; T.lgst = { k: 'ok', t: r.logo_url ? 'Logo saved ✓' : 'Logo removed ✓' };
+  } else T.lgst = { k: 'err', t: explain(r) };
+  render();
 }
 async function doFbRename(id) {
   const T = S.team; setSt(id, 'wait', 'Saving…'); const text = T.edit.text; T.edit = { id: '', text: '' }; render();
@@ -800,7 +876,7 @@ async function loadPend() {
 }
 function statLine(s) { return esc(s.name) + ' ' + [s.goals ? s.goals + ' G' : '', s.assists ? s.assists + ' A' : '', s.motm ? 'MOTM' : '', s.cs ? 'CS' : ''].filter(Boolean).join(' · '); }
 function subHtml(u, decided) {
-  let h = '<div class="psub"><strong>Round ' + esc(u.round) + ': ' + esc(u.a_name) + ' vs ' + esc(u.b_name) + '</strong><div class="hint">' + esc(u.submission_id) + ' · from ' + esc(u.submitter_name || 'anonymous') + ' · ' + esc(fmtTime(u.created_at)) + '</div>' +
+  let h = '<div class="psub"><strong>Round ' + esc(u.round) + ': ' + esc(u.a_name) + ' vs ' + esc(u.b_name) + '</strong><div class="hint">' + esc(u.submission_id) + ' · from ' + '<b>' + esc(u.submitter_name || 'no name (older proposal)') + '</b>' + ' · ' + esc(fmtTime(u.created_at)) + '</div>' +
     '<div class="sc">' + u.a_goals + ' – ' + u.b_goals + '</div><div class="ps">' + (u.stats.length ? u.stats.map((s) => '<span class="chip">' + statLine(s) + '</span>').join('') : '<span class="hint">No individual statistics</span>') + '</div>';
   if (decided) return h + '<div class="flag">' + esc(u.status) + (u.decision_note ? ': ' + esc(u.decision_note) : '') + '</div></div>';
   if (u.conflicts && u.conflicts.length) h += '<div class="flag w">' + plural(u.conflicts.length, 'other proposal') + ' for this match (' + esc(u.conflicts.join(', ')) + '). Approving one marks the others as superseded.</div>';
@@ -826,7 +902,7 @@ async function doDecide(id, approve, replace) {
   const r = approve ? await api('submission_approve', { submission_id: id, op_id: op, replace: !!replace }) : await api('submission_reject', { submission_id: id, note: P.notes[id] || '' });
   delete P.ops[k];
   if (!r) return;
-  if (r.ok) { delete P.ops[id]; say(approve ? 'Approved. The result is official and the table and statistics are updated.' : 'Rejected. Official data is unchanged.', 'ok'); await Promise.all([loadPend(), loadWs(true)]); render(); return; }
+  if (r.ok) { delete P.ops[id]; say(approve ? 'Approved. The result is official and the table and statistics are updated.' + (r.warnings && r.warnings.length ? ' ' + r.warnings.join(' ') : '') : 'Rejected. Official data is unchanged.', 'ok'); await Promise.all([loadPend(), loadWs(true)]); render(); return; }
   render();
   const el = $('#pe-' + id); if (el) el.textContent = (r.errors && r.errors.join(' ')) || explain(r);
 }
@@ -839,6 +915,7 @@ app.addEventListener('submit', (e) => {
 app.addEventListener('input', (e) => {
   const b = e.target.getAttribute && e.target.getAttribute('data-bind'); if (!b) return;
   if (b === 'team.add') { S.team.add = e.target.value; return; }
+  if (b === 'team.logo') { S.team.logo = e.target.value; return; }
   if (b === 'team.edit') { S.team.edit.text = e.target.value; return; }
   if (b === 'team.q') { S.team.q = e.target.value; render(); return; }
   if (b === 'm.add.a' || b === 'm.add.b') { if (S.m) S.m.add[b.slice(-1)].text = e.target.value; return; }
@@ -849,6 +926,7 @@ app.addEventListener('input', (e) => {
   if (had) render();     // remove the now-stale review and its confirm button
 });
 app.addEventListener('change', (e) => {
+  if (e.target.getAttribute('data-bind') === 'team.gk') { S.team.gk = e.target.checked; return; }
   if (e.target.getAttribute('data-bind') === 'fxf.round') { S.fxf.round = e.target.value; render(); return; }
   if (e.target.getAttribute('data-bind') === 'gen.format') { S.gen.format = e.target.value; S.gen.preview = null; S.gen.confirming = false; S.gen.opId = ''; render(); }
 });
@@ -883,6 +961,7 @@ document.addEventListener('click', async (e) => {
   const id = t.getAttribute('data-id');
   if (a === 'tab') { S.tab = t.getAttribute('data-v'); if (S.tab === 'pending') S.pend.loaded = false; return render(); }
   if (a === 'fxf') { S.fxf.status = t.getAttribute('data-v'); return render(); }
+  if (a === 'fxr') { S.fxf.round = t.getAttribute('data-v'); return render(); }
   if (a === 'openmatch') return openMatch(id);
   if (a === 'closematch') { S.m = null; render(); loadWs(); return; }
   if (S.m && (a === 'inc' || a === 'dec')) {
@@ -902,9 +981,12 @@ document.addEventListener('click', async (e) => {
   if (S.m && a === 'reloadmatch') { S.m.loading = true; render(); return loadMatch(false); }
   if (S.m && a === 'refreshsquads') { await loadMatch(true); if (S.m) { S.m.status = 'Squads refreshed ✓'; paintMatch(); } return; }
   if (S.m && a === 'addfb') return doAddInMatch(t.getAttribute('data-k'));
-  if (a === 'team-open') { S.team.pid = id; S.team.q = ''; S.team.err = ''; S.team.st = {}; return render(); }
+  if (a === 'team-open') { S.team.pid = id; S.team.q = ''; S.team.err = ''; S.team.st = {}; S.team.lgst = null; S.team.gk = false; const op = S.ws.participants.filter((x) => x.participant_id === id)[0]; S.team.logo = op ? op.logo_url || '' : ''; return render(); }
   if (a === 'team-back') { S.team.pid = ''; S.team.edit = { id: '', text: '' }; S.team.confirm = ''; return render(); }
   if (a === 'fb-add') return doFbAdd();
+  if (a === 'fb-gk') return doFbGk(id, t.getAttribute('data-v') === '1');
+  if (a === 'logo-save') return doLogo(false);
+  if (a === 'logo-clear') return doLogo(true);
   if (a === 'fb-edit') { const f = (S.ws.squads[S.team.pid] || []).filter((x) => x.footballer_id === id)[0]; S.team.edit = { id: id, text: f ? f.name : '' }; S.team.confirm = ''; render(); const i = $('#fe-' + id); if (i) { i.focus(); i.select(); } return; }
   if (a === 'fb-save') return doFbRename(id);
   if (a === 'fb-cancel') { S.team.edit = { id: '', text: '' }; S.team.confirm = ''; return render(); }
